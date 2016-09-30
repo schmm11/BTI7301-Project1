@@ -106,6 +106,8 @@ public class Board extends JPanel implements ActionListener {
 
         g.setColor(Color.WHITE);
         g.drawString("Aliens left: " + aliens.size(), 5, 15);
+        g.drawString("Enterprise Health: " + craft.health, 5, 35);
+        g.drawString("Enterprise Ammunition: " + craft.munition, 5, 55);
     }
 
     private void drawGameOver(Graphics g) {
