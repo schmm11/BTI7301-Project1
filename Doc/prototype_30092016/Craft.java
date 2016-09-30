@@ -70,23 +70,24 @@ public class Craft extends Sprite {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_SPACE) {
             fire();
-            dash();
+        }
+        if (key == KeyEvent.VK_Q || key == KeyEvent.VK_E) {
+        	dash();  
         }
 
-        if (key == KeyEvent.VK_LEFT) {
-        	bLeft = true;
-            
+        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
+        	bLeft = true;   
         }
 
-        if (key == KeyEvent.VK_RIGHT) {
+        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
         	bRight = true;
         }
 
-        if (key == KeyEvent.VK_UP) {
+        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
         	bUp = true;
         }
 
-        if (key == KeyEvent.VK_DOWN) {
+        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
         	bDown = true;
         }
     }
@@ -104,7 +105,6 @@ public class Craft extends Sprite {
         if (bDown){
         	y = y +50;
         } ;
-		
 	}
 
 	public void fire() {
@@ -115,22 +115,19 @@ public class Craft extends Sprite {
 
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT) {
+        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
         	bLeft = false;
         }
 
-        if (key == KeyEvent.VK_RIGHT) {
-        	bRight = false;
-        	if(xSpeed <0){
-        	xSpeed = xSpeed - 20;
-        	}
+        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
+        	bRight = false;      	
         }
 
-        if (key == KeyEvent.VK_UP) {
+        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
         	bUp = false;
         }
 
-        if (key == KeyEvent.VK_DOWN) {
+        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
         	bDown = false;
         }
     }
