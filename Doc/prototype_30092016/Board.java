@@ -43,9 +43,9 @@ public class Board extends JPanel implements ActionListener{
 		//Init Enemys
 		enemys.add(new Enemy(600,600));
 		enemys.add(new Enemy(700,600));
-		enemys.add(new Enemy(500,600));
-		enemys.add(new Enemy(300,600));
-		enemys.add(new Enemy(200,600));
+		//enemys.add(new Enemy(500,600));
+		//enemys.add(new Enemy(300,600));
+		//enemys.add(new Enemy(200,600));
 		
 		//Init Timer
 		timer = new Timer(Config.DELAY, this);
@@ -90,7 +90,7 @@ public class Board extends JPanel implements ActionListener{
 		//Draw Missiles from the enterprise
 		ArrayList<Missile> ms = enterprise.getMissiles();		
 		for (Missile m : ms) {
-            if (m.isDestroyed()) {
+            if (m.isAlive()) {
                 g.drawImage(m.getImage(), m.getX(), m.getY(), this);
                 m.move();
             }
@@ -100,7 +100,11 @@ public class Board extends JPanel implements ActionListener{
 		//draw Enemys
 		for (Enemy enemy:enemys){
 			g.drawImage(enemy.getImage(), enemy.getX(), enemy.getY(), this);		
-				
+			// Draw enemy rockets
+			for (Missile m : enemy.getMissiles()){
+				g.drawImage(m.getImage(), m.getX(), m.getY(), this);
+                m.move();
+			}
 		}
 		
 		
@@ -156,8 +160,11 @@ public class Board extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		updateCraft();
+		for(Enemy enemy : enemys){
+			updateEnemy(enemy);
+		}
+		
        // updateMissiles();
-        //updateEnemys();
 
         checkCollisions();
 
@@ -174,6 +181,8 @@ public class Board extends JPanel implements ActionListener{
 				enterprise.onCollision(Config.DMG_ON_COLLISION);
 				enemy.onCollision(Config.DMG_ON_COLLISION);
 			}
+			
+			
 		}
 		
 		//Enterprise hits a StarBase	
@@ -188,24 +197,44 @@ public class Board extends JPanel implements ActionListener{
 		// Enemy get Hit by rocket 
 		missiles = enterprise.getMissiles();
 		for(Missile m : missiles){
-			Rectangle rMissile = m.getBounds();
-			for(Enemy enemy : enemys){
-				Rectangle rEnemy = enemy.getBounds();
-				if(rMissile.intersects(rEnemy)){
-					m.destroy();
-					enemy.onHit(m.getDMG());
-					//if(enemy.isDestroyed()) enemys.remove(enemy);
-				}	
+			if (m.isAlive()){
+				Rectangle rMissile = m.getBounds();
+				for(Enemy enemy : enemys){
+					Rectangle rEnemy = enemy.getBounds();
+					if(rMissile.intersects(rEnemy)){
+						m.destroy();
+						enemy.onHit(m.getDMG());
+						//if(enemy.isDestroyed()) enemys.remove(enemy);
+					}
+					/* Enterprise hits itself, doesn't work
+					if(rMissile.intersects(rEnterprise)){
+						enterprise.onHit(m.getDMG());
+					}
+					*/
+				}
 			}
-			
 		}
 		
+		// Enterprise gets hits by a rocket
+		for(Enemy enemy : enemys){
+			for(Missile m : enemy.getMissiles()){
+				if(m.isAlive()){
+					Rectangle rMissile = m.getBounds();
+					if(rMissile.intersects(rEnterprise)){
+						m.destroy();
+						enterprise.onHit(m.getDMG());
+					}
+				}
+			}
+		}
 	}
 	
 	
     private void updateCraft() {
-            enterprise.move();
-        
+    	enterprise.move();    
+    }
+    private void updateEnemy(Enemy enemy){
+    	enemy.move(enterprise.getX(), enterprise.getY());	
     }
 	
 }

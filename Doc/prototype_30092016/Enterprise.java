@@ -109,9 +109,12 @@ public class Enterprise implements ShipInterface {
 		if(munition >= 1){		
 		missiles.add(new Missile(x + width, y + height / 2, missileDir));
         munition--;
+        Sound sound = new Sound("missile.wav");
+        sound.play();
 		}
 		else {
-			// Play "click Click" Sound
+		Sound sound = new Sound("no_ammu.wav");
+	        sound.play();
 			
 		}
 	}

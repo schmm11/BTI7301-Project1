@@ -8,7 +8,7 @@ public abstract class Config {
 	//Enterprise
 	public final static int ICRAFT_WITDH = 40;
 	public final static int ICRAFT_HEIGHT = 40;
-	public final static int START_HEALTH = 100;
+	public final static int START_HEALTH = 200;
 	public final static int START_MUNITION = 70;
 	public final static int START_SHIELD = 100;
 	public final static int SHIELD_USAGE_DASH = 5;

@@ -16,21 +16,17 @@ public class Enemy implements ShipInterface{
 	private ArrayList<Missile> missiles;
 	private String missileDir = "E";
 	private Boolean isAlive;
+	private int timeCompensator;
 	
 	public Enemy (int x, int y){
 		this.x = x;
 		this.y = y;
+		timeCompensator = 0;
 		this.health = Config.ENEMY_HEALTH;
 		this.shield = Config.ENEMY_SHIELD;
 		this.isAlive = true;
 		loadImage("src/media/Enemy.png");
 		missiles = new ArrayList<>();	
-	}
-	
-	@Override
-	public void move() {
-		// TODO Auto-generated method stub
-		
 	}
 	
     protected void loadImage(String imageName) {
@@ -96,9 +92,80 @@ public class Enemy implements ShipInterface{
 
 	@Override
 	public Rectangle getBounds() {
-		 return new Rectangle(x, y, width, height);
-		 
-		 
+		 return new Rectangle(x, y, width, height);	 
+	}
+	
+	
+	// enterpriseX,Y: postion of the enterprsie
+	public void move(int enterpriseX, int enterpriseY) {
+		int entX = enterpriseX;
+		int entY = enterpriseY;
+		
+		int x = this.x;
+		int y= this.y;
+		
+		//Distance in which the enemys going active
+		int dist = 300;
+		
+	//first: Check if Enterprise is in a near quadrant 200px X 200px
+		
+		if((Math.abs(entX - x) < dist) && (Math.abs(entY - y) < dist)){ // then the Enterprise is near enough
+			this.fire(entX, entY);
+			//System.out.println("I want to fire cause Enterprise is nearer than "+dist+"px in X: " +this );
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		}
+	}
+	// enterpriseX,Y: postion of the enterprsie
+	public void fire(int enterpriseX, int enterpriseY) {
+		this.timeCompensator--;
+		
+		if(timeCompensator < 1){
+			timeCompensator = 40;
+			int entX = enterpriseX;
+			int entY = enterpriseY;
+			int x = this.x;
+			int y= this.y;
+			
+			if(( x > entX) && (Math.abs((entX - x)) > Math.abs((entY -y))) ){
+				this.missileDir = "W";
+			}
+			else if (( y > entY) && ( Math.abs((entX - x)) < Math.abs((entY -y))) ) {
+				this.missileDir = "N";
+			}
+			else if (( x < entX) && (Math.abs((entX - x)) < Math.abs((entY -y))) ){
+				this.missileDir = "S";
+			}
+			else if (( y < entY) && (Math.abs((entX - x)) > Math.abs((entY -y))) ){
+				this.missileDir = "E";
+			}
+			missiles.add(new Missile(x + width, y + height / 2, missileDir));
+	        Sound sound = new Sound("missile.wav");
+	        sound.play();
+			}
+	
+	}
+	
+	
+	
+
+	@Override
+	public void move() {
+		// Method with empty konstructor doesnt needed in interface?
+		
 	}
 
 }
