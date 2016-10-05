@@ -44,8 +44,8 @@ public class Board extends JPanel implements ActionListener{
 		enemys.add(new Enemy(600,600));
 		enemys.add(new Enemy(700,600));
 		//enemys.add(new Enemy(500,600));
-		//enemys.add(new Enemy(300,600));
-		//enemys.add(new Enemy(200,600));
+		enemys.add(new Enemy(300,600));
+		enemys.add(new Enemy(200,600));
 		
 		//Init Timer
 		timer = new Timer(Config.DELAY, this);
