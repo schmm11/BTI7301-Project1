@@ -8,7 +8,8 @@ public class UserInputComponent implements InputComponent{
 
 	@Override
 	public void update(Galaxy world, Ship ship) {
-		// If Button W then e.setX + bla bla etx
+		// Enterprise handler
+		//If Button W then ship.setX + bla bla etx
 		
 	}
 }

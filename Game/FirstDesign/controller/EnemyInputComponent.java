@@ -7,8 +7,9 @@ public class EnemyInputComponent implements InputComponent{
 	
 
 	@Override
-	public void update(Galaxy world, Ship ship) {
-		// AI
+	public void update(Galaxy world, Ship ship)
+	{
+		// AI which Updates the Ship
 		
 	}
 }

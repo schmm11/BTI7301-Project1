@@ -18,13 +18,13 @@ public class Ship implements SpaceObject{
 	private final Modell modell;
 	private final InputComponent input;
 	private ArrayList<Item> items;
-	public Ship(int health, int shield, int energy, Modell modell, InputComponent input, Item startItem)
+	public Ship(double posX, double posY, int health, int shield, int energy, Modell modell, InputComponent input, Item startItem)
 	{
 		this.health = health;
 		this.energy = energy;
 		this.shield = shield;
-		this.posX = 50.50;
-		this.posY = 50.50;
+		this.posX = posX;
+		this.posY = posY;
 		this.isAlive = true;
 		
 		this.modell = modell;

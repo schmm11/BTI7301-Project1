@@ -13,9 +13,8 @@ public class Galaxy {
 	ArrayList<SpaceObject> objects;
 	public Galaxy(){
 		
-		objects.add(new Ship(0, 0, 0, new EnterpriseModell(), new UserInputComponent(), new LaserItem(100))); // Enterprise
+		objects.add(new Ship(10.01, 10.10, 100, 100, 100, new EnterpriseModell(), new UserInputComponent(), new LaserItem(100))); // Enterprise
 		
-		objects.add(new Ship(100,100,100, new EnemyModell(), new EnemyInputComponent(), new LaserItem(500)));
 		
 		
 		
@@ -23,31 +22,48 @@ public class Galaxy {
 		
 	}
 	
+	public void gameLoop() throws InterruptedException
+	{
+		while(true){
+			//Game Loop Pattern	with static 60fps
+			double start = System.currentTimeMillis();
+			this.processInput();
+			this.update();
+			this.render();
+
+			Thread.sleep((long) (start + 16 - System.currentTimeMillis()));	
+	}
+}
 	
-	public void processInput(){
+	
+	public void processInput()
+	{
 		// Main mehtod to process User Inputs
 		
 		
 	}
-	public void update(){
+	public void update()
+	{
 		//Updates Every Space Object in World
-		for(SpaceObject o:objects){
+		for(SpaceObject o:objects)
+		{
 			o.update(this);
 		}
 		
 		// Destroy dead items // See Update Pattern
-		for(SpaceObject o:objects){
+		for(SpaceObject o:objects)
+		{
 			if(!(o.isAlive())){
 				objects.remove(o);
 			}
 		}
 		
 	}
-	public void render(){
+	public void render()
+	{
 		// Renders every Space object
 		for(SpaceObject o:objects){
 			o.render(this);
 		}
-	}
-	
+	}	
 }

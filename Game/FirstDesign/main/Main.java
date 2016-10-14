@@ -16,21 +16,8 @@ public class Main {
 		
 		
 		
-		gameLoop();
+		world.gameLoop();
 		
 	}
 
-	private static void gameLoop() throws InterruptedException {
-		while(true){
-			//Game Loop Pattern
-				
-			double start = System.currentTimeMillis();
-			world.processInput();
-			world.update();
-			world.render();
-
-			Thread.sleep((long) (start + 16 - System.currentTimeMillis()));
-
-		
-	}
-}}
+}
