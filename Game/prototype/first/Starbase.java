@@ -1,3 +1,5 @@
+package first;
+
 import java.awt.Image;
 import java.awt.Rectangle;
 
@@ -23,13 +25,13 @@ public class Starbase {
 		this.shieldRate = Config.SB_SHIELDRATE;
 		this.muniRate = Config.SB_MUNIRATE;
 		
-		loadImage("src/media/Starbase.png");
+		loadImage("media/Starbase.png");
 		
 	}
 	
     protected void loadImage(String imageName) {
 
-        ImageIcon ii = new ImageIcon(imageName);
+        ImageIcon ii = new ImageIcon(getClass().getResource(imageName));
         image = ii.getImage();
     }
 

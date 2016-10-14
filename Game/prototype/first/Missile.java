@@ -1,3 +1,5 @@
+package first;
+
 import java.awt.Image;
 import java.awt.Rectangle;
 
@@ -37,7 +39,7 @@ public class Missile implements WeaponInterface {
 		this.dmg = Config.MISSILE_DMG;
 		this.isAlive = true;
 	
-		loadImage("src/media/missile.png");
+		loadImage("media/missile.png");
 	}
 	
 	public void destroy()	{
@@ -93,7 +95,7 @@ public class Missile implements WeaponInterface {
 	}
     protected void loadImage(String imageName) {
 
-        ImageIcon ii = new ImageIcon(imageName);
+        ImageIcon ii = new ImageIcon(getClass().getResource(imageName));
         image = ii.getImage();
     }
 

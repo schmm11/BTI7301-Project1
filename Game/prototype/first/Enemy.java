@@ -1,3 +1,5 @@
+package first;
+
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -25,13 +27,13 @@ public class Enemy implements ShipInterface{
 		this.health = Config.ENEMY_HEALTH;
 		this.shield = Config.ENEMY_SHIELD;
 		this.isAlive = true;
-		loadImage("src/media/Enemy.png");
+		loadImage("media/Enemy.png");
 		missiles = new ArrayList<>();	
 	}
 	
     protected void loadImage(String imageName) {
     	{
-        ImageIcon ii = new ImageIcon(imageName);
+        ImageIcon ii = new ImageIcon(getClass().getResource(imageName));
         image = ii.getImage();
     	}
     }
@@ -131,20 +133,20 @@ this.timeCompensator--;
 			
 			if(( x > entX) && (Math.abs((entX - this.x)) > Math.abs((entY -this.y))) ){
 	    		++this.x;
-	    		//loadImage("src/media/Enterprise_right_f.png");
+	    		//loadImage("media/Enterprise_right_f.png");
 	    	}	
 	        if ((( y < entY) && (Math.abs((entX - this.x)) > Math.abs((entY -this.y))) )){
 	        	--this.x;
-	        	//loadImage("src/media/Enterprise_left_f.png");
+	        	//loadImage("media/Enterprise_left_f.png");
 	        } 
 	        if (( x < entX) && (Math.abs((entX - this.x)) < Math.abs((entY - this.y))) ) {
 	        	--this.y;
-	        	//loadImage("src/media/Enterprise_up_f.png");
+	        	//loadImage("media/Enterprise_up_f.png");
 	        	
 	        }        	    
 	        if (( y > entY) && ( Math.abs((entX - this.x)) < Math.abs((entY -this.y))) ){
 	        	++this.y;
-	        	//loadImage("src/media/Enterprise_down_f.png");
+	        	//loadImage("media/Enterprise_down_f.png");
 	        } ;
 	        
 	        //Dont go of the map

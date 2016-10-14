@@ -1,3 +1,5 @@
+package first;
+
 
 public abstract class Config {
 	public final static int BOARDSIZE_X = 900;

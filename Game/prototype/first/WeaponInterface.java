@@ -1,12 +1,13 @@
+package first;
+
 import java.awt.Image;
 import java.awt.Rectangle;
 
-public interface ShipInterface {
-	
+public interface WeaponInterface {
+
 	public int getX();
 	public int getY();
 	
-	public void fire();
 	public void onHit(int dmg);
 	public void onCollision(int dmg);
 	
@@ -14,6 +15,5 @@ public interface ShipInterface {
 	public Rectangle getBounds();
 	
 	public Image getImage();
-	int getHealth();
 	
 }

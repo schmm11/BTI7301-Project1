@@ -1,3 +1,5 @@
+package first;
+
 
 import javax.sound.sampled.*;
 

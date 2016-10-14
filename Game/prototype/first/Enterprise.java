@@ -1,3 +1,5 @@
+package first;
+
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -25,7 +27,7 @@ public class Enterprise implements ShipInterface {
 		this.munition = Config.START_MUNITION;
 		this.health = Config.START_HEALTH;
 		this.shield = Config.START_SHIELD;
-		loadImage("src/media/Enterprise_right.png");
+		loadImage("media/Enterprise_right.png");
 		missiles = new ArrayList<>();
 	
 	}
@@ -84,22 +86,22 @@ public class Enterprise implements ShipInterface {
 
 	        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
 	        	bLeft = false;
-	        	loadImage("src/media/Enterprise_left.png");
+	        	loadImage("media/Enterprise_left.png");
 	        }
 
 	        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
 	        	bRight = false; 
-	        	loadImage("src/media/Enterprise_right.png");
+	        	loadImage("media/Enterprise_right.png");
 	        }
 
 	        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
 	        	bUp = false;
-	        	loadImage("src/media/Enterprise_up.png");
+	        	loadImage("media/Enterprise_up.png");
 	        }
 
 	        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 	        	bDown = false;
-	        	loadImage("src/media/Enterprise_down.png");
+	        	loadImage("media/Enterprise_down.png");
 	        }
 }
 	
@@ -143,20 +145,20 @@ public class Enterprise implements ShipInterface {
 	public void move() {
 		if(bRight){
     		++x;
-    		loadImage("src/media/Enterprise_right_f.png");
+    		loadImage("media/Enterprise_right_f.png");
     	}	
         if (bLeft){
         	--x;
-        	loadImage("src/media/Enterprise_left_f.png");
+        	loadImage("media/Enterprise_left_f.png");
         } 
         if (bUp) {
         	--y;
-        	loadImage("src/media/Enterprise_up_f.png");
+        	loadImage("media/Enterprise_up_f.png");
         	
         }        	    
         if (bDown){
         	++y;
-        	loadImage("src/media/Enterprise_down_f.png");
+        	loadImage("media/Enterprise_down_f.png");
         } ;
         
         //Dont go of the map
@@ -168,8 +170,7 @@ public class Enterprise implements ShipInterface {
 	}
 
     protected void loadImage(String imageName) {
-
-        ImageIcon ii = new ImageIcon(imageName);
+        ImageIcon ii = new ImageIcon(getClass().getResource(imageName));
         image = ii.getImage();
     }
 	

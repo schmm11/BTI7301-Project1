@@ -1,3 +1,5 @@
+package first;
+
 import java.awt.EventQueue;
 
 import javax.sound.sampled.AudioInputStream;
