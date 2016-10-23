@@ -1,15 +1,14 @@
 package capl_first_design.FirstDesign.controller;
 
+
 import capl_first_design.FirstDesign.main.Galaxy;
 import capl_first_design.FirstDesign.modell.Ship;
 
-public class EnemyInputComponent implements InputComponent{
-	
 
+public class EnemyInputComponent implements InputComponent
+{
 	@Override
-	public void update(Galaxy world, Ship ship)
+	public void update(final Galaxy xGalaxy, final Ship xShip)
 	{
-		// AI which Updates the Ship
-		
 	}
 }

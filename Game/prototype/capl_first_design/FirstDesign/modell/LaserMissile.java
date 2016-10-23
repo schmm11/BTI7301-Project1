@@ -1,44 +1,50 @@
 package capl_first_design.FirstDesign.modell;
 
+
+import java.awt.Graphics2D;
+
 import capl_first_design.FirstDesign.main.Galaxy;
 
-public class LaserMissile implements Missile{
-	double posX;
-	double posY;
-	int dmg;
-	boolean isAlive;
-	
-	public LaserMissile(double x, double y){
-		this.posX = x;
-		this.posY = y;
-		this.dmg = 10;
-		this.isAlive = true;
-	}
-	@Override
-	public double getPosX() {
-		return this.posX;
+
+public final class LaserMissile implements Missile
+{
+	private double m_dPosX;
+	private double m_dPosY;
+	private int m_iDamage = 10;
+	private boolean m_bAlive = true;
+
+	public LaserMissile(final double dX, final double dY)
+	{
+		m_dPosX = dX;
+		m_dPosY = dY;
 	}
 
 	@Override
-	public double getPosY() {
-		return this.posY;
+	public double x()
+	{
+		return m_dPosX;
 	}
 
 	@Override
-	public boolean isAlive() {
-		return this.isAlive;
+	public double y()
+	{
+		return m_dPosY;
 	}
 
 	@Override
-	public void update(Galaxy world) {
-		// TODO Auto-generated method stub
-		
+	public boolean alive()
+	{
+		return m_bAlive;
 	}
 
 	@Override
-	public void render(Galaxy world) {
-		// TODO Auto-generated method stub
-		
+	public void update(final Galaxy xGalaxy)
+	{
+	}
+
+	@Override
+	public void render(Galaxy xGalaxy, Graphics2D xGraphics)
+	{
 	}
 
 }

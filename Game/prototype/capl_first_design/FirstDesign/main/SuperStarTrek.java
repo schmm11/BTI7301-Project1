@@ -28,6 +28,6 @@ public final class SuperStarTrek extends Game
 
 	public static void main(final String[] rgArgs)
 	{
-		start(rgArgs);
+//		start(rgArgs);
 	}
 }

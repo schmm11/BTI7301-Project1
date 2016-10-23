@@ -5,7 +5,6 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.Frame;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -34,17 +33,11 @@ public final class Window2
 	private final DisplayMode k_xFullscreenMode;
 	private final Frame k_xFrame;
 	private final Canvas k_xCanvas;
-	private final BufferStrategy k_xStrategy;
 
+	private BufferStrategy m_xStrategy;
 	private Dimension m_xDimension;
 	private boolean m_bFullscreen;
 	private boolean m_bCloseRequested = false;
-
-
-	public Window2()
-	{
-		this(k_xDefaultSize, false, k_strDefaultTitle);
-	}
 
 
 	private Window2(final Dimension xPreferred, final boolean bFullscreen, final String strTitle)
@@ -73,7 +66,9 @@ public final class Window2
 		m_bFullscreen = bFullscreen;
 
 		k_xFrame = new Frame(k_xDevice.getDefaultConfiguration());
+			k_xFrame.setIgnoreRepaint(true);
 			k_xCanvas = new Canvas();
+			k_xCanvas.setIgnoreRepaint(true);
 			k_xFrame.add(k_xCanvas);
 			k_xFrame.setResizable(false);
 			k_xFrame.addWindowListener(new WindowAdapter()
@@ -86,14 +81,36 @@ public final class Window2
 			});
 			adjustScreen();
 			k_xCanvas.createBufferStrategy(k_iNumBuffers);
-		k_xStrategy = k_xCanvas.getBufferStrategy();
+		m_xStrategy = k_xCanvas.getBufferStrategy();
+	}
+
+	public Window2()
+	{
+		this(k_xDefaultSize, true, k_strDefaultTitle);
 	}
 
 
 	private void adjustScreen()
 	{
+		if(m_xStrategy != null)
+		{
+			m_xStrategy.dispose();
+		}
+		k_xFrame.dispose();
 		if(m_bFullscreen)
 		{
+			if(k_xDevice.isFullScreenSupported())
+			{
+				k_xFrame.setUndecorated(true);
+				k_xDevice.setFullScreenWindow(k_xFrame);
+				k_xFrame.pack();
+				if(k_xDevice.isDisplayChangeSupported())
+				{
+					final DisplayMode xMode = displayModeForDimension(m_xDimension).orElse(k_xFullscreenMode);
+					k_xDevice.setDisplayMode(xMode);
+					System.out.println("Yay");
+				}
+			}
 		}
 		else
 		{
@@ -103,28 +120,30 @@ public final class Window2
 			k_xFrame.setUndecorated(false);
 			k_xCanvas.setSize(m_xDimension);
 			k_xFrame.pack();
-			k_xFrame.setVisible(true);
 		}
+
+		k_xCanvas.createBufferStrategy(k_iNumBuffers);
+		k_xFrame.setVisible(true);
 	}
 
 
 	public void close()
 	{
-		k_xStrategy.dispose();
+		m_xStrategy.dispose();
 		k_xFrame.dispose();
 	}
 
 
 	public Graphics2D graphics()
 	{
-		return (Graphics2D) k_xStrategy.getDrawGraphics();
+		return (Graphics2D) m_xStrategy.getDrawGraphics();
 	}
 
 	public void show()
 	{
-		if(!k_xStrategy.contentsLost())
+		if(!m_xStrategy.contentsLost())
 		{
-			k_xStrategy.show();
+			m_xStrategy.show();
 		}
 	}
 
@@ -141,6 +160,12 @@ public final class Window2
 	public void setDimension(final Dimension xDimension)
 	{
 		m_xDimension = new Dimension(xDimension.width, xDimension.height);
+		adjustScreen();
+	}
+
+	public void setFullscreen(final boolean bFullscreen)
+	{
+		m_bFullscreen = true;
 		adjustScreen();
 	}
 

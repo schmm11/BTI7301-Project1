@@ -1,26 +1,30 @@
 package capl_first_design.FirstDesign.main;
 
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 
 public final class Main
 {
-	public static void main(final String[] rgArgs)
+	public static void main(final String[] rgArgs) throws Exception
 	{
 		final Window2 xWindow = new Window2();
 
-		boolean bCheck = false;
 		final long lStart = System.nanoTime();
+		boolean bChanged = false;
 		while(!xWindow.closeRequested())
 		{
-			final Graphics2D g = xWindow.graphics();
 			final long lTime = (System.nanoTime() - lStart);
-			g.setColor(Color.getHSBColor(lTime * 1e-9f, 1.0f, 1.0f));
-			g.fillRect(0, 0, xWindow.dimension().width, xWindow.dimension().height);
-			g.dispose();
+			final Graphics2D g = xWindow.graphics();
 			xWindow.show();
+			g.dispose();
+			Thread.yield();
+
+			if(lTime * 1e-9 > 4 && !bChanged)
+			{
+				bChanged = true;
+				xWindow.setFullscreen(true);
+			}
 		}
 
 		xWindow.close();
