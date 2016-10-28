@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
- 
-public final class SuperStarTrek extends BasicGame
+
+public class BasicGame implements Game
 {
 	@Override
 	public void init()
