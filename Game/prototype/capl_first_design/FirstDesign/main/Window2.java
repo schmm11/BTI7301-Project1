@@ -31,8 +31,8 @@ public final class Window2
 	private final GraphicsDevice k_xDevice;
 	private final List<DisplayMode> k_lstAvailableDisplayModes;
 	private final DisplayMode k_xFullscreenMode;
-	private final Frame k_xFrame;
-	private final Canvas k_xCanvas;
+	public final Frame k_xFrame;
+	public final Canvas k_xCanvas;
 
 	private BufferStrategy m_xStrategy;
 	private Dimension m_xDimension;
@@ -48,7 +48,7 @@ public final class Window2
 
 		k_xDevice = xEnv.getDefaultScreenDevice();
 
-		// get 'best' displaymode for distinct screen resolutions
+		// get 'best' DisplayMode for distinct screen resolutions
 		k_lstAvailableDisplayModes = distinctDimensions(Arrays.asList(k_xDevice.getDisplayModes())).stream()
 				// filter low screen resolutions out
 				.filter(xMode -> xMode.getWidth() >= k_xMinimumSize.width)
@@ -56,19 +56,21 @@ public final class Window2
 				.collect(Collectors.toList());
 		if(k_lstAvailableDisplayModes.isEmpty())
 		{
+			// At least the fullscreen mode should work
 			throw new Error("No suitable DisplayModes found");
 		}
 
 		k_xFullscreenMode = displayModeForDimension(xDefaultDimension)
-			.orElseThrow(() -> new Error("No fullscreen DisplayMode found"));
-
+				.orElseThrow(() -> new Error("No fullscreen DisplayMode found"));
+		
 		m_xDimension = xPreferred;
 		m_bFullscreen = bFullscreen;
 
+		// initialize the screen
 		k_xFrame = new Frame(k_xDevice.getDefaultConfiguration());
-			k_xFrame.setIgnoreRepaint(true);
 			k_xCanvas = new Canvas();
-			k_xCanvas.setIgnoreRepaint(true);
+				k_xCanvas.setIgnoreRepaint(true);
+			k_xFrame.setIgnoreRepaint(true);
 			k_xFrame.add(k_xCanvas);
 			k_xFrame.setResizable(false);
 			k_xFrame.addWindowListener(new WindowAdapter()
@@ -79,23 +81,21 @@ public final class Window2
 					m_bCloseRequested = true;
 				}
 			});
-			adjustScreen();
-			k_xCanvas.createBufferStrategy(k_iNumBuffers);
+
+		adjustFullscreen();
+		adjustDimension();
+
+		k_xCanvas.createBufferStrategy(k_iNumBuffers);
 		m_xStrategy = k_xCanvas.getBufferStrategy();
 	}
 
 	public Window2()
 	{
-		this(k_xDefaultSize, true, k_strDefaultTitle);
+		this(k_xDefaultSize, false, k_strDefaultTitle);
 	}
 
-
-	private void adjustScreen()
+	private void adjustFullscreen()
 	{
-		if(m_xStrategy != null)
-		{
-			m_xStrategy.dispose();
-		}
 		k_xFrame.dispose();
 		if(m_bFullscreen)
 		{
@@ -103,27 +103,32 @@ public final class Window2
 			{
 				k_xFrame.setUndecorated(true);
 				k_xDevice.setFullScreenWindow(k_xFrame);
-				k_xFrame.pack();
-				if(k_xDevice.isDisplayChangeSupported())
-				{
-					final DisplayMode xMode = displayModeForDimension(m_xDimension).orElse(k_xFullscreenMode);
-					k_xDevice.setDisplayMode(xMode);
-					System.out.println("Yay");
-				}
+				adjustDimension();
 			}
 		}
 		else
 		{
 			k_xDevice.setFullScreenWindow(null);
-
-			k_xFrame.dispose();
 			k_xFrame.setUndecorated(false);
+			k_xFrame.setVisible(true);
+			adjustDimension();
+		}
+	}
+
+	private void adjustDimension()
+	{
+		if(m_bFullscreen && k_xDevice.isDisplayChangeSupported())
+		{
+			// set resolution to preferred size or use fall-back resolution if not available
+			final DisplayMode xMode = displayModeForDimension(m_xDimension).orElse(k_xFullscreenMode);
+			System.out.println(xMode.getWidth() + " " + xMode.getHeight());
+			k_xDevice.setDisplayMode(xMode);
+		}
+		else
+		{
 			k_xCanvas.setSize(m_xDimension);
 			k_xFrame.pack();
 		}
-
-		k_xCanvas.createBufferStrategy(k_iNumBuffers);
-		k_xFrame.setVisible(true);
 	}
 
 
@@ -134,12 +139,12 @@ public final class Window2
 	}
 
 
-	public Graphics2D graphics()
+	public synchronized Graphics2D graphics()
 	{
 		return (Graphics2D) m_xStrategy.getDrawGraphics();
 	}
 
-	public void show()
+	public synchronized void show()
 	{
 		if(!m_xStrategy.contentsLost())
 		{
@@ -157,16 +162,28 @@ public final class Window2
 		return m_xDimension;
 	}
 
-	public void setDimension(final Dimension xDimension)
+	public synchronized void setDimension(final Dimension xDimension)
 	{
-		m_xDimension = new Dimension(xDimension.width, xDimension.height);
-		adjustScreen();
+		if(!m_xDimension.equals(xDimension))
+		{
+			m_xDimension = new Dimension(xDimension);
+			adjustDimension();
+
+			k_xCanvas.createBufferStrategy(k_iNumBuffers);
+			m_xStrategy = k_xCanvas.getBufferStrategy();
+		}
 	}
 
-	public void setFullscreen(final boolean bFullscreen)
+	public synchronized void setFullscreen(final boolean bFullscreen)
 	{
-		m_bFullscreen = true;
-		adjustScreen();
+		if(bFullscreen != m_bFullscreen)
+		{
+			m_bFullscreen = bFullscreen;
+			adjustFullscreen();
+
+			k_xCanvas.createBufferStrategy(k_iNumBuffers);
+			m_xStrategy = k_xCanvas.getBufferStrategy();
+		}
 	}
 
 
