@@ -16,7 +16,7 @@ public class EnemyModell implements Modell{
 	{
 		try
 		{
-			image = ImageIO.read(new File("src/res/enemy_red.png"));
+			image = ImageIO.read(new File("res/enemy_red.png"));
 		}
 		catch(final IOException xException)
 		{

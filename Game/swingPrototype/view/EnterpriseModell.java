@@ -17,7 +17,7 @@ public class EnterpriseModell implements Modell{
 	public EnterpriseModell()
 	{
 		try {
-		    image = ImageIO.read(new File("src/res/enterprise.png"));		    
+		    image = ImageIO.read(new File("res/enterprise.png"));		    
 		} catch (IOException e) {
 		}			
         
