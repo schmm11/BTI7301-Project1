@@ -11,14 +11,17 @@ public class RocketItem implements Item {
 		this.dmg = 70;
 	}
 
-	@Override
-	public void use(Galaxy world) {
-		//Spawn a new RocketMissile in world.objects
-	}
 
 	@Override
 	public void setAmmo(int ammo) {
 		//Refill Ammo
+		
+	}
+
+
+	@Override
+	public void use(double x, double y, double angle, Galaxy world) {
+		// TODO Auto-generated method stub
 		
 	}
 	

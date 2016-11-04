@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.JPanel;
@@ -23,8 +26,16 @@ import view.*;
 public class Galaxy extends JPanel implements ActionListener{
 	
 	ArrayList<SpaceObject> objects = new ArrayList();
+	ArrayList<LaserMissile> missiles = new ArrayList();
+	ArrayList<SpaceObject> tempObjects = new ArrayList();
+	
 	private boolean ingame;
+	
+	int hitCounter1;
+	int hitCounter2;
+	
 	UserInputComponent userInput = new UserInputComponent();
+	UserInputComponent2 userInput2 = new UserInputComponent2();
 	public Galaxy(){
 		
 		initGalaxy();
@@ -32,13 +43,16 @@ public class Galaxy extends JPanel implements ActionListener{
 
 	private void initGalaxy() {
 		// Add all starting objects
-		objects.add(new Ship(10.01, 10.10, 100, 100, 100, new EnterpriseModell(), userInput, new LaserItem(100))); // Enterprise
+		objects.add(new Ship(500, 200, 100, 100, 100, new EnterpriseModell(), userInput, new LaserItem(100, Color.RED))); // Enterprise
+		objects.add(new Ship(100, 100, 100, 100, 100, new EnterpriseModell(), userInput2, new LaserItem(100, Color.BLUE))); // Enterprise
+		
 		for( int i = 0; i<=10; i++){		
 			for (int j = 0; j <=10; j++){
-				objects.add(new Ship(i*40+100, j*40+100, 10,10,10, new EnemyModell(), new EnemyInputComponent(), new LaserItem(100)));
+				//objects.add(new Ship(i*40+100, j*40+100, 10,10,10, new EnemyModell(), new EnemyInputComponent(), new LaserItem(100)));
 			}
 		}
 		this.addKeyListener(userInput);
+		this.addKeyListener(userInput2);
 		setFocusable(true);
 		setVisible(true);
 		setBackground(Color.BLACK);
@@ -54,16 +68,43 @@ public class Galaxy extends JPanel implements ActionListener{
 			this.update();
 			this.render();
 			long sleeptime = start + 16 -System.currentTimeMillis();
-			System.out.println(sleeptime);
+			//System.out.println(sleeptime);
 			if(sleeptime > 0) Thread.sleep(sleeptime);
-		
 }
 	private void processInput() {
 		
 	}
 	private void update(){
-		for(SpaceObject o : objects){
-			o.update(this);
+		synchronized(objects)
+		{
+			for(SpaceObject o : objects){
+				o.update(this);
+				
+				// HIT Detection Test
+				if (o instanceof LaserMissile) {
+					if(o.getDimensions().intersects(objects.get(0).getDimensions())){
+						hitCounter1 ++;
+						((LaserMissile) o).setisAlive(false);
+						
+					}
+					if(o.getDimensions().intersects(objects.get(1).getDimensions())){
+						hitCounter2 ++;
+						((LaserMissile) o).setisAlive(false);
+						
+					}
+					System.out.println("Ship 1 Dmg: "+ hitCounter1 + "   Ship2 Dmg: "+ hitCounter2 );
+				}
+				
+			}
+				
+				
+			
+			
+			for(SpaceObject o : tempObjects){
+				this.objects.add(o);
+			}
+
+			objects = (ArrayList<SpaceObject>) objects.stream().filter(SpaceObject::isAlive).collect(Collectors.toList());
 		}
 	}
 	
@@ -77,11 +118,15 @@ public class Galaxy extends JPanel implements ActionListener{
         super.paintComponent(g);
         
         //draw all objects
-        for(SpaceObject o : objects){
-        	//o.render(g);
-        	if(o.getPosX() < 900 && o.getPosY() < 900){
-        	g.drawImage(o.render(), (int)o.getPosX(), (int)o.getPosY(), this);	
-        }     
+        synchronized(objects)
+        {
+	        for(SpaceObject o : objects){
+	        	//o.render(g);
+	        	if(o.getPosX() < 900 && o.getPosY() < 900)
+	        	{
+	        		g.drawImage(o.render(), (int)o.getPosX(), (int)o.getPosY(), this);	
+	        	}
+	        }
         }
         Toolkit.getDefaultToolkit().sync();
     }
@@ -89,5 +134,11 @@ public class Galaxy extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// doesnt need any Action
+	}
+	public void setIngame(boolean ingame){
+		this.ingame = ingame;
+	}
+	public void addSpaceObject(SpaceObject o){
+		this.tempObjects.add(o);
 	}
 }

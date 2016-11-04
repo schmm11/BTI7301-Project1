@@ -5,5 +5,6 @@ import java.awt.Image;
 
 
 public interface Modell {
-	public Image getImage();
+
+	public Image getImage(double angle);
 }

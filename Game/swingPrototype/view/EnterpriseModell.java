@@ -25,10 +25,10 @@ public class EnterpriseModell implements Modell{
 	
 	
 	@Override
-	public Image getImage() {
+	public Image getImage(double angle) {
 		
-		return image;
+		//return image;
+		return ImageUtils.rotateImage(image, angle);
 	}
-
 
 }

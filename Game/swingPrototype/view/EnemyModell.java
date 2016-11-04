@@ -30,8 +30,9 @@ public class EnemyModell implements Modell{
 	
 	
 	@Override
-	public Image getImage() {
-		return image;
+	public Image getImage(double angle) {
+		
+		return ImageUtils.rotateImage(image, angle);
 	}
 
 	
