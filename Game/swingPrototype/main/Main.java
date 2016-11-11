@@ -10,8 +10,7 @@ public class Main extends JFrame {
 	public Main(){
 		initUI();
 	}	
-		
-		public void initUI(){
+	public void initUI(){
 			galaxy = new Galaxy();
 			add(galaxy);
 			
@@ -22,12 +21,7 @@ public class Main extends JFrame {
 	        setLocationRelativeTo(null);
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
-		
-	
-	
-	
-	
-	
+
 	public static void main(String[] args) {
 		Main ex = new Main();
 		EventQueue.invokeLater(new Runnable() {
@@ -46,11 +40,6 @@ public class Main extends JFrame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
 		}
 	}
-	
-	
-
 }
