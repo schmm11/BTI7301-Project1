@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import capl_first_design.FirstDesign.main.Settings.Command;
@@ -37,22 +38,26 @@ public final class Client2 extends JPanel
 	private final SocketAddress k_xServer;
 	private final List<Ship> k_lstShips = new ArrayList<>();
 	private final List<Position> k_lstShots = new ArrayList<>();
+	private final List<String> k_lstMessages = new ArrayList<>();
 
 	private static class Ship
 	{
 		private final Position k_iPosition;
 		private final int k_iColor;
+		private final String k_strName;
 
 
-		public Ship(final int iX, final int iY, final int iColor)
+		public Ship(final int iX, final int iY, final int iColor, final String strName)
 		{
 			k_iPosition = new Position(iX, iY);
 			k_iColor = iColor;
+			k_strName = strName;
 		}
 
 		public int x() { return k_iPosition.x(); }
 		public int y() { return k_iPosition.y(); }
 		public int color() { return k_iColor; }
+		public String name() { return k_strName; }
 	}
 
 	private static class Position
@@ -76,6 +81,11 @@ public final class Client2 extends JPanel
 
 	public Client2() throws Exception
 	{
+		String strName = JOptionPane.showInputDialog("Name: ");
+		if(strName == null || strName.length() == 0)
+		{
+			strName = "";
+		}
 		k_xChannel = DatagramChannel.open(StandardProtocolFamily.INET);
 
 		final ByteBuffer xBuffer = ByteBuffer.allocate(Settings.PACKAGE_SIZE);
@@ -102,6 +112,7 @@ public final class Client2 extends JPanel
 
 		xBuffer.clear();
 		xBuffer.putInt(Command.Register.ordinal());
+		xBuffer.put(strName.getBytes());
 		xBuffer.flip();
 		k_xChannel.send(xBuffer, k_xServer);
 
@@ -177,7 +188,16 @@ public final class Client2 extends JPanel
 					final int iNumShips = xBuffer.getInt();
 					for(int i = 0; i < iNumShips; ++i)
 					{
-						k_lstShips.add(new Ship(xBuffer.getInt(), xBuffer.getInt(), xBuffer.getInt()));
+						final int iX = xBuffer.getInt();
+						final int iY = xBuffer.getInt();
+						final int iColor = xBuffer.getInt();
+						final int iStrLen = xBuffer.getInt();
+						final StringBuilder strName = new StringBuilder();
+						for(int j = 0; j < iStrLen; ++j)
+						{
+							strName.append((char) xBuffer.get());
+						}
+						k_lstShips.add(new Ship(iX, iY, iColor, strName.toString()));
 					}
 				}
 				synchronized(k_lstShots)
@@ -187,6 +207,21 @@ public final class Client2 extends JPanel
 					for(int i = 0; i < iNumShots; ++i)
 					{
 						k_lstShots.add(new Position(xBuffer.getInt(), xBuffer.getInt()));
+					}
+				}
+				synchronized(k_lstMessages)
+				{
+					k_lstMessages.clear();
+					final int iNumMessages = xBuffer.getInt();
+					for(int i = 0; i < iNumMessages; ++i)
+					{
+						final StringBuilder strMessage = new StringBuilder();
+						final int iMessageLen = xBuffer.getInt();
+						for(int j = 0; j < iMessageLen; ++j)
+						{
+							strMessage.append((char) xBuffer.get());
+						}
+						k_lstMessages.add(strMessage.toString());
 					}
 				}
 				repaint();
@@ -217,6 +252,8 @@ public final class Client2 extends JPanel
 				final int iX = Math.floorMod(xShip.x() - 2 + 250, getWidth());
 				final int iY = Math.floorMod(xShip.y() - 2 + 250, getHeight());
 				xGraphics.fillRect(iX, iY, 4, 4);
+				xGraphics.setColor(Color.WHITE);
+				xGraphics.drawString(xShip.name(), iX, iY - 10);
 			}
 		}
 
@@ -228,6 +265,17 @@ public final class Client2 extends JPanel
 				final int iX = Math.floorMod(xPosition.x() - 1 + 250, getWidth());
 				final int iY = Math.floorMod(xPosition.y() - 1 + 250, getHeight());
 				xGraphics.fillRect(iX, iY, 2, 2);
+			}
+		}
+
+		xGraphics.setColor(Color.RED);
+		synchronized(k_lstMessages)
+		{
+			int i = 10;
+			for(final String strMessage : k_lstMessages)
+			{
+				xGraphics.drawString(strMessage, 0, i);
+				i += 10;
 			}
 		}
 	}
@@ -287,6 +335,24 @@ public final class Client2 extends JPanel
 					break;
 				case KeyEvent.VK_D:
 					sendDirection(Command.Move, Direction.East);
+					break;
+				case KeyEvent.VK_ENTER:
+					final String strMessage = JOptionPane.showInputDialog("Message: ");
+					if(strMessage != null)
+					{
+						xBuffer.clear();
+						xBuffer.putInt(Command.Chat.ordinal());
+						xBuffer.put(strMessage.getBytes());
+						xBuffer.flip();
+						try
+						{
+							k_xChannel.send(xBuffer, k_xServer);
+						}
+						catch(final IOException xException)
+						{
+							xException.printStackTrace();
+						}
+					}
 					break;
 				}
 			}

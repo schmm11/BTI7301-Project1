@@ -19,6 +19,7 @@ public enum Settings
 		Move,       // move command
 		Stop,       // stop command
 		Shoot,      // shoot command
+		Chat,       // send a chatmessage
 	}
 
 	enum Direction
