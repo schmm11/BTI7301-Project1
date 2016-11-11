@@ -15,9 +15,11 @@ public final class Ship
 	public void speedX(final int iSpeedX) { m_iXSpeed += iSpeedX; }
 	public void speedY(final int iSpeedY) { m_iYSpeed += iSpeedY; }
 
+	public Shot shoot() { return new Shot(x(), y(), speedX() + (speedX() * 1), speedY() + (speedY() * 1)); }
+
 	public void update()
 	{
-		m_iXPos += m_iXSpeed * 5;
-		m_iYPos += m_iYSpeed * 5;
+		m_iXPos += m_iXSpeed * 1;
+		m_iYPos += m_iYSpeed * 1;
 	}
 }

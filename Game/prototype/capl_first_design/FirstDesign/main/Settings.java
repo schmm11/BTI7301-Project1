@@ -13,10 +13,12 @@ public enum Settings
 	{
 		Broadcast,  // broadcast to multicast group
 		Confirm,    // confirm broadcast
+		Update,     // update data
 		Register,   // register new client
 		Unregister, // unregister client
 		Move,       // move command
 		Stop,       // stop command
+		Shoot,      // shoot command
 	}
 
 	enum Direction
