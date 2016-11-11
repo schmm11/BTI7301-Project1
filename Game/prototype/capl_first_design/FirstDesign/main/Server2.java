@@ -28,10 +28,27 @@ public final class Server2
 
 	private final DatagramChannel k_xChannel;
 	private final InetAddress k_xGroup;
-	private final Map<SocketAddress, Ship> k_lstShips = new HashMap<>();
+	private final Map<SocketAddress, Pair<Ship, Integer>> k_lstShips = new HashMap<>();
 	private List<Shot> m_lstShots = new ArrayList<Shot>();
 
+	private static class Pair<K, V>
+	{
+		private final K k_xK;
+		private final V k_xV;
+
+
+		public Pair(final K xK, final V xV)
+		{
+			k_xK = xK;
+			k_xV = xV;
+		}
+
+		public K k() { return k_xK; }
+		public V v() { return k_xV; }
+	}
+
 	private boolean m_bRunning = true;
+	private int m_iSent = 0;
 
 
 	public Server2() throws Exception
@@ -59,6 +76,19 @@ public final class Server2
 		xUpdateThread.join();
 
 		k_xChannel.close();
+
+		if(m_iSent > 1024 * 1024)
+		{
+			System.out.println("Megabytes sent: " + (m_iSent) / (1024 * 1024));
+		}
+		else if(m_iSent > 1024)
+		{
+			System.out.println("Kilobytes sent: " + (m_iSent) / 1024);
+		}
+		else
+		{
+			System.out.println("Bytes sent: " + m_iSent);
+		}
 	}
 
 	public SocketAddress rx(final ByteBuffer xBuffer)
@@ -80,7 +110,7 @@ public final class Server2
 	{
 		try
 		{
-			k_xChannel.send(xBuffer, xAddress);
+			m_iSent += k_xChannel.send(xBuffer, xAddress);
 		}
 		catch(final IOException xException)
 		{
@@ -96,9 +126,9 @@ public final class Server2
 			xBuffer.putInt(Command.Update.ordinal());
 			synchronized(k_lstShips)
 			{
-				k_lstShips.values().forEach(Ship::update);
+				k_lstShips.values().stream().map(Pair::k).forEach(Ship::update);
 				xBuffer.putInt(k_lstShips.size());
-				k_lstShips.values().forEach(xShip -> { xBuffer.putInt(xShip.x()); xBuffer.putInt(xShip.y()); });
+				k_lstShips.values().forEach(xPair -> { xBuffer.putInt(xPair.k().x()); xBuffer.putInt(xPair.k().y()); xBuffer.putInt(xPair.v()); });
 			}
 			synchronized(m_lstShots)
 			{
@@ -114,11 +144,7 @@ public final class Server2
 				{
 					for(final SocketAddress xAddress : k_lstShips.keySet())
 					{
-						final ByteBuffer xTmp = ByteBuffer.allocate(Settings.PACKAGE_SIZE * 10);
-						xTmp.clear();
-						xTmp.put(xBuffer);
-						xTmp.flip();
-						k_xChannel.send(xTmp, xAddress);
+						m_iSent += k_xChannel.send(ByteBuffer.wrap(xBuffer.array()), xAddress);
 					}
 				}
 				Thread.sleep(32);
@@ -164,7 +190,7 @@ public final class Server2
 			case Register:
 				synchronized(k_lstShips)
 				{
-					k_lstShips.put(xClient, new Ship());
+					k_lstShips.put(xClient, new Pair<Ship, Integer>(new Ship(), (int) (Math.random() * Integer.MAX_VALUE)));
 				}
 				break;
 			case Unregister:
@@ -177,7 +203,7 @@ public final class Server2
 				synchronized(k_lstShips)
 				{
 					final Direction xDirection = Direction.values()[xBuffer.getInt()];
-					final Ship xShip = k_lstShips.get(xClient);
+					final Ship xShip = k_lstShips.get(xClient).k();
 					switch(xDirection)
 					{
 					case North: xShip.speedY(-1); break;
@@ -192,7 +218,7 @@ public final class Server2
 			case Shoot:
 				synchronized(k_lstShips)
 				{
-					m_lstShots.add(k_lstShips.get(xClient).shoot());
+					m_lstShots.add(k_lstShips.get(xClient).k().shoot());
 				}
 				break;
 			default:

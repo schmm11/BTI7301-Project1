@@ -35,8 +35,25 @@ public final class Client2 extends JPanel
 	private final SocketAddress k_xGroup = new InetSocketAddress(InetAddress.getByName(Settings.MULTICAST_IP), Settings.MULTICAST_PORT);
 	private final DatagramChannel k_xChannel;
 	private final SocketAddress k_xServer;
-	private final List<Position> k_lstShips = new ArrayList<>();
+	private final List<Ship> k_lstShips = new ArrayList<>();
 	private final List<Position> k_lstShots = new ArrayList<>();
+
+	private static class Ship
+	{
+		private final Position k_iPosition;
+		private final int k_iColor;
+
+
+		public Ship(final int iX, final int iY, final int iColor)
+		{
+			k_iPosition = new Position(iX, iY);
+			k_iColor = iColor;
+		}
+
+		public int x() { return k_iPosition.x(); }
+		public int y() { return k_iPosition.y(); }
+		public int color() { return k_iColor; }
+	}
 
 	private static class Position
 	{
@@ -160,7 +177,7 @@ public final class Client2 extends JPanel
 					final int iNumShips = xBuffer.getInt();
 					for(int i = 0; i < iNumShips; ++i)
 					{
-						k_lstShips.add(new Position(xBuffer.getInt(), xBuffer.getInt()));
+						k_lstShips.add(new Ship(xBuffer.getInt(), xBuffer.getInt(), xBuffer.getInt()));
 					}
 				}
 				synchronized(k_lstShots)
@@ -194,10 +211,11 @@ public final class Client2 extends JPanel
 		xGraphics.setColor(Color.WHITE);
 		synchronized(k_lstShips)
 		{
-			for(final Position xPosition : k_lstShips)
+			for(final Ship xShip : k_lstShips)
 			{
-				final int iX = Math.floorMod(xPosition.x() - 2 + 250, getWidth());
-				final int iY = Math.floorMod(xPosition.y() - 2 + 250, getHeight());
+				xGraphics.setColor(new Color(xShip.color()));
+				final int iX = Math.floorMod(xShip.x() - 2 + 250, getWidth());
+				final int iY = Math.floorMod(xShip.y() - 2 + 250, getHeight());
 				xGraphics.fillRect(iX, iY, 4, 4);
 			}
 		}
