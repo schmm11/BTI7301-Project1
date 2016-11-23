@@ -29,9 +29,10 @@ public final class Client extends JPanel
 
 	private static final long serialVersionUID = 2119474494068138935L;
 
-	private final SocketAddress k_xServer = new InetSocketAddress(InetAddress.getLoopbackAddress(), Settings.PORT);
+	private SocketAddress m_xServer;
 	private final List<Position> k_lstPositions = new ArrayList<Position>();
 	private int m_iSent = 0;
+
 
 	private class Position
 	{
@@ -56,6 +57,15 @@ public final class Client extends JPanel
 	{
 		try
 		{
+			m_xServer = new InetSocketAddress(InetAddress.getByName("147.87.41.67"), Settings.PORT);
+		}
+		catch(final Exception xException)
+		{
+			xException.printStackTrace();
+		}
+
+		try
+		{
 			m_xChannel = DatagramChannel.open(StandardProtocolFamily.INET);
 			m_xChannel.configureBlocking(false);
 		}
@@ -70,7 +80,7 @@ public final class Client extends JPanel
 
 		try
 		{
-			m_iSent += m_xChannel.send(xBuffer, k_xServer);
+			m_iSent += m_xChannel.send(xBuffer, m_xServer);
 		}
 		catch(final IOException xException)
 		{
@@ -90,7 +100,7 @@ public final class Client extends JPanel
 						final ByteBuffer xBuffer = ByteBuffer.allocate(1);
 						xBuffer.put(Settings.DISCONNECT);
 						xBuffer.flip();
-						m_iSent += m_xChannel.send(xBuffer, k_xServer);
+						m_iSent += m_xChannel.send(xBuffer, m_xServer);
 						m_bRunning = false;
 						xNetThread.join();
 						m_xChannel.disconnect();
@@ -134,7 +144,7 @@ public final class Client extends JPanel
 				xException.printStackTrace();
 			}
 
-			if(xAddress != null && xAddress.equals(k_xServer))
+			if(xAddress != null && xAddress.equals(m_xServer))
 			{
 				xBuffer.flip();
 				final byte bCount = xBuffer.get();
@@ -180,7 +190,7 @@ public final class Client extends JPanel
 			final ByteBuffer xBuffer = ByteBuffer.wrap(new byte[] { iCommand, iDirection });
 			try
 			{
-				m_iSent += m_xChannel.send(xBuffer, k_xServer);
+				m_iSent += m_xChannel.send(xBuffer, m_xServer);
 			}
 			catch(final IOException xException)
 			{
