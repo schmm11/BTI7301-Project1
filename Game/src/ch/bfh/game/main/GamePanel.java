@@ -1,5 +1,6 @@
 package ch.bfh.game.main;
 
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,8 +12,9 @@ import javax.swing.JPanel;
 
 import ch.bfh.game.gameState.GameStateManager;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener{
 
+public final class GamePanel extends JPanel implements Runnable, KeyListener
+{
 	// dimensions
 	public static final int WIDTH = Config.GAMEPANEL_WIDTH;
 	public static final int HEIGHT = Config.GAMEPANEL_HEIGHT;

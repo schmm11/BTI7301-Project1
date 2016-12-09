@@ -4,7 +4,7 @@ package ch.bfh.game.entities;
 import ch.bfh.game.main.ArgumentChecker;
 
 
-public class Pickup extends SpaceObject
+public class Powerup extends SpaceObject
 {
 	public enum Type
 	{
@@ -19,7 +19,7 @@ public class Pickup extends SpaceObject
 	private final Type k_xType;
 
 
-	public Pickup(final Type xType)
+	public Powerup(final Type xType)
 	{
 		k_xType = ArgumentChecker.requireNonNull(xType, "Type mustn't be null");
 	}
@@ -32,5 +32,10 @@ public class Pickup extends SpaceObject
 	@Override
 	public void update()
 	{
+	}
+
+	public void interact(final Ship xShip)
+	{
+		k_xType.interact(xShip);
 	}
 }

@@ -10,6 +10,7 @@ public class SSTGame implements Game
 	@Override
 	public void init()
 	{
+		System.out.println("Game started");
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import ch.bfh.game.main.GamePanel;
+import ch.bfh.game.renderer.GameRenderer;
 import ch.bfh.game.tileMap.Background;
 
 public class MenuState extends GameState {
@@ -68,8 +69,8 @@ public class MenuState extends GameState {
 	public void draw(Graphics2D g) 
 	{
 		// draw background
-		bg.draw(g);
-		
+		GameRenderer.renderBackground(g);
+
 		// draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);

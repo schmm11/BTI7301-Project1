@@ -15,6 +15,7 @@ public final class SSTMain
 		xDisplay.init();
 		xGame.init();
 
+
 		while(!xDisplay.closeRequested())
 		{
 			final List<KeyAction> lstActions = xDisplay.input();
