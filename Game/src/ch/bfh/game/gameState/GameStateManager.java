@@ -9,6 +9,7 @@ public class GameStateManager {
 	
 	public static final int MENUSTATE = 0;
 	public static final int TWOPL1 = 1; //Two PLayer level 1
+	public static final int TWOPL2 = 2; //1 vs Bot Mulitplayer
 	
 	// Constructor
 	public GameStateManager()
@@ -18,6 +19,7 @@ public class GameStateManager {
 		currentState = MENUSTATE;
 		gameStates.add(new MenuState(this));
 		gameStates.add(new TwoPlayerLevel1State(this));
+		gameStates.add(new OnePlayerVsBotState(this));
 	}
 	
 	public void setState(int state)

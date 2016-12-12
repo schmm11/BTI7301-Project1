@@ -13,6 +13,7 @@ public class Player extends SpaceObject {
 
 	private int health;
 	private int maxHealth;
+	private int shield;
 	private int angle;
 	private RocketItem standartWeapon;
 	private Item secondaryWeapon;
@@ -36,10 +37,8 @@ public class Player extends SpaceObject {
 		protected boolean right;
 		protected boolean up;
 		protected boolean down;
-		protected boolean jumping;
-		protected boolean falling;
-		protected boolean phaserFiring;
-		protected boolean moving;
+		protected boolean UsePrimary;
+		protected boolean UseSecondary;
 	
 	
 	
@@ -58,6 +57,8 @@ public class Player extends SpaceObject {
 		maxHealth = 100;
 		health = 100;
 		
+		shield = 0;
+		
 		moveSpeed = 0.5;
 		maxSpeed = 1.6;
 		angle = 90;
@@ -70,7 +71,6 @@ public class Player extends SpaceObject {
 			for(int i = 0; i < 4; i++)
 			{
 				BufferedImage[] bi = new BufferedImage[numFrames[i]];
-				
 				for(int j = 0; j < numFrames[i]; j++)
 				{
 					bi[j] = spritesheet.getSubimage(j * width, i * height, width, height);
@@ -129,9 +129,6 @@ public class Player extends SpaceObject {
 	
 	private void getNextPosition()
 	{
-
-		moving = true;
-		
 		if(left)
 		{
 			dx -= moveSpeed;
@@ -170,16 +167,12 @@ public class Player extends SpaceObject {
 			}
 			angle = 180;
 		}
-		
-		else if(!up && !down && !left && !right)
-		{
-			moving = false;
-		}
 	}
 	
 	public void draw(Graphics2D g)
 	{
-		setMapPosition();
+		//setMapPosition(); // TODO: für was zur Hölle ist die Funktion?
+		
 		// get Image
 		BufferedImage img = animation.getImage();
 		AffineTransform at = AffineTransform.getTranslateInstance(posX + xmap - width / 2 , posY + ymap - height / 2);
@@ -187,12 +180,13 @@ public class Player extends SpaceObject {
 
 		g.drawImage(img, at, null);
 	}
-	
+	public Animation getAnimation(){ return animation;};
 	public void setLeft(boolean b) { left = b; }
 	public void setRight(boolean b) { right = b; }
 	public void setUp(boolean b) { up = b; }
 	public void setDown(boolean b) { down = b; }
-	public void setJumping(boolean b) { jumping = b; }
+	public void setUsePrimary(boolean b) { UsePrimary = b; }
+	public int getAngle(){return this.angle;}
 	
 	
 public void checkTileMapCollision() {
@@ -221,8 +215,7 @@ public void checkTileMapCollision() {
 		if(dy > 0) {
 			if(bottomLeft || bottomRight) {
 				dy = 0;
-				falling = false;
-//				ytemp = (currRow + 1) * tileSize - cheight / 2;
+				// falling = false;  //TODO: Why do we need the falling?
 			}
 			else {
 				ytemp += dy;

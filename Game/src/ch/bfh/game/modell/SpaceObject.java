@@ -14,6 +14,8 @@ public class SpaceObject {
 	protected double xmap;	// Width of the Map??
 	protected double ymap;
 	
+
+	
 	// position and vector
 	protected double posX;
 	protected double posY;
@@ -105,6 +107,8 @@ public class SpaceObject {
 	public int getHeight() { return height; }
 	public int getCWidth() { return cwidth; }
 	public int getCHeight() { return cheight; }
+	public double getXMap(){return xmap;}
+	public double getYMap(){return ymap;}
 	
 	public void setPosition(double x, double y) {
 		this.posX = x;
@@ -115,7 +119,7 @@ public class SpaceObject {
 		this.dy = dy;
 	}
 	
-	public void setMapPosition() {
+	public void setMapPosition() { // TODO: Was genau macht diese Funktion?
 		xmap = tileMap.getX();
 		ymap = tileMap.getY();
 	}

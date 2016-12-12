@@ -7,24 +7,26 @@ import java.util.ArrayList;
 import ch.bfh.game.main.GamePanel;
 import ch.bfh.game.modell.Player;
 import ch.bfh.game.modell.SpaceObject;
+import ch.bfh.game.renderer.BotRenderer;
 import ch.bfh.game.renderer.GameRenderer;
 import ch.bfh.game.tileMap.Background;
 import ch.bfh.game.tileMap.TileMap;
+import main.Config;
 
-public class TwoPlayerLevel1State extends GameState{
+public class OnePlayerVsBotState extends GameState{
 
 	private TileMap tileMap;
 	private Background bg;
 	
 	private Player player1;
-	private Player player2;
+	private Player player2; //Bot == Player2
 	
 	private ArrayList<SpaceObject> spaceObjects;
 	private boolean player1Won;
 	private boolean player2Won;
 	
 	// Constructor
-	public TwoPlayerLevel1State(GameStateManager gsm)
+	public OnePlayerVsBotState(GameStateManager gsm)
 	{
 		this.gsm = gsm;
 		init();
@@ -38,8 +40,8 @@ public class TwoPlayerLevel1State extends GameState{
 	public void init()
 	{
 		tileMap = new TileMap(32);	
-		tileMap.loadTiles("/02_Textures/01_Map/Tileset_1v1.gif");
-		tileMap.loadMap("/03_Data/01_Map/level_1vs1"
+		tileMap.loadTiles("/02_Textures/01_Map/Tileset_1vsbot.gif");
+		tileMap.loadMap("/03_Data/01_Map/level_1vsbot"
 				+ ".txt");
 		tileMap.setPosition(0,  0);
 		tileMap.setTween(1);
@@ -48,11 +50,11 @@ public class TwoPlayerLevel1State extends GameState{
 		
 		player1 = new Player(tileMap);
 		tileMap.getPlayerList().add(player1);
-		player1.setPosition(280, 280);
+		player1.setPosition(100, 80);
 		
 		player2 = new Player(tileMap);
 		tileMap.getPlayerList().add(player2);
-		player2.setPosition(400, 400);
+		player2.setPosition(100, 640);
 	}
 	
 	public void update()
@@ -64,7 +66,14 @@ public class TwoPlayerLevel1State extends GameState{
 		
 		// update player
 		player1.update();
+		
+		/* Calculate the movement of the Bot and sets the "keys"
+		 * 
+		 */
+		BotRenderer.calculateBotMovement(player2, player1);
+		
 		player2.update();
+		
 		tileMap.setPosition(
 				GamePanel.WIDTH / 2 - player1.getx(),
 				GamePanel.HEIGHT / 2 - player1.gety()
@@ -83,7 +92,7 @@ public class TwoPlayerLevel1State extends GameState{
 	}
 	
 	
-	
+
 	public void draw(Graphics2D g)
 	{
 		// draw bg
@@ -95,6 +104,7 @@ public class TwoPlayerLevel1State extends GameState{
 		// draw player with GameRenderer
 		GameRenderer.render(g, player1);
 		GameRenderer.render(g, player2);
+
 		
 		// draw string winner
 		if(player1Won)
@@ -132,12 +142,7 @@ public class TwoPlayerLevel1State extends GameState{
 		if(k == KeyEvent.VK_O) secondaryFire(player1);
 		
 		// player 2
-		if(k == KeyEvent.VK_A) player2.setLeft(true);
-		if(k == KeyEvent.VK_D) player2.setRight(true);
-		if(k == KeyEvent.VK_W) player2.setUp(true);
-		if(k == KeyEvent.VK_S) player2.setDown(true);
-		if(k == KeyEvent.VK_Q) primaryFire(player2);
-		if(k == KeyEvent.VK_E) secondaryFire(player2);
+		// Bot doesnt need this controls
 	}
 	
 	public void keyReleased(int k) {
@@ -149,10 +154,6 @@ public class TwoPlayerLevel1State extends GameState{
 		//if(k == KeyEvent.VK_P) player1.setPhaserFiring(false);
 		
 		// player 2
-		if(k == KeyEvent.VK_A) player2.setLeft(false);
-		if(k == KeyEvent.VK_D) player2.setRight(false);
-		if(k == KeyEvent.VK_W) player2.setUp(false);
-		if(k == KeyEvent.VK_S) player2.setDown(false);
-		//if(k == KeyEvent.VK_Q) player2.setPhaserFiring(false);
+		// Bot doesnt need this controls
 	}
 }

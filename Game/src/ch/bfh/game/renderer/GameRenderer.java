@@ -3,6 +3,7 @@ package ch.bfh.game.renderer;
 
 import java.awt.Graphics2D;
 import java.awt.TexturePaint;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
@@ -10,19 +11,52 @@ import java.util.Optional;
 import ch.bfh.game.entities.SpaceObject;
 import ch.bfh.game.main.ArgumentChecker;
 import ch.bfh.game.main.Config;
+import ch.bfh.game.modell.Player;
 
 
 public final class GameRenderer
 {
+	
+	/*
+	 * Super function: renders SpaceObject
+	 */
 	public static <T extends SpaceObject> void render(final Graphics2D xGraphics, final SpaceObject xObject)
 	{
 		ArgumentChecker.requireNonNull(xGraphics, "Graphics musn't be null");
 		ArgumentChecker.requireNonNull(xObject, "SpaceObject musn't be null");
+}
+	/*
+	 * Render a Player 
+	 * @param: Player: the Player which should be rendered
+	 */
+	public static <T extends SpaceObject> void render(final Graphics2D xGraphics, final Player xObject)
+	{
+		ArgumentChecker.requireNonNull(xGraphics, "Graphics musn't be null");
+		ArgumentChecker.requireNonNull(xObject, "SpaceObject musn't be null");
+		
+		BufferedImage img = xObject.getAnimation().getImage();
+		
+		int posX = xObject.getx();
+		int posY = xObject.gety();
+		Double xmap = xObject.getXMap();
+		Double ymap = xObject.getYMap();
+		int width = xObject.getWidth();
+		int height = xObject.getHeight();
+		int angle = xObject.getAngle();
+		
+		AffineTransform at = AffineTransform.getTranslateInstance(posX + xmap - width / 2 , posY + ymap - height / 2);
+		at.rotate(Math.toRadians(angle), width / 2, height / 2);
+	
+		xGraphics.drawImage(img, at, null);
 	}
-
+	
+	
+	/*
+	 * @function Renders the Background in the menu
+	 */
 	public static void renderBackground(final Graphics2D xGraphics)
 	{
-		final Optional<BufferedImage> xBackgroundImage = ImageCollection.IMAGES.getImage("background_menu.png");
+		final Optional<BufferedImage> xBackgroundImage = ImageCollection.IMAGES.getImage("background_menu.jpg");
 
 		xBackgroundImage.ifPresent(xImage ->
 		{
@@ -30,4 +64,8 @@ public final class GameRenderer
 			xGraphics.fillRect(0, 0, Config.GAMEPANEL_WIDTH, Config.GAMEPANEL_HEIGHT);
 		});
 	}
+	
+	
+
+	
 }

@@ -52,7 +52,9 @@ public final class ImageCollection
 			}
 			catch(final IOException xException)
 			{
-				xException.printStackTrace();
+				//@TODO 
+				//Throws errors....
+				//xException.printStackTrace();
 			}
 		});
 	}

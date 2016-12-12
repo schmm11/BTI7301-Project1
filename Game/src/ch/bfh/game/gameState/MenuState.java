@@ -21,7 +21,7 @@ public class MenuState extends GameState {
 	
 	// Menu Choices
 	private int currentChoice;
-	private String[] options = {"1 Player", "2 Players", "Options", "Exit Game"};
+	private String[] options = {"1 Player", "2 Players", "1 vs BOT", "Options", "Exit Game"};
 	
 	// Design
 	private Color titleColor;
@@ -122,10 +122,16 @@ public class MenuState extends GameState {
 		
 		if(currentChoice == 2)
 		{
-			// Options
+			// 1 vs BOT
+			gsm.setState(GameStateManager.TWOPL2);
 		}
 		
 		if(currentChoice == 3)
+		{
+			// Options
+		}
+		
+		if(currentChoice == 4)
 		{
 			System.exit(0);
 		}
