@@ -76,10 +76,10 @@ public class SpaceObject {
 	 */
 	public Rectangle getRectangle() {
 		return new Rectangle(
-				(int)posX - cwidth,
-				(int)posY - cheight,
-				cwidth,
-				cheight
+				(int)posX - this.getCWidth(),
+				(int)posY - this.getCHeight(),
+				this.getCWidth(),
+				this.getCHeight()
 		);
 	}
 	

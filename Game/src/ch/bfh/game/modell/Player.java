@@ -233,6 +233,11 @@ public class Player extends SpaceObject {
 			angle = 180;
 		}
 	}
+
+	public void hitByProjectile(Projectile p) {
+			this.health = this.health - 10;
+			System.out.println("I GOT HIT and now have a health of: "+ this.health);
+	}
 	
 	/* @deprecated
 	 * @see ch.bfh.game.renderer.GameRenderer

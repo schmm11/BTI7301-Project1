@@ -53,10 +53,12 @@ public class TwoPlayerLevel1State extends GameState{
 		player1 = new Player(tileMap);
 		tileMap.getPlayerList().add(player1);
 		player1.setPosition(280, 280);
+		player1.setTeam(0);
 		
 		player2 = new Player(tileMap);
 		tileMap.getPlayerList().add(player2);
 		player2.setPosition(400, 400);
+		player2.setTeam(1);
 	}
 	
 	public void update()
@@ -81,12 +83,18 @@ public class TwoPlayerLevel1State extends GameState{
 		if(player1.intersects(player2)){
 			System.out.println("Ship Colision Detected");
 		}
-		//Collision Detection (Should be outsource to own class TODO
+		
+		/*
+		 * Collision Detection (Should be outsource to own class or function TODO)
+		 */
 		for(Projectile p : spaceProjectiles){
-			System.out.println(p.getRectangle());
-				if(player1.intersects(p) /*&& (o.getTeam() != player1.getTeam())*/){
-					System.out.print("Player 1 got Hit by a Rocket");
-				
+			if(player1.intersects(p) && (p.getTeam() != player1.getTeam()) && !p.getHit() ){
+				p.setHit();
+				player1.hitByProjectile(p);
+			}
+			if(player2.intersects(p) && (p.getTeam() != player2.getTeam()) && !p.getHit() ){
+				p.setHit();
+				player2.hitByProjectile(p);
 			}
 		}
 		

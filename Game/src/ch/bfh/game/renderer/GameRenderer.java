@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.Optional;
 
 import ch.bfh.game.modell.SpaceObject;
+
 import ch.bfh.game.main.ArgumentChecker;
 import ch.bfh.game.main.Config;
 import ch.bfh.game.modell.Player;
@@ -50,6 +51,9 @@ public final class GameRenderer
 		at.rotate(Math.toRadians(angle), width / 2, height / 2);
 	
 		xGraphics.drawImage(img, at, null);
+		
+		//Draw Player Status
+		renderPlayerStatus(xGraphics, xObject);
 	}
 	
 	/*
@@ -73,7 +77,6 @@ public final class GameRenderer
 		AffineTransform at = AffineTransform.getTranslateInstance(posX + xmap - width / 2 , posY + ymap - height / 2);
 		
 		xGraphics.drawImage(img, at, null);
-		
 	}
 	/*
 	 * @function Renders the Background in the menu
@@ -88,8 +91,24 @@ public final class GameRenderer
 			xGraphics.fillRect(0, 0, Config.GAMEPANEL_WIDTH, Config.GAMEPANEL_HEIGHT);
 		});
 	}
-	
-	
+
+	/*
+	 * Renders the Health etc from the player
+	 */
+	private static void renderPlayerStatus(final Graphics2D xGraphics, final Player xObject){
+		int xPos = 100;
+		int yPos = 100;
+		
+		if(xObject.getTeam() == 0){
+			xPos = 50;
+			yPos = 50;
+		}
+		else if (xObject.getTeam() == 1){
+			xPos = 1150;
+			yPos = 50;
+		}
+		xGraphics.drawString( Integer.toString(xObject.getHealth()) , xPos, yPos);
+	}
 
 	
 }

@@ -9,6 +9,7 @@ public class Projectile extends SpaceObject{
 	private boolean hit;
 	private boolean hitEnemy;
 	private boolean remove;
+	private int damage;
 	protected boolean left;
 	protected boolean right;
 	protected boolean up;
@@ -60,12 +61,23 @@ public class Projectile extends SpaceObject{
 	public void setHit(){
 		
 	}
-	
+	public boolean getHit(){
+		return this.hit;
+	}
+	public int getCWidth(){
+		return this.cwidth;
+	}
+	public int getCHeight(){
+		return this.cheight;
+	}
 	public boolean getRemove(){
 		return this.remove;
 	}
 	public int getTeam(){
 		return this.team;
+	}
+	public int getDamage(){
+		return this.damage;
 	}
 
 

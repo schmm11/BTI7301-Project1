@@ -13,8 +13,8 @@ public class RocketProjectile extends Projectile{
 	private boolean hit;
 	private boolean hitEnemy;
 	private boolean remove;
-	private int rocketDamage;
 	private double moveSpeed;
+	private int damage;
 
 	
 	//animation
@@ -28,12 +28,12 @@ public class RocketProjectile extends Projectile{
 	public RocketProjectile(Player player, TileMap tm) {
 		super(player, tm);
 
-		rocketDamage = 10;
 		moveSpeed = 3.8;
 		width = 16;
 		height = 16;
-		this.cwidth = 30;
-		this.cheight = 30;
+		this.cwidth = 30; //collision Width
+		this.cheight = 30; //Collision Height
+		this.damage = 25;
 		
 		initDirection();
 		
@@ -101,9 +101,24 @@ public class RocketProjectile extends Projectile{
 	}
 	
 	@Override
+	public int getCWidth(){
+		return this.cwidth;
+	}
+	@Override
+	public int getCHeight(){
+		return this.cheight;
+	}
+	
+	@Override
 	public void setHit() {
 		this.hit = true;
+		this.dy = 0;
+		this.dx = 0;
 		animation.setFrames(hitSprites);
 		animation.setDelay(50);
+	}
+	@Override
+	public int getDamage(){
+		return this.damage;
 	}
 }

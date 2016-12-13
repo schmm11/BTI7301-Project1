@@ -83,6 +83,25 @@ public class OnePlayerVsBotState extends GameState{
 				o.update();
 			}
 		}
+		
+		if(player1.intersects(player2)){
+			System.out.println("Ship Colision Detected");
+		}
+		
+		/*
+		 * Collision Detection (Should be outsource to own class or function TODO)
+		 */
+		for(Projectile p : spaceProjectiles){
+			if(player1.intersects(p) && (p.getTeam() != player1.getTeam()) && !p.getHit() ){
+				p.setHit();
+				player1.hitByProjectile(p);
+			}
+			if(player2.intersects(p) && (p.getTeam() != player2.getTeam()) && !p.getHit() ){
+				p.setHit();
+				player2.hitByProjectile(p);
+			}
+		}
+		
 		// Deletes old Projectiles
 		deleteGarbageObjects();
 		
