@@ -8,10 +8,11 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
 
-import ch.bfh.game.entities.SpaceObject;
+import ch.bfh.game.modell.SpaceObject;
 import ch.bfh.game.main.ArgumentChecker;
 import ch.bfh.game.main.Config;
 import ch.bfh.game.modell.Player;
+import ch.bfh.game.modell.Projectile;
 
 
 public final class GameRenderer
@@ -24,6 +25,7 @@ public final class GameRenderer
 	{
 		ArgumentChecker.requireNonNull(xGraphics, "Graphics musn't be null");
 		ArgumentChecker.requireNonNull(xObject, "SpaceObject musn't be null");
+		
 }
 	/*
 	 * Render a Player 
@@ -50,7 +52,33 @@ public final class GameRenderer
 		xGraphics.drawImage(img, at, null);
 	}
 	
-	
+	/*
+	 * Render a Projectile 
+	 * @param: Projectile: the projectile which should be rendered
+	 */
+	public static <T extends SpaceObject> void render(final Graphics2D xGraphics, final Projectile xObject)
+	{
+		ArgumentChecker.requireNonNull(xGraphics, "Graphics musn't be null");
+		ArgumentChecker.requireNonNull(xObject, "SpaceObject musn't be null");
+		
+		BufferedImage img = xObject.getAnimation().getImage();
+		
+		int posX = xObject.getx();
+		int posY = xObject.gety();
+		Double xmap = xObject.getXMap();
+		Double ymap = xObject.getYMap();
+		int width = xObject.getWidth();
+		int height = xObject.getHeight();
+		
+		AffineTransform at = AffineTransform.getTranslateInstance(posX + xmap - width / 2 , posY + ymap - height / 2);
+		System.out.print(posX );
+		System.out.print(posY );
+		System.out.print(xmap );
+		System.out.println(ymap );
+		
+		xGraphics.drawImage(img, at, null);
+		
+	}
 	/*
 	 * @function Renders the Background in the menu
 	 */

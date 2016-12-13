@@ -85,10 +85,10 @@ public class Player extends SpaceObject {
 			e.printStackTrace();
 		}
 		
-		animation = new Animation();
+		this.animation = new Animation();
 		currentAction = IDLE;
-		animation.setFrames(sprites.get(IDLE));
-		animation.setDelay(400);	
+		this.animation.setFrames(sprites.get(IDLE));
+		this.animation.setDelay(400);	
 	
 }
 
@@ -96,14 +96,7 @@ public class Player extends SpaceObject {
 	 * Getter And Setter Functions Here
 	 */
 	
-    /*
-    * Animation getter
-    * @return Animation
-    */
-	public Animation getAnimation()
-	{ 
-		return animation;
-	}
+
 	public void setTeam(int team)
 	{
 		this.team = team;
@@ -141,31 +134,36 @@ public class Player extends SpaceObject {
     * @return True if allowed, false if not
     */
 	public boolean checkPrimaryFire(){
-		return this.standartWeapon.checkFire();
+		if(this.left || this.right || this.up || this.down){ // Dont shoot we no Key is pressed
+			return this.standartWeapon.checkFire();
+		}
+		return false;
 	}
     /*
     * Spawns a new Missile from player's primary slot
     * @return New SpaceObject (Missile)
     */
-	public SpaceObject spawnStandartItem(){
-//		return this.standartWeapon.spawnNewMissile(this);
-		return null;
+	public Projectile spawnStandartItem(){
+		return this.standartWeapon.spawnNewProjectile(this.tileMap, this);
 	}
 	
     /*
     * Check if the Secondary Weapon of the player is allowed to fire
     * @return True if allowed, false if not
+    * TODO
     */
 	public boolean checkSecondaryFire(){
-		// Check Ammunition and TimeDelay
-		
-		return true;
+		if(this.left || this.right || this.up || this.down){ // Dont shoot we no Key is pressed
+			return this.secondaryWeapon.checkFire();
+		}
+		return false;
 	}
     /*
     * Spawns a new Missile from player's secondary slot
     * @return New SpaceObject (Missile)
+    * TODO
     */
-	public SpaceObject spawnSecondaryItem(){
+	public Projectile spawnSecondaryItem(){
 //		return this.secondaryWeapon.spawnNewMissile();
 		return null;
 	}
@@ -180,9 +178,11 @@ public class Player extends SpaceObject {
 		setPosition(xtemp, ytemp);
 		animation.update();
 
-		// Count the Attack Speed Timer down.
+		// Count the Attack Speed Timer of the items down.
 		this.standartWeapon.updateFireRateTimer();
 		//this.secondaryWeapon.updateFireRateTimer();
+		
+		
 	}
 	
 
@@ -233,8 +233,7 @@ public class Player extends SpaceObject {
 	}
 	
 	/* @deprecated
-	 * (non-Javadoc)
-	 * @see ch.bfh.game.modell.SpaceObject#draw(java.awt.Graphics2D)
+	 * @see ch.bfh.game.renderer.GameRenderer
 	
 	public void draw(Graphics2D g)
 	{
@@ -250,63 +249,6 @@ public class Player extends SpaceObject {
 	 */
 	
 
-	/*
-	 * Checks if theres a collision with the (tile)map
-	 */
-public void checkTileMapCollision() {
-		
-		currCol = (int)posX / tileSize;
-		currRow = (int)posY / tileSize;
-		
-		xdest = posX + dx;
-		ydest = posY + dy;
-		
-		xtemp = posX;
-		ytemp = posY;
-		
-		// up and down
-		calculateCorners(posX, ydest);
-		
-		if(dy < 0) {
-			if(topLeft || topRight) {
-				dy = 0;
-//				ytemp = currRow * tileSize + cheight / 2;
-			}
-			else {
-				ytemp += dy;
-			}
-		}
-		if(dy > 0) {
-			if(bottomLeft || bottomRight) {
-				dy = 0;
-				// falling = false;  //TODO: Why do we need the falling?
-			}
-			else {
-				ytemp += dy;
-			}
-		}
-		
-		// left and right
-		calculateCorners(xdest, posY);
-		
-		if(dx < 0) {
-			if(topLeft || bottomLeft) {
-				dx = 0;
-//				xtemp = currCol * tileSize + cwidth / 2;
-			}
-			else {
-				xtemp += dx;
-			}
-		}
-		if(dx > 0) {
-			if(topRight || bottomRight) {
-				dx = 0;
-//				xtemp = (currCol + 1) * tileSize - cwidth / 2;
-			}
-			else {
-				xtemp += dx;
-			}
-		}
-}
+	
 	
 }

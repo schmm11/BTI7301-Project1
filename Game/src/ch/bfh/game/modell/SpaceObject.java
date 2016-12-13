@@ -129,6 +129,14 @@ public class SpaceObject {
 		xmap = tileMap.getX();
 		ymap = tileMap.getY();
 	}
+    /*
+    * Animation getter
+    * @return Animation
+    */
+	public Animation getAnimation()
+	{ 
+		return animation;
+	}
 	
 
 	
@@ -145,4 +153,64 @@ public class SpaceObject {
 	public void draw(Graphics2D g){
 		
 	}
+	
+	/*
+	 * Checks if theres a collision with the (tile)map
+	 */
+public void checkTileMapCollision() {
+		
+		currCol = (int)posX / tileSize;
+		currRow = (int)posY / tileSize;
+		
+		xdest = posX + dx;
+		ydest = posY + dy;
+		
+		xtemp = posX;
+		ytemp = posY;
+		
+		// up and down
+		calculateCorners(posX, ydest);
+		
+		if(dy < 0) {
+			if(topLeft || topRight) {
+				dy = 0;
+//				ytemp = currRow * tileSize + cheight / 2;
+			}
+			else {
+				ytemp += dy;
+			}
+		}
+		if(dy > 0) {
+			if(bottomLeft || bottomRight) {
+				dy = 0;
+				// falling = false;  //TODO: Why do we need the falling?
+			}
+			else {
+				ytemp += dy;
+			}
+		}
+		
+		// left and right
+		calculateCorners(xdest, posY);
+		
+		if(dx < 0) {
+			if(topLeft || bottomLeft) {
+				dx = 0;
+//				xtemp = currCol * tileSize + cwidth / 2;
+			}
+			else {
+				xtemp += dx;
+			}
+		}
+		if(dx > 0) {
+			if(topRight || bottomRight) {
+				dx = 0;
+//				xtemp = (currCol + 1) * tileSize - cwidth / 2;
+			}
+			else {
+				xtemp += dx;
+			}
+		}
+}
+	
 }

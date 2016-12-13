@@ -36,6 +36,6 @@ public class Powerup extends SpaceObject
 
 	public void interact(final Ship xShip)
 	{
-		k_xType.interact(xShip);
+		//k_xType.interact(xShip);
 	}
 }

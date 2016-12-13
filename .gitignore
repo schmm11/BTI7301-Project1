@@ -1,2 +1,5 @@
 .metadata/
 .recommenders/
+Game/.classpath
+*.classpath
+Game/.classpath

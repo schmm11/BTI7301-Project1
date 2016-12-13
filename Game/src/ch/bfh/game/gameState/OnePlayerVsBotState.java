@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import ch.bfh.game.main.GamePanel;
 import ch.bfh.game.modell.Player;
+import ch.bfh.game.modell.Projectile;
 import ch.bfh.game.modell.SpaceObject;
 import ch.bfh.game.renderer.BotRenderer;
 import ch.bfh.game.renderer.GameRenderer;
@@ -21,6 +22,7 @@ public class OnePlayerVsBotState extends GameState{
 	private Player player2; //Bot == Player2
 	
 	private ArrayList<SpaceObject> spaceObjects;
+	private ArrayList<Projectile> spaceProjectiles;
 	private boolean player1Won;
 	private boolean player2Won;
 	
@@ -34,6 +36,7 @@ public class OnePlayerVsBotState extends GameState{
 		player2Won = false;
 		
 		this.spaceObjects = new ArrayList<SpaceObject>();
+		this.spaceProjectiles = new ArrayList<Projectile>();
 	}
 	
 	public void init()
@@ -70,8 +73,15 @@ public class OnePlayerVsBotState extends GameState{
 		 * 
 		 */
 		BotRenderer.calculateBotMovement(player2, player1);
-		
 		player2.update();
+		
+		//updates the Projectiles
+		for(Projectile o : spaceProjectiles){
+			if(o != null){
+				o.update();
+			}
+		}
+		
 		
 		tileMap.setPosition(
 				GamePanel.WIDTH / 2 - player1.getx(),
@@ -104,6 +114,13 @@ public class OnePlayerVsBotState extends GameState{
 		GameRenderer.render(g, player1);
 		GameRenderer.render(g, player2);
 
+		//draw Projectiles
+		for(Projectile o : spaceProjectiles){
+			if(o != null){
+				GameRenderer.render(g, o);
+			}
+		}
+		
 		
 		// draw string winner
 		if(player1Won)
@@ -118,13 +135,13 @@ public class OnePlayerVsBotState extends GameState{
 	}
 	private void primaryFire(Player player){
 		if(player.checkPrimaryFire()){
-			this.spaceObjects.add(player.spawnStandartItem());
+			this.spaceProjectiles.add(player.spawnStandartItem());
 		}	
 	}
 	
 	private void secondaryFire(Player player){
 		if(player.checkSecondaryFire()){
-			this.spaceObjects.add(player.spawnSecondaryItem());
+			this.spaceProjectiles.add(player.spawnSecondaryItem());
 		}	
 	}
 	
@@ -137,7 +154,7 @@ public class OnePlayerVsBotState extends GameState{
 		if(k == KeyEvent.VK_RIGHT) player1.setRight(true);
 		if(k == KeyEvent.VK_UP) player1.setUp(true);
 		if(k == KeyEvent.VK_DOWN) player1.setDown(true);
-		if(k == KeyEvent.VK_P) primaryFire(player1);
+		if(k == KeyEvent.VK_ENTER) primaryFire(player1);
 		if(k == KeyEvent.VK_O) secondaryFire(player1);
 		
 		// player 2
@@ -150,7 +167,7 @@ public class OnePlayerVsBotState extends GameState{
 		if(k == KeyEvent.VK_RIGHT) player1.setRight(false);
 		if(k == KeyEvent.VK_UP) player1.setUp(false);
 		if(k == KeyEvent.VK_DOWN) player1.setDown(false);
-		//if(k == KeyEvent.VK_P) player1.setFirePrimary(false);
+		
 		
 		// player 2
 		// Bot doesnt need this controls

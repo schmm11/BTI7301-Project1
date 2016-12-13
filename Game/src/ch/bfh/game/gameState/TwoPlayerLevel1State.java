@@ -107,12 +107,22 @@ public class TwoPlayerLevel1State extends GameState{
 			g.drawString("PLAYER 2 IS THE WINNER", GamePanel.WIDTH / 2, GamePanel.HEIGHT / 2);
 		}
 	}
+	
+	/*
+	 * Checks if the Player can fire his standart Weapon
+	 * 	if Yes: Adds a new Missile to spaceObjects
+	 * 	@param: The Playe which wants to shoot
+	 */
 	private void primaryFire(Player player){
 		if(player.checkPrimaryFire()){
 			this.spaceObjects.add(player.spawnStandartItem());
 		}	
 	}
-	
+	/*
+	 * Checks if the Player can fire his secondary Weapon
+	 * 	if Yes: Adds a new Missile to spaceObjects
+	 * 
+	 */
 	private void secondaryFire(Player player){
 		if(player.checkSecondaryFire()){
 			this.spaceObjects.add(player.spawnSecondaryItem());
@@ -128,7 +138,7 @@ public class TwoPlayerLevel1State extends GameState{
 		if(k == KeyEvent.VK_RIGHT) player1.setRight(true);
 		if(k == KeyEvent.VK_UP) player1.setUp(true);
 		if(k == KeyEvent.VK_DOWN) player1.setDown(true);
-		if(k == KeyEvent.VK_P) primaryFire(player1);
+		if(k == KeyEvent.VK_ENTER) primaryFire(player1);
 		if(k == KeyEvent.VK_O) secondaryFire(player1);
 		
 		// player 2
