@@ -53,10 +53,12 @@ public class OnePlayerVsBotState extends GameState{
 		player1 = new Player(tileMap);
 		tileMap.getPlayerList().add(player1);
 		player1.setPosition(100, 80);
+		player1.setTeam(0);
 		
 		player2 = new Player(tileMap);
 		tileMap.getPlayerList().add(player2);
 		player2.setPosition(100, 640);
+		player2.setTeam(1);
 	}
 	
 	public void update()
@@ -112,16 +114,17 @@ public class OnePlayerVsBotState extends GameState{
 		// draw tilemap
 		tileMap.draw(g);
 		
-		// draw player with GameRenderer
-		GameRenderer.render(g, player1);
-		GameRenderer.render(g, player2);
-
 		//draw Projectiles
 		for(Projectile o : spaceProjectiles){
 			if(o != null){
 				GameRenderer.render(g, o);
 			}
 		}
+		// draw player with GameRenderer
+		GameRenderer.render(g, player1);
+		GameRenderer.render(g, player2);
+
+
 		
 		
 		// draw string winner

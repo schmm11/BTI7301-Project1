@@ -13,13 +13,13 @@ public final class BotRenderer {
 	 */
 	public static void calculateBotMovement(Player bot, Player enemy){
 		
-		
-		double random = Math.random()*10;
+		//Movement Random
+		double random = Math.random()*50;
 		if(random < 0.5){
 			botResetMovement(bot);
 			bot.setLeft(true);
 		}
-		else if (random > 9.5){
+		else if (random > 9.5 && random <10){
 			botResetMovement(bot);
 			bot.setRight(true);
 		}
@@ -30,16 +30,7 @@ public final class BotRenderer {
 		else if (random > 5.5 && random < 6){
 			botResetMovement(bot);
 			bot.setDown(true);
-		}
-		
-		
-		/*
-		if(k == KeyEvent.VK_LEFT) player1.setLeft(false);
-		if(k == KeyEvent.VK_RIGHT) player1.setRight(false);
-		if(k == KeyEvent.VK_UP) player1.setUp(false);
-		if(k == KeyEvent.VK_DOWN) player1.setDown(false);
-		*/
-		
+		}	
 	}
 	
 	/* Set all the "set Direction" Booleans of a Player to false

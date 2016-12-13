@@ -47,7 +47,6 @@ public class Player extends SpaceObject {
 		
 		this.standartWeapon = new RocketItem();
 		//this.secondaryWeapon = new PhaserItem();
-		this.team = 0;
 		
 		width = 60;
 		height = 60;
@@ -96,11 +95,6 @@ public class Player extends SpaceObject {
 	 * Getter And Setter Functions Here
 	 */
 	
-
-	public void setTeam(int team)
-	{
-		this.team = team;
-	}
 	public void setLeft(boolean b) 
 	{ 
 		left = b; }
@@ -128,6 +122,14 @@ public class Player extends SpaceObject {
 	{
 		return this.health;
 	}
+	public int getTeam()
+	{
+		return this.team;
+	}
+	public void setTeam(int team)
+	{
+		this.team = team;
+	}
 	
     /*
     * Check if the Primary Weapon of the player is allowed to fire
@@ -150,7 +152,7 @@ public class Player extends SpaceObject {
     /*
     * Check if the Secondary Weapon of the player is allowed to fire
     * @return True if allowed, false if not
-    * TODO
+    *
     */
 	public boolean checkSecondaryFire(){
 		if(this.left || this.right || this.up || this.down){ // Dont shoot we no Key is pressed

@@ -13,7 +13,7 @@ public class RocketProjectile extends Projectile{
 	private boolean hit;
 	private boolean hitEnemy;
 	private boolean remove;
-	private int phaserDamage;
+	private int rocketDamage;
 	private double moveSpeed;
 
 	
@@ -28,12 +28,12 @@ public class RocketProjectile extends Projectile{
 	public RocketProjectile(Player player, TileMap tm) {
 		super(player, tm);
 
-		phaserDamage = 10;
+		rocketDamage = 10;
 		moveSpeed = 3.8;
 		width = 16;
 		height = 16;
-		widthHit = 30;
-		heightHit = 30;
+		this.cwidth = 30;
+		this.cheight = 30;
 		
 		initDirection();
 		
@@ -64,7 +64,7 @@ public class RocketProjectile extends Projectile{
 					for(int i = 0; i < hitSprites.length; i++)
 					{
 						hitSprites[i] = spriteHitsheet.getSubimage(
-								i * widthHit, 0, widthHit, heightHit);
+								i * cwidth, 0, cwidth, cheight);
 					}
 					
 					this.animation = new Animation();
@@ -82,37 +82,28 @@ public class RocketProjectile extends Projectile{
 	 * sets the direction of the missile
 	 */
 	private void initDirection(){
-		// direction
 				if(left)
 				{
 					this.dx = - moveSpeed;
 				}
-				
-				else if(right)
+				if(right)
 				{
 					this.dx = moveSpeed;
 				}
-				
 				if(up)
 				{
 					this.dy = - moveSpeed;
 				}
-				
-				else if(down)
+				 if(down)
 				{
 					this.dy = moveSpeed;
 				}
 	}
-	
-
-	
-
 	
 	@Override
 	public void setHit() {
 		this.hit = true;
 		animation.setFrames(hitSprites);
 		animation.setDelay(50);
-	
-}
+	}
 }

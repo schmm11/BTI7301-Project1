@@ -76,14 +76,23 @@ public class TwoPlayerLevel1State extends GameState{
 					o.update();
 				}
 		}
+
+		
+		if(player1.intersects(player2)){
+			System.out.println("Ship Colision Detected");
+		}
+		//Collision Detection (Should be outsource to own class TODO
+		for(Projectile p : spaceProjectiles){
+			System.out.println(p.getRectangle());
+				if(player1.intersects(p) /*&& (o.getTeam() != player1.getTeam())*/){
+					System.out.print("Player 1 got Hit by a Rocket");
+				
+			}
+		}
+		
 		// Deletes old Projectiles
 		deleteGarbageObjects();
 		
-		
-		tileMap.setPosition(
-				GamePanel.WIDTH / 2 - player1.getx(),
-				GamePanel.HEIGHT / 2 - player1.gety()
-				);
 		
 		// check for winner
 		if(player1.getHealth() == 0)
@@ -107,16 +116,18 @@ public class TwoPlayerLevel1State extends GameState{
 		// draw tilemap
 		tileMap.draw(g);
 		
-		// draw player with GameRenderer
-		GameRenderer.render(g, player1);
-		GameRenderer.render(g, player2);
-		
 		//draw Projectiles
 		for(Projectile o : spaceProjectiles){
 			if(o != null){
 				GameRenderer.render(g, o);
 			}
 		}
+		
+		// draw player with GameRenderer
+		GameRenderer.render(g, player1);
+		GameRenderer.render(g, player2);
+		
+
 		
 		// draw string winner
 		if(player1Won)
@@ -185,8 +196,9 @@ public class TwoPlayerLevel1State extends GameState{
 		if(k == KeyEvent.VK_W) player2.setUp(false);
 		if(k == KeyEvent.VK_S) player2.setDown(false);
 	}
+	
 	/*
-	 * Collects all Projectile which are removed True and deletes them from the spaceProjectiles
+	 * Collects all Projectiles which are removed ==TRUE and deletes them from the spaceProjectiles
 	 */
 	@Override
 	public void deleteGarbageObjects() {

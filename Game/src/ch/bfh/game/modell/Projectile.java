@@ -13,6 +13,8 @@ public class Projectile extends SpaceObject{
 	protected boolean right;
 	protected boolean up;
 	protected boolean down;
+	protected int cwidth;
+	protected int cheight;
 	
 	private int team;
 	
@@ -28,6 +30,7 @@ public class Projectile extends SpaceObject{
 		this.right = pl.right;
 		this.up = pl.up;
 		this.down = pl.down;
+		this.team = pl.getTeam();
 	}
 	
 	@Override
@@ -40,12 +43,7 @@ public class Projectile extends SpaceObject{
 			setHit();
 			this.hit = true;
 		}
-		
-		
-		System.out.print("Hit: " + hit );
-		System.out.print(" playedOnce: "+ animation.hasPlayedOnce() + " ");
-		System.out.print("remove: "+remove );
-		System.out.println("");
+
 		if(hit && animation.hasPlayedOnce())
 		{
 			remove = true;
@@ -65,6 +63,9 @@ public class Projectile extends SpaceObject{
 	
 	public boolean getRemove(){
 		return this.remove;
+	}
+	public int getTeam(){
+		return this.team;
 	}
 
 

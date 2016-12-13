@@ -211,6 +211,6 @@ public void checkTileMapCollision() {
 				xtemp += dx;
 			}
 		}
-}
+	}
 	
 }
