@@ -8,6 +8,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
 import ch.bfh.game.gameState.GameStateManager;
@@ -64,6 +67,7 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener
 	
 	public void run()
 	{
+		//playMainSound("maintheme.wav");
 		init();
 		long start;
 		long elapsed;

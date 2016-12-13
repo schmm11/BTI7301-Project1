@@ -33,12 +33,12 @@ public class Player extends SpaceObject {
 	private static final int FIRING = 3;
 	
 	// movement
-		protected boolean left;
-		protected boolean right;
-		protected boolean up;
-		protected boolean down;
-		protected boolean UsePrimary;
-		protected boolean UseSecondary;
+	protected boolean left;
+	protected boolean right;
+	protected boolean up;
+	protected boolean down;
+	protected boolean UsePrimary;
+	protected boolean UseSecondary;
 	
 	
 	
@@ -46,7 +46,7 @@ public class Player extends SpaceObject {
 		super(tm);
 		
 		this.standartWeapon = new RocketItem();
-		this.secondaryWeapon = new PhaserItem();
+		//this.secondaryWeapon = new PhaserItem();
 		this.team = 0;
 		
 		width = 60;
@@ -65,7 +65,7 @@ public class Player extends SpaceObject {
 
 		try
 		{
-			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/02_Textures/03_Player/Player_02.gif"));
+			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/assets/images/02_Textures/03_Player/Player_02.gif"));
 			sprites = new ArrayList<BufferedImage[]>();
 			
 			for(int i = 0; i < 4; i++)
@@ -92,25 +92,79 @@ public class Player extends SpaceObject {
 	
 }
 
+	/*
+	 * Getter And Setter Functions Here
+	 */
 	
-	public int getHealth(){
+    /*
+    * Animation getter
+    * @return Animation
+    */
+	public Animation getAnimation()
+	{ 
+		return animation;
+	}
+	public void setTeam(int team)
+	{
+		this.team = team;
+	}
+	public void setLeft(boolean b) 
+	{ 
+		left = b; }
+	public void setRight(boolean b) 
+	{ 
+		right = b; 
+	}
+	public void setUp(boolean b) 
+	{ 
+		up = b; 
+	}
+	public void setDown(boolean b) 
+	{ 
+		down = b;
+		}
+	public void setUsePrimary(boolean b) 
+	{ 
+		UsePrimary = b;
+	}
+	public int getAngle()
+	{
+		return this.angle;
+	}
+	public int getHealth()
+	{
 		return this.health;
 	}
 	
+    /*
+    * Check if the Primary Weapon of the player is allowed to fire
+    * @return True if allowed, false if not
+    */
 	public boolean checkPrimaryFire(){
-		// Check Ammunition and TimeDelay
-		return true;
+		return this.standartWeapon.checkFire();
 	}
+    /*
+    * Spawns a new Missile from player's primary slot
+    * @return New SpaceObject (Missile)
+    */
 	public SpaceObject spawnStandartItem(){
 //		return this.standartWeapon.spawnNewMissile(this);
 		return null;
 	}
 	
+    /*
+    * Check if the Secondary Weapon of the player is allowed to fire
+    * @return True if allowed, false if not
+    */
 	public boolean checkSecondaryFire(){
 		// Check Ammunition and TimeDelay
 		
 		return true;
 	}
+    /*
+    * Spawns a new Missile from player's secondary slot
+    * @return New SpaceObject (Missile)
+    */
 	public SpaceObject spawnSecondaryItem(){
 //		return this.secondaryWeapon.spawnNewMissile();
 		return null;
@@ -125,8 +179,17 @@ public class Player extends SpaceObject {
 		checkTileMapCollision();
 		setPosition(xtemp, ytemp);
 		animation.update();
+
+		// Count the Attack Speed Timer down.
+		this.standartWeapon.updateFireRateTimer();
+		//this.secondaryWeapon.updateFireRateTimer();
 	}
 	
+
+
+	/*
+	 * Updates the players x and y Positions
+	 */
 	private void getNextPosition()
 	{
 		if(left)
@@ -169,6 +232,10 @@ public class Player extends SpaceObject {
 		}
 	}
 	
+	/* @deprecated
+	 * (non-Javadoc)
+	 * @see ch.bfh.game.modell.SpaceObject#draw(java.awt.Graphics2D)
+	
 	public void draw(Graphics2D g)
 	{
 		//setMapPosition(); // TODO: für was zur Hölle ist die Funktion?
@@ -180,15 +247,12 @@ public class Player extends SpaceObject {
 
 		g.drawImage(img, at, null);
 	}
-	public Animation getAnimation(){ return animation;};
-	public void setLeft(boolean b) { left = b; }
-	public void setRight(boolean b) { right = b; }
-	public void setUp(boolean b) { up = b; }
-	public void setDown(boolean b) { down = b; }
-	public void setUsePrimary(boolean b) { UsePrimary = b; }
-	public int getAngle(){return this.angle;}
+	 */
 	
-	
+
+	/*
+	 * Checks if theres a collision with the (tile)map
+	 */
 public void checkTileMapCollision() {
 		
 		currCol = (int)posX / tileSize;

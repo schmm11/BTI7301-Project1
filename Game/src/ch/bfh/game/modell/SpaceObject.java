@@ -71,6 +71,9 @@ public class SpaceObject {
 		return r1.intersects(r2);
 	}
 	
+	/*
+	 * @return a rectangle with the size of the SpaceObject
+	 */
 	public Rectangle getRectangle() {
 		return new Rectangle(
 				(int)posX - cwidth,
@@ -80,6 +83,9 @@ public class SpaceObject {
 		);
 	}
 	
+	/*
+	 * Calculates the "corners" of the object. Used for CheckCollision 
+	 */
 	public void calculateCorners(double x, double y) {
 		
 		int leftTile = (int)(x - cwidth / 2) / tileSize;

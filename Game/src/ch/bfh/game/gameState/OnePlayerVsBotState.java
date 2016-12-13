@@ -11,7 +11,6 @@ import ch.bfh.game.renderer.BotRenderer;
 import ch.bfh.game.renderer.GameRenderer;
 import ch.bfh.game.tileMap.Background;
 import ch.bfh.game.tileMap.TileMap;
-import main.Config;
 
 public class OnePlayerVsBotState extends GameState{
 
@@ -40,13 +39,13 @@ public class OnePlayerVsBotState extends GameState{
 	public void init()
 	{
 		tileMap = new TileMap(32);	
-		tileMap.loadTiles("/02_Textures/01_Map/Tileset_1vsbot.gif");
-		tileMap.loadMap("/03_Data/01_Map/level_1vsbot"
+		tileMap.loadTiles("/assets/images/02_Textures/01_Map/Tileset_1vsbot.gif");
+		tileMap.loadMap("/assets/images/03_Data/01_Map/level_1vsbot"
 				+ ".txt");
 		tileMap.setPosition(0,  0);
 		tileMap.setTween(1);
 		
-		bg = new Background("/02_Textures/02_Background/Background_01.jpg", 0.1);
+		bg = new Background("/assets/images/02_Textures/02_Background/Background_01.jpg", 0.1);
 		
 		player1 = new Player(tileMap);
 		tileMap.getPlayerList().add(player1);
@@ -151,7 +150,7 @@ public class OnePlayerVsBotState extends GameState{
 		if(k == KeyEvent.VK_RIGHT) player1.setRight(false);
 		if(k == KeyEvent.VK_UP) player1.setUp(false);
 		if(k == KeyEvent.VK_DOWN) player1.setDown(false);
-		//if(k == KeyEvent.VK_P) player1.setPhaserFiring(false);
+		//if(k == KeyEvent.VK_P) player1.setFirePrimary(false);
 		
 		// player 2
 		// Bot doesnt need this controls
