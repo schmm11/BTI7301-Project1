@@ -81,6 +81,8 @@ public class OnePlayerVsBotState extends GameState{
 				o.update();
 			}
 		}
+		// Deletes old Projectiles
+		deleteGarbageObjects();
 		
 		
 		tileMap.setPosition(
@@ -172,4 +174,22 @@ public class OnePlayerVsBotState extends GameState{
 		// player 2
 		// Bot doesnt need this controls
 	}
+	/*
+	 * Collects all Projectile which are removed True and deletes them from the spaceProjectiles
+	 */
+	@Override
+	public void deleteGarbageObjects() {
+		ArrayList<Projectile> deleteProjectiles = new ArrayList<Projectile>();
+		
+		for(Projectile o : spaceProjectiles){
+			if(o.getRemove()){
+				deleteProjectiles.add(o);
+			}
+		}
+		for(Projectile d: deleteProjectiles){
+			spaceProjectiles.remove(d);
+		}
+	}
+
+
 }

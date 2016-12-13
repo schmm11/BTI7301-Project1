@@ -6,10 +6,12 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import ch.bfh.game.main.GamePanel;
+import ch.bfh.game.modell.Projectile;
 import ch.bfh.game.renderer.GameRenderer;
 import ch.bfh.game.tileMap.Background;
 
@@ -168,6 +170,15 @@ public class MenuState extends GameState {
 	public void keyReleased(int k) 
 	{
 		// no action required
+	}
+	/*
+	 * Collects all Projectile which are removed True and deletes them from the spaceProjectiles
+	 * Function not neede in Menu
+	 */
+	@Override
+	public void deleteGarbageObjects() {
+
+		
 	}
 
 }

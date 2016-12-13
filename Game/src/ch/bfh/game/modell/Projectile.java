@@ -23,6 +23,7 @@ public class Projectile extends SpaceObject{
 
 	public Projectile(Player pl, TileMap tm) {
 		super(tm);
+		this.hit = false;
 		this.left = pl.left;
 		this.right = pl.right;
 		this.up = pl.up;
@@ -33,9 +34,37 @@ public class Projectile extends SpaceObject{
 	public void update(){
 		
 		checkTileMapCollision();
+		animation.update();
+		//if hit a wall (eg no more movement)
+		if((dy == 0 && dx == 0) && !hit){
+			setHit();
+			this.hit = true;
+		}
+		
+		
+		System.out.print("Hit: " + hit );
+		System.out.print(" playedOnce: "+ animation.hasPlayedOnce() + " ");
+		System.out.print("remove: "+remove );
+		System.out.println("");
+		if(hit && animation.hasPlayedOnce())
+		{
+			remove = true;
+			
+		}
 		setPosition(xtemp, ytemp);
 		
 
+	}
+	/*
+	 * What to do when the Rocket hits a ship or a wall?
+	 * TODO
+	 */
+	public void setHit(){
+		
+	}
+	
+	public boolean getRemove(){
+		return this.remove;
 	}
 
 

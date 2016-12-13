@@ -71,10 +71,6 @@ public final class GameRenderer
 		int height = xObject.getHeight();
 		
 		AffineTransform at = AffineTransform.getTranslateInstance(posX + xmap - width / 2 , posY + ymap - height / 2);
-		System.out.print(posX );
-		System.out.print(posY );
-		System.out.print(xmap );
-		System.out.println(ymap );
 		
 		xGraphics.drawImage(img, at, null);
 		

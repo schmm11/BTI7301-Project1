@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import ch.bfh.game.main.GamePanel;
 import ch.bfh.game.modell.Player;
+import ch.bfh.game.modell.Projectile;
 import ch.bfh.game.modell.SpaceObject;
 import ch.bfh.game.renderer.GameRenderer;
 import ch.bfh.game.tileMap.Background;
@@ -20,6 +21,8 @@ public class TwoPlayerLevel1State extends GameState{
 	private Player player2;
 	
 	private ArrayList<SpaceObject> spaceObjects;
+	private ArrayList<Projectile> spaceProjectiles;
+	
 	private boolean player1Won;
 	private boolean player2Won;
 	
@@ -33,6 +36,7 @@ public class TwoPlayerLevel1State extends GameState{
 		player2Won = false;
 		
 		this.spaceObjects = new ArrayList<SpaceObject>();
+		this.spaceProjectiles = new ArrayList<Projectile>();
 	}
 	
 	public void init()
@@ -65,6 +69,17 @@ public class TwoPlayerLevel1State extends GameState{
 		// update player
 		player1.update();
 		player2.update();
+		
+		//updates the Projectiles
+		for(Projectile o : spaceProjectiles){
+				if(o != null){
+					o.update();
+				}
+		}
+		// Deletes old Projectiles
+		deleteGarbageObjects();
+		
+		
 		tileMap.setPosition(
 				GamePanel.WIDTH / 2 - player1.getx(),
 				GamePanel.HEIGHT / 2 - player1.gety()
@@ -96,6 +111,13 @@ public class TwoPlayerLevel1State extends GameState{
 		GameRenderer.render(g, player1);
 		GameRenderer.render(g, player2);
 		
+		//draw Projectiles
+		for(Projectile o : spaceProjectiles){
+			if(o != null){
+				GameRenderer.render(g, o);
+			}
+		}
+		
 		// draw string winner
 		if(player1Won)
 		{
@@ -115,7 +137,7 @@ public class TwoPlayerLevel1State extends GameState{
 	 */
 	private void primaryFire(Player player){
 		if(player.checkPrimaryFire()){
-			this.spaceObjects.add(player.spawnStandartItem());
+			this.spaceProjectiles.add(player.spawnStandartItem());
 		}	
 	}
 	/*
@@ -125,7 +147,7 @@ public class TwoPlayerLevel1State extends GameState{
 	 */
 	private void secondaryFire(Player player){
 		if(player.checkSecondaryFire()){
-			this.spaceObjects.add(player.spawnSecondaryItem());
+			this.spaceProjectiles.add(player.spawnSecondaryItem());
 		}	
 	}
 	
@@ -146,8 +168,8 @@ public class TwoPlayerLevel1State extends GameState{
 		if(k == KeyEvent.VK_D) player2.setRight(true);
 		if(k == KeyEvent.VK_W) player2.setUp(true);
 		if(k == KeyEvent.VK_S) player2.setDown(true);
-		if(k == KeyEvent.VK_Q) primaryFire(player2);
-		if(k == KeyEvent.VK_E) secondaryFire(player2);
+		if(k == KeyEvent.VK_E) primaryFire(player2);
+		if(k == KeyEvent.VK_SHIFT) secondaryFire(player2);
 	}
 	
 	public void keyReleased(int k) {
@@ -156,13 +178,27 @@ public class TwoPlayerLevel1State extends GameState{
 		if(k == KeyEvent.VK_RIGHT) player1.setRight(false);
 		if(k == KeyEvent.VK_UP) player1.setUp(false);
 		if(k == KeyEvent.VK_DOWN) player1.setDown(false);
-		//if(k == KeyEvent.VK_P) player1.setPhaserFiring(false);
 		
 		// player 2
 		if(k == KeyEvent.VK_A) player2.setLeft(false);
 		if(k == KeyEvent.VK_D) player2.setRight(false);
 		if(k == KeyEvent.VK_W) player2.setUp(false);
 		if(k == KeyEvent.VK_S) player2.setDown(false);
-		//if(k == KeyEvent.VK_Q) player2.setPhaserFiring(false);
+	}
+	/*
+	 * Collects all Projectile which are removed True and deletes them from the spaceProjectiles
+	 */
+	@Override
+	public void deleteGarbageObjects() {
+		ArrayList<Projectile> deleteProjectiles = new ArrayList<Projectile>();
+		
+		for(Projectile o : spaceProjectiles){
+			if(o.getRemove()){
+				deleteProjectiles.add(o);
+			}
+		}
+		for(Projectile d: deleteProjectiles){
+			spaceProjectiles.remove(d);
+		}
 	}
 }

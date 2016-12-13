@@ -106,11 +106,13 @@ public class RocketProjectile extends Projectile{
 	
 
 	
-	/*
-	 * What to do when the Rocket hits a ship or a wall?
-	 * TODO
-	 */
-	public void setHit(){
-		
-	}
+
+	
+	@Override
+	public void setHit() {
+		this.hit = true;
+		animation.setFrames(hitSprites);
+		animation.setDelay(50);
+	
+}
 }
