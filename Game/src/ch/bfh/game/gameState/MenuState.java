@@ -38,10 +38,10 @@ public class MenuState extends GameState {
 		try
 		{
 			// load option panels
-			option = ImageIO.read(getClass().getResourceAsStream("/assets/images/02_Textures/04_Menu/Position_01.png"));
-			optionSelected = ImageIO.read(getClass().getResourceAsStream("/assets/images/02_Textures/04_Menu/Position_02.png"));
+			option = ImageIO.read(getClass().getResourceAsStream("/images/02_Textures/04_Menu/Position_01.png"));
+			optionSelected = ImageIO.read(getClass().getResourceAsStream("/images/02_Textures/04_Menu/Position_02.png"));
 			
-			bg = new Background("/assets/images/02_Textures/02_BackGround/Background_02.jpg", 1);
+			bg = new Background("/images/02_Textures/02_BackGround/Background_02.jpg", 1);
 			bg.setVector(0, 0);
 			
 			titleColor = new Color(0, 150, 150);

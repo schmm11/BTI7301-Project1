@@ -42,13 +42,13 @@ public class OnePlayerVsBotState extends GameState{
 	public void init()
 	{
 		tileMap = new TileMap(32);	
-		tileMap.loadTiles("/assets/images/02_Textures/01_Map/Tileset_1vsbot.gif");
-		tileMap.loadMap("/assets/images/03_Data/01_Map/level_1vsbot"
+		tileMap.loadTiles("/images/02_Textures/01_Map/Tileset_1vsbot.gif");
+		tileMap.loadMap("/images/03_Data/01_Map/level_1vsbot"
 				+ ".txt");
 		tileMap.setPosition(0,  0);
 		tileMap.setTween(1);
 		
-		bg = new Background("/assets/images/02_Textures/02_Background/Background_01.jpg", 0.1);
+		bg = new Background("/images/02_Textures/02_Background/Background_01.jpg", 0.1);
 		
 		player1 = new Player(tileMap);
 		tileMap.getPlayerList().add(player1);

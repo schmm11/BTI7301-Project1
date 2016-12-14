@@ -47,10 +47,10 @@ public class RocketProjectile extends Projectile{
 				try
 				{
 					BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream(
-							"/assets/images/02_Textures/05_Projectiles/Rocket_01.gif"));
+							"/images/02_Textures/05_Projectiles/Rocket_01.gif"));
 	
 					BufferedImage spriteHitsheet = ImageIO.read(getClass().getResourceAsStream(
-							"/assets/images/02_Textures/05_Projectiles/Rocket_01_hit.gif"));
+							"/images/02_Textures/05_Projectiles/Rocket_01_hit.gif"));
 
 					// create 4 subimages for phaser
 					sprites = new BufferedImage[4];

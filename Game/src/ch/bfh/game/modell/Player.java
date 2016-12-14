@@ -64,7 +64,7 @@ public class Player extends SpaceObject {
 
 		try
 		{
-			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/assets/images/02_Textures/03_Player/Player_02.gif"));
+			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/images/02_Textures/03_Player/Player_02.gif"));
 			sprites = new ArrayList<BufferedImage[]>();
 			
 			for(int i = 0; i < 4; i++)

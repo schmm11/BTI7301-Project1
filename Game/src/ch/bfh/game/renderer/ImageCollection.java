@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 
 public final class ImageCollection
 {
-	public static final ImageCollection IMAGES = createResourceCollection("assets/images");
+	public static final ImageCollection IMAGES = createResourceCollection("images");
 
 	private static ImageCollection createResourceCollection(final String strResourceDirectory)
 	{
