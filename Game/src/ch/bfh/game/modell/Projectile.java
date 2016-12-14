@@ -40,10 +40,15 @@ public class Projectile extends SpaceObject{
 		checkTileMapCollision();
 		animation.update();
 		//if hit a wall (eg no more movement)
-		if((dy == 0 && dx == 0) && !hit){
+		if(((left || right) && dx == 0) && !hit){
 			setHit();
-			this.hit = true;
+			this.hit= true;
 		}
+		if((up || down) && dy == 0 && !hit){
+			setHit();
+			this.hit= true;
+		}
+		
 
 		if(hit && animation.hasPlayedOnce())
 		{

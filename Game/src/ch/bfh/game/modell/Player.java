@@ -58,8 +58,8 @@ public class Player extends SpaceObject {
 		
 		shield = 0;
 		
-		moveSpeed = 0.5;
-		maxSpeed = 1.6;
+		moveSpeed = 10;
+		maxSpeed = 10;
 		angle = 90;
 
 		try
@@ -244,7 +244,7 @@ public class Player extends SpaceObject {
 	
 	public void draw(Graphics2D g)
 	{
-		//setMapPosition(); // TODO: für was zur Hölle ist die Funktion?
+		//setMapPosition();
 		
 		// get Image
 		BufferedImage img = animation.getImage();

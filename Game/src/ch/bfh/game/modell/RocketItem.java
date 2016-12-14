@@ -10,7 +10,7 @@ public class RocketItem implements Item{
 	
 	public RocketItem(){
 		this.fireDelay = 100;
-		this.standartFireDelay = 60; //Attack Speed = 1/1second
+		this.standartFireDelay = 1; //Attack Speed = 1/1second
 		this.ammunition = 50; //can Shoot immediately at the beginning of a game
 	}
 	
