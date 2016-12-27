@@ -1,0 +1,5 @@
+package ch.bfh.game_new.entity;
+
+public enum ObjectType {
+	PHASER, PHASERBIG, MISSILE, PLAYERSHIP, ENEMYSHIP, PICKUPHEALTH, PICKUPMISSILE, PICKUPENERGY
+}
