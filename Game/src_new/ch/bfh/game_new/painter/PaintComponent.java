@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import ch.bfh.game_new.entity.ObjectType;
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.gameState.StateMenu;
+import ch.bfh.game_new.gameState.StateMultiPlayer;
 import ch.bfh.game_new.gameState.StateSinglePlayer;
 import ch.bfh.game_new.main.GamePanel;
 import ch.bfh.game_new.pickups.EnergyPickup;
@@ -36,6 +37,8 @@ public class PaintComponent {
 	// GameState StateSinglePlayer
 	private StateSinglePlayer singlePlayer;
 	private BufferedImage singlePlayerBackground;
+	private StateMultiPlayer multiPlayer;
+	private BufferedImage multiPlayerBackground;
 	
 	// Pickup Health
 	private ArrayList<BufferedImage[]> pickupHealthSprites;
@@ -99,6 +102,10 @@ public class PaintComponent {
 			
 			// GAMESTATE SINGLEPLAYER
 			singlePlayerBackground = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/02_Background/Background_01.jpg"));
+			
+			// GAMESTATE MULTIPLAYER
+			multiPlayerBackground = ImageIO.read(getClass().getResourceAsStream(
 					"/02_Textures/02_Background/Background_01.jpg"));
 			
 			// PICKUP HEALTH
@@ -458,6 +465,99 @@ public class PaintComponent {
 		}
 		
 	}
+	
+	/*
+	 * Draws the complete MultiPlayer
+	 */
+	public void drawMultiPlayer(Graphics2D g, StateMultiPlayer multiPlayer)
+	{
+		this.multiPlayer = multiPlayer;
+		
+		// draw background
+		//g.drawImage(multiPlayerBackground,  this.multiPlayer.getTileMap().getX() / 4,  this.multiPlayer.getTileMap().getY() / 4, null);
+		g.drawImage(multiPlayerBackground, 0, 0, null);
+		
+		// draw TileMap
+		multiPlayer.getTileMap().draw(g);
+		
+		// draw SpaceObjects
+		
+		// HEALTH PICKUPS
+		for(int i = 0; i < multiPlayer.getListHealthPickup().size(); i++)
+		{
+			HealthPickup obj = (HealthPickup) multiPlayer.getListHealthPickup().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+		}
+		
+		// ENERGY PICKUPS
+		for(int i = 0; i < multiPlayer.getListEnergyPickup().size(); i++)
+		{
+			EnergyPickup obj = (EnergyPickup) multiPlayer.getListEnergyPickup().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+		}
+		
+		// MISSILE PICKUPS
+		for(int i = 0; i < multiPlayer.getListMissilePickup().size(); i++)
+		{
+			MissilePickup obj = (MissilePickup) multiPlayer.getListMissilePickup().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+		}
+		
+		// PHASER PROJECTILES
+		for(int i = 0; i < multiPlayer.getListPhaser().size(); i++)
+		{
+			Phaser obj = (Phaser) multiPlayer.getListPhaser().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+		}
+		
+		// PHASERBIG PROJECTILES
+		for(int i = 0; i < multiPlayer.getListPhaserBig().size(); i++)
+		{
+			PhaserBig obj = (PhaserBig) multiPlayer.getListPhaserBig().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+		}
+		
+		// MISSILE PROJECTILES
+		for(int i = 0; i < multiPlayer.getListMissile().size(); i++)
+		{
+			Missile obj = (Missile) multiPlayer.getListMissile().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+		}
+		
+		// PLAYER
+		for(int i = 0; i < multiPlayer.getListPlayer().size(); i++)
+		{
+			Player obj = (Player) multiPlayer.getListPlayer().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+			
+		}
+
+		
+		// Draw Player Infos
+		
+		/*
+		 * TODO: Why the fuck does this need a Player player1 to work??
+		 */
+		Player player1 = this.multiPlayer.getPlayer1();
+		if(player1 != null)
+		{
+			g.drawString("Player 1", 30, 20);
+			g.drawString("Health: "+ this.multiPlayer.getPlayer1().getHealthActual(), 25, 45);
+			g.drawString("Energy: "+ (int)this.multiPlayer.getPlayer1().getEnergyActual(), 25, 60);
+			g.drawString("Missiles: "+ this.multiPlayer.getPlayer1().getMissileAmmo(), 25, 75);
+		}
+		Player player2 = this.multiPlayer.getPlayer2();
+		if(player2 != null)
+		{
+			g.drawString("Player 2", 1130, 20);
+			g.drawString("Health: "+ this.multiPlayer.getPlayer2().getHealthActual(), 1125, 45);
+			g.drawString("Energy: "+ (int)this.multiPlayer.getPlayer2().getEnergyActual(), 1125, 60);
+			g.drawString("Missiles: "+ this.multiPlayer.getPlayer2().getMissileAmmo(), 1125, 75);
+		}
+		
+	}
+	
+	
 	
 	/*
 	 * draws an object to the map

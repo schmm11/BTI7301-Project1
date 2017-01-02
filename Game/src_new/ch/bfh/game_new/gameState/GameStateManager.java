@@ -15,6 +15,7 @@ public class GameStateManager {
 	// Actual GameStates
 	private StateMenu stateMenu;
 	private StateSinglePlayer singlePlayer;
+	private StateMultiPlayer multiPlayer;
 	
 	// user-Input
 	private InputHandler handler;
@@ -25,17 +26,21 @@ public class GameStateManager {
 	// different States
 	public static final int MENU = 0;
 	public static final int SINGLEPLAYER_LV01 = 1;
+	public static final int MULTIPLAYER = 2;
 	
 	// constructor
 	public GameStateManager()
 	{
 		gameStates = new ArrayList<GameState>();
 		
+		//create all the States
 		this.stateMenu = new StateMenu(this);
 		this.singlePlayer = new StateSinglePlayer(this);
+		this.multiPlayer = new StateMultiPlayer(this);
 		
 		this.gameStates.add(stateMenu);
 		this.gameStates.add(singlePlayer);
+		this.gameStates.add(multiPlayer);
 	
 		this.currentState = MENU;
 		this.handler = new InputHandler();
@@ -92,6 +97,10 @@ public class GameStateManager {
 		else if(currentState == SINGLEPLAYER_LV01)
 		{
 			painter.drawSinglePlayer(g, this.singlePlayer);
+		}
+		else if(currentState == MULTIPLAYER)
+		{
+			painter.drawMultiPlayer(g, this.multiPlayer);
 		}
 	}
 	

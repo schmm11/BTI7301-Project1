@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.spaceShip.SpaceShip;
 import ch.bfh.game_new.spaceShipModule.Projectile;
@@ -46,11 +48,13 @@ public class StateMenu extends GameState {
 		if(currentChoice == 1)
 		{
 			// multiplayer
+			gsm.setState(GameStateManager.MULTIPLAYER);
 		}
 		
 		if(currentChoice == 2)
 		{
-			// options
+			// TODO: Window with the Control Schema ?
+			JOptionPane.showMessageDialog(null, "Controlls:");
 		}
 		
 		if(currentChoice == 3)
