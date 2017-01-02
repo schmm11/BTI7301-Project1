@@ -7,6 +7,7 @@ import ch.bfh.game_new.entity.SpaceObjectMoving;
 import ch.bfh.game_new.gameState.GameState;
 import ch.bfh.game_new.gameState.StateSinglePlayer;
 import ch.bfh.game_new.spaceShip.SpaceShip;
+import ch.bfh.game_new.spaceTurret.SpaceTurret;
 import ch.bfh.game_new.tileMap.TileMap;
 
 public class Phaser extends Projectile {
@@ -20,7 +21,7 @@ public class Phaser extends Projectile {
 	public static final int HITHEIGHT = 30;
 	
 	// constructor
-	public Phaser(TileMap tm, GameState state, SpaceObject owner, double damage, double speed)
+	public Phaser(TileMap tm, GameState state, SpaceObject owner, int posX, int posY, double damage, double speed)
 	{
 		super(tm, state, owner, damage, speed);
 		
@@ -38,7 +39,7 @@ public class Phaser extends Projectile {
 		animation.setDelay(DELAY);
 		
 		// set Position of Phaser
-		setPosition(owner.getx(), owner.gety());
+		setPosition(posX, posY);
 		
 		// add object to ArrayList holding all Phaser-objects for this state
 		stateActual.addPhaser(this);
@@ -77,6 +78,25 @@ public class Phaser extends Projectile {
 		dx = 0;
 		dy = 0;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see spaceShipModule.Projectile#setHitTurret(spaceTurret.SpaceTurret)
+	 */
+	@Override
+	public void setHitTurret(SpaceTurret t)
+	{
+		if(hit){return;}
+		
+		t.addDamage(this.damage);
+		
+		hit = true;
+		animation.setFrames(stateActual.getGSM().getPainter().getPhaserSprites().get(HIT));
+		animation.setDelay(DELAY);
+		dx = 0;
+		dy = 0;
+	}
+	
 	
 	/*
 	 * (non-Javadoc)

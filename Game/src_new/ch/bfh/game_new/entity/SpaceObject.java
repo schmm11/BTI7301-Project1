@@ -31,6 +31,12 @@ public class SpaceObject {
 	protected double posX;
 	protected double posY;
 	
+	// boolean values for direction
+	protected boolean left;
+	protected boolean right;
+	protected boolean up;
+	protected boolean down;
+	
 	// dimension
 	protected int width;
 	protected int height;
@@ -93,6 +99,15 @@ public class SpaceObject {
 	public Animation getAnimation(){return this.animation;}
 	
 	public Team getTeam(){return this.team;}
+	
+	// directions of SpaceObject
+	public void setLeft(boolean b){left = b;}
+	
+	public void setRight(boolean b){right = b;}
+	
+	public void setUp(boolean b){up = b;}
+	
+	public void setDown(boolean b){down = b;}
 	
 	/*
 	 * set position of the SpaceObject

@@ -1,11 +1,11 @@
 package ch.bfh.game_new.tileMap;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -64,7 +64,7 @@ public class TileMap {
 			tileset = ImageIO.read(getClass().getResourceAsStream(s));
 			
 			numTilesAcross = tileset.getWidth() / tileSize;
-			tiles = new Tile[3][numTilesAcross];
+			tiles = new Tile[14][numTilesAcross];
 			
 			BufferedImage subimage;
 			
@@ -78,6 +78,13 @@ public class TileMap {
 				
 				subimage = tileset.getSubimage(col * tileSize, 2 * tileSize, tileSize, tileSize);
 				tiles[2][col] = new Tile(subimage, Tile.BLOCKED);
+				
+				// load rows 3 (4) to 13 (14)
+				for(int j = 3; j < 14; j++)
+				{
+					subimage = tileset.getSubimage(col * tileSize, j * tileSize, tileSize, tileSize);
+					tiles[j][col] = new Tile(subimage, Tile.NORMAL);
+				}
 			}
 			
 		}
@@ -146,6 +153,10 @@ public class TileMap {
 	
 	public int getHeight(){return height;}
 	
+	public int getNumCols(){return this.numCols;}
+	
+	public int getNumRows(){return this.numRows;}
+	
 	/*
 	 * returns an integer for the type of the Tile, NORMAL = 0 or BLOCKED = 1
 	 */
@@ -155,6 +166,19 @@ public class TileMap {
 		int r = rc / numTilesAcross;
 		int c = rc % numTilesAcross;
 		return tiles[r][c].getType();
+	}
+	
+	/*
+	 * returns a Rectangle for the given Tile-position
+	 */
+	public Rectangle getRectangle(int posX, int posY, int mapX, int mapY)
+	{
+		return new Rectangle(
+				(posX / tileSize) * tileSize + mapX, 
+				(posY / tileSize) * tileSize + mapY,
+				tileSize,
+				tileSize
+				);
 	}
 	
 	/*

@@ -154,7 +154,7 @@ public class EnemyShip extends SpaceShip {
 
 	}
 	
-	// *** DEBUG ***
+	// get Polygons and Rectangles
 	public Polygon getPolyDR(){return polyDR;}
 	
 	public Polygon getPolyDL(){return polyDL;}
@@ -261,12 +261,12 @@ public class EnemyShip extends SpaceShip {
 		this.modPhaser.updateTimer();
 		this.modPhaserBig.updateTimer();
 		
+		animation.update();
+		
 		// remove Ship if currentaction is explode and explode-animation has played once
 		if(explode && animation.hasPlayedOnce())
 		{
 			stateActual.removeEnemy(this);
 		}
-		
-		animation.update();
 	}
 }

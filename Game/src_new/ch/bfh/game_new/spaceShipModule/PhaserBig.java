@@ -5,6 +5,7 @@ import ch.bfh.game_new.entity.ObjectType;
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.gameState.GameState;
 import ch.bfh.game_new.spaceShip.SpaceShip;
+import ch.bfh.game_new.spaceTurret.SpaceTurret;
 import ch.bfh.game_new.tileMap.TileMap;
 
 public class PhaserBig extends Projectile {
@@ -70,6 +71,24 @@ public class PhaserBig extends Projectile {
 		
 		hit = true;
 		animation.setFrames(stateActual.getGSM().getPainter().getPhaserBigSprites().get(HIT));
+		animation.setDelay(DELAY);
+		dx = 0;
+		dy = 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see spaceShipModule.Projectile#setHitTurret(spaceTurret.SpaceTurret)
+	 */
+	@Override
+	public void setHitTurret(SpaceTurret t)
+	{
+		if(hit){return;}
+		
+		t.addDamage(this.damage);
+		
+		hit = true;
+		animation.setFrames(stateActual.getGSM().getPainter().getPhaserSprites().get(HIT));
 		animation.setDelay(DELAY);
 		dx = 0;
 		dy = 0;

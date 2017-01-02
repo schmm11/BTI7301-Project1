@@ -7,6 +7,8 @@ import ch.bfh.game_new.gameState.GameState;
 import ch.bfh.game_new.spaceShip.EnemyShip;
 import ch.bfh.game_new.spaceShip.Player;
 import ch.bfh.game_new.spaceShip.SpaceShip;
+import ch.bfh.game_new.spaceTurret.EnemyTurret;
+import ch.bfh.game_new.spaceTurret.SpaceTurret;
 import ch.bfh.game_new.tileMap.TileMap;
 
 public abstract class  Projectile extends SpaceObjectMoving {
@@ -86,6 +88,14 @@ public abstract class  Projectile extends SpaceObjectMoving {
 	}
 	
 	/*
+	 * sets hit to true, adds damage to SpaceTurret that got hit and updates animation frames
+	 */
+	protected void setHitTurret(SpaceTurret t)
+	{
+		
+	}
+	
+	/*
 	 * checks if object should be removed, removes it from ArrayList in GameState if true
 	 */
 	protected void checkAndRemove()
@@ -101,8 +111,6 @@ public abstract class  Projectile extends SpaceObjectMoving {
 	{
 		checkTileMapCollision();
 		setPosition(xtemp, ytemp);
-		
-		System.out.println("left: " + this.left + "  right: " + this.right + "  up: " + this.up);
 		
 		// collision with map
 		if(left || right)
@@ -129,6 +137,17 @@ public abstract class  Projectile extends SpaceObjectMoving {
 			if(this.team == Team.BLUE && this.intersects(enemy))
 			{
 				setHitShip(enemy);
+			}
+		}
+		
+		// collision with Turret
+		for(int i = 0; i < stateActual.getListTurret().size(); i++)
+		{
+			EnemyTurret turret = (EnemyTurret) stateActual.getListTurret().get(i);
+			
+			if(this.team == Team.BLUE && this.intersects(turret))
+			{
+				setHitTurret(turret);
 			}
 		}
 		

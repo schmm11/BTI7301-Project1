@@ -3,9 +3,9 @@ package ch.bfh.game_new.input;
 import java.awt.event.KeyEvent;
 
 import ch.bfh.game_new.gameState.GameState;
-import ch.bfh.game_new.gameState.GameStateManager;
 import ch.bfh.game_new.gameState.GameStateType;
 import ch.bfh.game_new.gameState.StateMenu;
+import ch.bfh.game_new.gameState.StateScoreScreen;
 import ch.bfh.game_new.gameState.StateSinglePlayer;
 import ch.bfh.game_new.spaceShip.Player;
 
@@ -47,6 +47,35 @@ public class InputHandler {
 			if(k == KeyEvent.VK_ENTER)
 			{
 				menu.select();
+			}
+		}
+		
+		// stateActual "SCORE SCREEN"
+		if(state.getType() == GameStateType.SCORESCREEN)
+		{
+			StateScoreScreen score = (StateScoreScreen) state;
+			
+			if(k == KeyEvent.VK_UP)
+			{
+				score.setCurrentChoice(score.getCurrentChoice() - 1);
+				if(score.getCurrentChoice() == -1)
+				{
+					score.setCurrentChoice(score.getOptionsLength() - 1);
+				}
+			}
+			
+			if(k == KeyEvent.VK_DOWN)
+			{
+				score.setCurrentChoice(score.getCurrentChoice() + 1);
+				if(score.getCurrentChoice() == score.getOptionsLength())
+				{
+					score.setCurrentChoice(0);
+				}
+			}
+			
+			if(k == KeyEvent.VK_ENTER)
+			{
+				score.select();
 			}
 		}
 		

@@ -7,7 +7,7 @@ public class Game {
 
 	public static void main(String[] args)
 	{
-		JFrame window = new JFrame("Star Blaster");
+		JFrame window = new JFrame("Super Star Trek");
 		window.setContentPane(new GamePanel());
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);

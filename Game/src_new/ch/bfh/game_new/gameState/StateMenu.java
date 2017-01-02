@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.spaceShip.SpaceShip;
 import ch.bfh.game_new.spaceShipModule.Projectile;
+import ch.bfh.game_new.spaceTurret.SpaceTurret;
 
 public class StateMenu extends GameState {
 
@@ -244,6 +245,78 @@ public class StateMenu extends GameState {
 
 	@Override
 	public ArrayList<SpaceObject> getListMissilePickup() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addPhaserUpgrade(SpaceObject o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removePhaserUpgrade(SpaceObject o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<SpaceObject> getListPhaserUpgrades() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addMissileUpgrade(SpaceObject o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeMissileUpgrade(SpaceObject o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<SpaceObject> getListMissileUpgrades() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addTurret(SpaceTurret t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeTurret(SpaceTurret t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<SpaceTurret> getListTurret() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addLaser(Projectile p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeLaser(Projectile p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<Projectile> getListLaser() {
 		// TODO Auto-generated method stub
 		return null;
 	}

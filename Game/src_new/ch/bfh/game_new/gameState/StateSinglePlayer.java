@@ -7,10 +7,14 @@ import ch.bfh.game_new.main.GamePanel;
 import ch.bfh.game_new.pickups.EnergyPickup;
 import ch.bfh.game_new.pickups.HealthPickup;
 import ch.bfh.game_new.pickups.MissilePickup;
+import ch.bfh.game_new.pickups.MissileUpgrade;
+import ch.bfh.game_new.pickups.PhaserUpgrade;
 import ch.bfh.game_new.spaceShip.EnemyShip;
 import ch.bfh.game_new.spaceShip.Player;
 import ch.bfh.game_new.spaceShip.SpaceShip;
 import ch.bfh.game_new.spaceShipModule.Projectile;
+import ch.bfh.game_new.spaceTurret.EnemyTurret;
+import ch.bfh.game_new.spaceTurret.SpaceTurret;
 import ch.bfh.game_new.tileMap.TileMap;
 
 public class StateSinglePlayer extends GameState {
@@ -23,7 +27,15 @@ public class StateSinglePlayer extends GameState {
 	
 	// SpaceObjects
 	private Player player;
-	private EnemyShip enemy;
+
+	// timer
+	private long timeStart;
+	private int timeElapsed;
+	private final static int TIMEMAX = 120;
+	
+	// boolean to check, if all objects have been destroyed
+	private boolean allShipsDestroyed;
+	private boolean allTurretsDestroyed;
 	
 	// constructor
 	public StateSinglePlayer(GameStateManager gsm)
@@ -31,12 +43,16 @@ public class StateSinglePlayer extends GameState {
 		this.gsm = gsm;
 		this.listPlayer = new ArrayList<SpaceShip>();
 		this.listEnemy = new ArrayList<SpaceShip>();
+		this.listTurret = new ArrayList<SpaceTurret>();
 		this.listPhaser = new ArrayList<Projectile>();
 		this.listPhaserBig = new ArrayList<Projectile>();
 		this.listMissile = new ArrayList<Projectile>();
+		this.listLaser = new ArrayList<Projectile>();
 		this.listHealthPickup = new ArrayList<SpaceObject>();
 		this.listEnergyPickup = new ArrayList<SpaceObject>();
 		this.listMissilePickup = new ArrayList<SpaceObject>();
+		this.listPhaserUpgrade = new ArrayList<SpaceObject>();
+		this.listMissileUpgrade = new ArrayList<SpaceObject>();
 	}
 	
 	/*
@@ -45,27 +61,94 @@ public class StateSinglePlayer extends GameState {
 	 * @see gameState.GameState#init()
 	 */
 	public void init()
-	{
+	{		
+		// clear all lists
+		this.listPlayer.clear();;
+		this.listEnemy.clear();
+		this.listTurret.clear(); 
+		this.listPhaser.clear();
+		this.listPhaserBig.clear();
+		this.listMissile.clear();
+		this.listLaser.clear();
+		this.listHealthPickup.clear(); 
+		this.listEnergyPickup.clear(); 
+		this.listMissilePickup.clear(); 
+		this.listPhaserUpgrade.clear(); 
+		this.listMissileUpgrade.clear();
+		
 		// tileMap stuff
 		this.tileMap = new TileMap(32);
-		this.tileMap.loadTiles("/02_Textures/01_Map/Tileset_01.gif");
-		this.tileMap.loadMap("/03_Data/01_Map/level_04.txt");
+		this.tileMap.loadTiles("/02_Textures/01_Map/Tileset_02.gif");
+		this.tileMap.loadMap("/03_Data/01_Map/map4.txt");
 		
 		// add Player
 		player = new Player(tileMap, this);
-		player.setPosition(800, 200);
+		player.setPosition(544, 416);
+		System.out.println("player destroyed: " + player.getDestroyed());
 		
-		// add pickups
-		HealthPickup pickupHP = new HealthPickup(this.tileMap, this, 600, 600, 25);
-		EnergyPickup pickupEN = new EnergyPickup(this.tileMap, this, 300, 300, 40);
-		MissilePickup pickupMI = new MissilePickup(this.tileMap, this, 800, 700, 20);
+		// add Health-pickups
+		new HealthPickup(this.tileMap, this, 416, 352, 25);
+		new HealthPickup(this.tileMap, this, 544, 352, 25);
+		new HealthPickup(this.tileMap, this, 672, 352, 25);
+		new HealthPickup(this.tileMap, this, 2400, 320, 25);
+		new HealthPickup(this.tileMap, this, 2528, 2464, 25);
+		
+		// add Energy-pickups
+		new EnergyPickup(this.tileMap, this, 416, 480, 40);
+		new EnergyPickup(this.tileMap, this, 544, 480, 40);
+		new EnergyPickup(this.tileMap, this, 2400, 448, 40);
+		
+		// add Missile-pickups
+		new MissilePickup(this.tileMap, this, 672, 480, 20);
+		new MissilePickup(this.tileMap, this, 2528, 2592, 20);
+		
+		// add upgrades
+		new PhaserUpgrade(this.tileMap, this, 3360, 704);
+		new MissileUpgrade(this.tileMap, this, 1920, 1600);
 		
 		// add enemy
-		enemy = new EnemyShip(tileMap, this);
-		enemy.setPosition(1300, 800);
+		EnemyShip s1 = new EnemyShip(tileMap, this);
+		s1.setPosition(2848, 1088);
 		
-		EnemyShip enemy2 = new EnemyShip(tileMap, this);
-		enemy2.setPosition(2200, 1000);
+		EnemyShip s2 = new EnemyShip(tileMap, this);
+		s2.setPosition(1024, 1088);
+		
+		EnemyShip s3 = new EnemyShip(tileMap, this);
+		s3.setPosition(1248, 2432);
+		
+		EnemyShip s4 = new EnemyShip(tileMap, this);
+		s4.setPosition(2272, 2112);
+		
+		EnemyShip s5 = new EnemyShip(tileMap, this);
+		s5.setPosition(3360, 2240);
+		
+		EnemyShip s6 = new EnemyShip(tileMap, this);
+		s6.setPosition(3360, 960);
+		
+		// add turrets
+		EnemyTurret t1 = new EnemyTurret(this.tileMap, this);
+		t1.setPosition(1600, 480);
+		
+		EnemyTurret t2 = new EnemyTurret(this.tileMap, this);
+		t2.setPosition(2016, 480);
+		
+		EnemyTurret t3 = new EnemyTurret(this.tileMap, this);
+		t3.setPosition(1600, 2656);
+		
+		EnemyTurret t4 = new EnemyTurret(this.tileMap, this);
+		t4.setPosition(2016, 2656);
+		
+		EnemyTurret t5 = new EnemyTurret(this.tileMap, this);
+		t5.setPosition(1088, 1408);
+		
+		EnemyTurret t6 = new EnemyTurret(this.tileMap, this);
+		t6.setPosition(1088, 1792);
+		
+		EnemyTurret t7 = new EnemyTurret(this.tileMap, this);
+		t7.setPosition(2144, 1600);
+		
+		// timer
+		this.timeStart = System.nanoTime();
 	}
 	
 	// getters and setters
@@ -74,10 +157,16 @@ public class StateSinglePlayer extends GameState {
 	public GameStateManager getGSM(){return this.gsm;}
 	
 	public Player getPlayer(){return this.player;}
-	
-//	public EnemyShip getEnemy(){return this.enemy;}
 
-	// GameState methods
+	public int getTimeMax(){return StateSinglePlayer.TIMEMAX;}
+	
+	/*
+	 * returns true, if all objects (ships and turrets) have been destroyed
+	 */
+	public boolean allDestroyed()
+	{
+		return (allShipsDestroyed && allTurretsDestroyed);
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -100,12 +189,16 @@ public class StateSinglePlayer extends GameState {
 		// update all ArrayLists holding SpaceObjects
 		for(int i = 0; i < listPlayer.size(); i++){listPlayer.get(i).update();}
 		for(int i = 0; i < listEnemy.size(); i++){listEnemy.get(i).update();}
+		for(int i = 0; i < listTurret.size(); i++){listTurret.get(i).update();}
 		for(int i = 0; i < listPhaser.size(); i++){listPhaser.get(i).update();}
 		for(int i = 0; i < listPhaserBig.size(); i++){listPhaserBig.get(i).update();}
 		for(int i = 0; i < listMissile.size(); i++){listMissile.get(i).update();}
+		for(int i = 0; i < listLaser.size(); i++){listLaser.get(i).update();}
 		for(int i = 0; i < listHealthPickup.size(); i++){listHealthPickup.get(i).update();}
 		for(int i = 0; i < listEnergyPickup.size(); i++){listEnergyPickup.get(i).update();}
 		for(int i = 0; i < listMissilePickup.size(); i++){listMissilePickup.get(i).update();}
+		for(int i = 0; i < listPhaserUpgrade.size(); i++){listPhaserUpgrade.get(i).update();}
+		for(int i = 0; i < listMissileUpgrade.size(); i++){listMissileUpgrade.get(i).update();}
 		
 		// set tileMap position
 		if(this.player != null)
@@ -115,6 +208,37 @@ public class StateSinglePlayer extends GameState {
 				GamePanel.HEIGHT / 2 - player.gety()
 				);
 		}
+		
+		// update in-game-timer
+		this.timeElapsed = (int) ((System.nanoTime() - this.timeStart) / 1000000000);
+		
+		// check player got destroyed
+		if(this.player != null)
+		{
+			if(this.player.getDestroyed())
+			{
+				this.gsm.setState(GameStateManager.SINGLEPLAYER_SCORE);
+			}
+			if(this.timeElapsed > this.TIMEMAX)
+			{
+				this.gsm.setState(GameStateManager.SINGLEPLAYER_SCORE);
+			}
+		}
+		
+		// check if all enemies have been destroyed
+		if(allDestroyed())
+		{
+			this.gsm.setState(GameStateManager.SINGLEPLAYER_SCORE);
+		}
+
+	}
+	
+	/*
+	 * returns an integer for the time elapsed
+	 */
+	public int getTimer()
+	{
+		return this.timeElapsed;
 	}
 
 	/*
@@ -171,6 +295,7 @@ public class StateSinglePlayer extends GameState {
 	@Override
 	public void addEnemy(SpaceShip s) {
 		this.listEnemy.add(s);
+		this.allShipsDestroyed = false;
 	}
 
 	/*
@@ -180,6 +305,14 @@ public class StateSinglePlayer extends GameState {
 	@Override
 	public void removeEnemy(SpaceShip s) {
 		this.listEnemy.remove(s);
+		if(listEnemy.size() == 0)
+		{
+			this.allShipsDestroyed = true;
+		}
+		if(this.listTurret.size() == 0)
+		{
+			this.allTurretsDestroyed = true;
+		}
 	}
 
 	/*
@@ -191,6 +324,42 @@ public class StateSinglePlayer extends GameState {
 		return this.listEnemy;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#addTurret(spaceTurret.SpaceTurret)
+	 */
+	@Override
+	public void addTurret(SpaceTurret t) {
+		this.listTurret.add(t);
+		this.allTurretsDestroyed = false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#removeTurret(spaceTurret.SpaceTurret)
+	 */
+	@Override
+	public void removeTurret(SpaceTurret t) {
+		this.listTurret.remove(t);
+		if(this.listTurret.size() == 0)
+		{
+			this.allTurretsDestroyed = true;
+		}
+		if(listEnemy.size() == 0)
+		{
+			this.allShipsDestroyed = true;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#getListTurret()
+	 */
+	@Override
+	public ArrayList<SpaceTurret> getListTurret() {
+		return this.listTurret;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see gameState.GameState#addPhaser(spaceShipModule.Projectile)
@@ -270,6 +439,33 @@ public class StateSinglePlayer extends GameState {
 	@Override
 	public ArrayList<Projectile> getListMissile() {
 		return this.listMissile;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#addLaser(spaceShipModule.Projectile)
+	 */
+	@Override
+	public void addLaser(Projectile p) {
+		this.listLaser.add(p);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#removeLaser(spaceShipModule.Projectile)
+	 */
+	@Override
+	public void removeLaser(Projectile p) {
+		this.listLaser.remove(p);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#getListLaser()
+	 */
+	@Override
+	public ArrayList<Projectile> getListLaser() {
+		return this.listLaser;
 	}
 
 	/*
@@ -352,6 +548,63 @@ public class StateSinglePlayer extends GameState {
 	public ArrayList<SpaceObject> getListMissilePickup() {
 		return this.listMissilePickup;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#addPhaserUpgrade(entity.SpaceObject)
+	 */
+	@Override
+	public void addPhaserUpgrade(SpaceObject o) {
+		this.listPhaserUpgrade.add(o);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#removePhaserUpgrade(entity.SpaceObject)
+	 */
+	@Override
+	public void removePhaserUpgrade(SpaceObject o) {
+		this.listPhaserUpgrade.remove(o);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#getListPhaserUpgrades()
+	 */
+	@Override
+	public ArrayList<SpaceObject> getListPhaserUpgrades() {
+		return this.listPhaserUpgrade;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#addMissileUpgrade(entity.SpaceObject)
+	 */
+	@Override
+	public void addMissileUpgrade(SpaceObject o) {
+		this.listMissileUpgrade.add(o);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#removeMissileUpgrade(entity.SpaceObject)
+	 */
+	@Override
+	public void removeMissileUpgrade(SpaceObject o) {
+		this.listMissileUpgrade.remove(o);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see gameState.GameState#getListMissileUpgrades()
+	 */
+	@Override
+	public ArrayList<SpaceObject> getListMissileUpgrades() {
+		return this.listMissileUpgrade;
+	}
+
+
+
 
 
 }

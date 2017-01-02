@@ -5,6 +5,7 @@ import ch.bfh.game_new.entity.ObjectType;
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.gameState.GameState;
 import ch.bfh.game_new.spaceShip.SpaceShip;
+import ch.bfh.game_new.spaceTurret.SpaceTurret;
 import ch.bfh.game_new.tileMap.TileMap;
 
 public class Missile extends Projectile {
@@ -18,7 +19,7 @@ public class Missile extends Projectile {
 	public static final int HITHEIGHT = 28;
 	
 	// constructor
-	public Missile(TileMap tm, GameState state, SpaceObject owner, double damage, double speed)
+	public Missile(TileMap tm, GameState state, SpaceObject owner, int posX, int posY, double damage, double speed)
 	{
 		super(tm, state, owner, damage, speed);
 		
@@ -36,7 +37,7 @@ public class Missile extends Projectile {
 		animation.setDelay(DELAY);
 		
 		// set Position of Phaser
-		setPosition(owner.getx(), owner.gety());
+		setPosition(posX, posY);
 		
 		// add object to ArrayList holding all Missile-objects for this state
 		stateActual.addMissile(this);
@@ -68,6 +69,24 @@ public class Missile extends Projectile {
 		if(hit){return;}
 		
 		s.addDamage(this.damage);
+		
+		hit = true;
+		animation.setFrames(stateActual.getGSM().getPainter().getMissileSprites().get(HIT));
+		animation.setDelay(DELAY);
+		dx = 0;
+		dy = 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see spaceShipModule.Projectile#setHitTurret(spaceTurret.SpaceTurret)
+	 */
+	@Override
+	public void setHitTurret(SpaceTurret t)
+	{
+		if(hit){return;}
+		
+		t.addDamage(this.damage);
 		
 		hit = true;
 		animation.setFrames(stateActual.getGSM().getPainter().getMissileSprites().get(HIT));

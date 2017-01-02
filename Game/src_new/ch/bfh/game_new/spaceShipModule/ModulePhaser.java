@@ -7,6 +7,10 @@ public class ModulePhaser extends Module {
 
 	// Phaser Information
 	private int energyCost;
+	boolean doublePhaser;
+	
+	private static final double PHASERSPEED = 6.0;
+	private static final double PHASERDAMAGE = 5.0;
 	
 	// cooldown-timer
 	private int timer;
@@ -18,6 +22,7 @@ public class ModulePhaser extends Module {
 		super(tm, owner);
 		
 		this.energyCost = 5;
+		this.doublePhaser = false;
 		
 		this.timer = 0;
 		this.timerMax = 18;
@@ -30,8 +35,34 @@ public class ModulePhaser extends Module {
 	{
 		if(this.energyCost <= owner.getEnergyActual() && this.timer == 0)
 		{
-			Phaser p1 = new Phaser(this.tileMap, this.state, this.owner, 5.0, 6.0);
-			owner.consumeEnergy(energyCost);
+			if(!doublePhaser)
+			{
+				new Phaser(this.tileMap, this.state, this.owner, owner.getx(), owner.gety(), PHASERDAMAGE, PHASERSPEED);
+			}
+			else
+			{
+				if(owner.getAngle() == 0 || owner.getAngle() == 180)
+				{
+					new Phaser(this.tileMap, this.state, this.owner, owner.getx() - 10, owner.gety(), PHASERDAMAGE, PHASERSPEED);
+					new Phaser(this.tileMap, this.state, this.owner, owner.getx() + 10, owner.gety(), PHASERDAMAGE, PHASERSPEED);
+				}
+				else if(owner.getAngle() == 90 || owner.getAngle() == 270)
+				{
+					new Phaser(this.tileMap, this.state, this.owner, owner.getx(), owner.gety() + 10, PHASERDAMAGE, PHASERSPEED);
+					new Phaser(this.tileMap, this.state, this.owner, owner.getx(), owner.gety() - 10, PHASERDAMAGE, PHASERSPEED);
+				}
+				else if(owner.getAngle() == 45 || owner.getAngle() == 225)
+				{
+					new Phaser(this.tileMap, this.state, this.owner, owner.getx() + 10, owner.gety() + 10, PHASERDAMAGE, PHASERSPEED);
+					new Phaser(this.tileMap, this.state, this.owner, owner.getx() - 10, owner.gety() - 10, PHASERDAMAGE, PHASERSPEED);
+				}
+				else
+				{
+					new Phaser(this.tileMap, this.state, this.owner, owner.getx() - 10, owner.gety() + 10, PHASERDAMAGE, PHASERSPEED);
+					new Phaser(this.tileMap, this.state, this.owner, owner.getx() + 10, owner.gety() - 10, PHASERDAMAGE, PHASERSPEED);
+				}
+			}
+			this.owner.consumeEnergy(energyCost);
 			this.timer = this.timerMax;
 		}
 	}
@@ -54,4 +85,8 @@ public class ModulePhaser extends Module {
 	
 	// getters and setters
 	public void setTimerMax(int t){this.timerMax = t;}
+	
+	public boolean getDoublePhaser(){return this.doublePhaser;}
+	
+	public void setDoublePhaser(boolean b){this.doublePhaser = b;}
 }

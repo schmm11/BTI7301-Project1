@@ -1,29 +1,32 @@
 package ch.bfh.game_new.painter;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import ch.bfh.game_new.entity.ObjectType;
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.gameState.StateMenu;
+import ch.bfh.game_new.gameState.StateScoreScreen;
 import ch.bfh.game_new.gameState.StateSinglePlayer;
 import ch.bfh.game_new.main.GamePanel;
 import ch.bfh.game_new.pickups.EnergyPickup;
 import ch.bfh.game_new.pickups.HealthPickup;
 import ch.bfh.game_new.pickups.MissilePickup;
+import ch.bfh.game_new.pickups.MissileUpgrade;
+import ch.bfh.game_new.pickups.PhaserUpgrade;
 import ch.bfh.game_new.spaceShip.EnemyShip;
 import ch.bfh.game_new.spaceShip.Player;
 import ch.bfh.game_new.spaceShipModule.Missile;
 import ch.bfh.game_new.spaceShipModule.Phaser;
 import ch.bfh.game_new.spaceShipModule.PhaserBig;
+import ch.bfh.game_new.spaceTurret.EnemyTurret;
+import ch.bfh.game_new.spaceTurret.Laser;
 
 public class PaintComponent {
 	
@@ -36,6 +39,13 @@ public class PaintComponent {
 	// GameState StateSinglePlayer
 	private StateSinglePlayer singlePlayer;
 	private BufferedImage singlePlayerBackground;
+	
+	// GameState ScoreScreen
+	private StateScoreScreen scoreSingle;
+	private BufferedImage scoreDeath;
+	private BufferedImage scoreBronze;
+	private BufferedImage scoreSilver;
+	private BufferedImage scoreGold;
 	
 	// Pickup Health
 	private ArrayList<BufferedImage[]> pickupHealthSprites;
@@ -52,6 +62,13 @@ public class PaintComponent {
 	private BufferedImage[] pickupMissileActive;
 	private BufferedImage[] pickupMissileInactive;
 	
+	// Upgrade Phaser
+	private BufferedImage[] upgradePhaser;
+	
+	// Upgrade Missile
+	private BufferedImage[] upgradeMissile;
+	
+	
 	// Phaser
 	private ArrayList<BufferedImage[]> phaserSprites;
 	private BufferedImage[] phaserMoving;
@@ -67,13 +84,22 @@ public class PaintComponent {
 	private BufferedImage[] missileMoving;
 	private BufferedImage[] missileHit;
 	
+	// Laser
+	private ArrayList<BufferedImage[]> laserSprites;
+	private BufferedImage[] laserMoving;
+	private BufferedImage[] laserHit;
+	
 	// SpaceShip Player
 	private ArrayList<BufferedImage[]> playerSprites;
-	private int[] playerSpritesFrames = {1, 4, 4, 4}; 
+	private int[] playerSpritesFrames = {1, 4, 4, 13}; 
 	
 	// SpaceShip Enemy
 	private ArrayList<BufferedImage[]> enemySprites;
 	private int[] enemySpritesFrames = {1, 4, 4, 13};
+	
+	// SpaceTurret
+	private ArrayList<BufferedImage[]> turretSprites;
+	private int[] turretSpritesFrames = {1, 4, 13};
 	
 	// HUD
 	private BufferedImage hudEnergyEmpty;
@@ -99,7 +125,20 @@ public class PaintComponent {
 			
 			// GAMESTATE SINGLEPLAYER
 			singlePlayerBackground = ImageIO.read(getClass().getResourceAsStream(
-					"/02_Textures/02_Background/Background_01.jpg"));
+					"/02_Textures/02_Background/Background_03.jpg"));
+			
+			// GAMESTATE SCORESCREEN
+			scoreDeath = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/04_Menu/score_Death.png"));
+			
+			scoreBronze = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/04_Menu/score_Bronze.png"));
+			
+			scoreSilver = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/04_Menu/score_Silver.png"));
+			
+			scoreGold = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/04_Menu/score_Gold.png"));
 			
 			// PICKUP HEALTH
 			BufferedImage healthSheet = ImageIO.read(getClass().getResourceAsStream(
@@ -176,6 +215,28 @@ public class PaintComponent {
 			pickupMissileSprites.add(pickupMissileActive);
 			pickupMissileSprites.add(pickupMissileInactive);
 			
+			// UPGRADE PHASER
+			BufferedImage upgradePhaserSheet = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/06_Icons/upgrade_phaser.gif"));
+			
+			upgradePhaser = new BufferedImage[6];
+			
+			for(int i = 0; i < upgradePhaser.length; i++)
+			{
+				upgradePhaser[i] = upgradePhaserSheet.getSubimage(i * PhaserUpgrade.WIDTH, 0, PhaserUpgrade.WIDTH, PhaserUpgrade.HEIGHT);	
+			}
+			
+			// UPGRADE MISSILE
+			BufferedImage upgradeMissileSheet = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/06_Icons/upgrade_missile.gif"));
+			
+			upgradeMissile = new BufferedImage[6];
+			
+			for(int i = 0; i < upgradeMissile.length; i++)
+			{
+				upgradeMissile[i] = upgradeMissileSheet.getSubimage(i * MissileUpgrade.WIDTH, 0, MissileUpgrade.WIDTH, MissileUpgrade.HEIGHT);
+			}
+			
 			// PHASER
 			BufferedImage phaserMovingSheet = ImageIO.read(getClass().getResourceAsStream(
 					"/02_Textures/03_Player/Phaser_01.gif"));
@@ -243,9 +304,29 @@ public class PaintComponent {
 			missileSprites.add(missileMoving);
 			missileSprites.add(missileHit);
 			
+			// LASER
+			BufferedImage laserHitSheet = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/03_Player/Laser_01_hit.gif"));
+			
+			// create subimages
+			laserSprites = new ArrayList<BufferedImage[]>();
+			laserMoving = new BufferedImage[1];
+			laserHit = new BufferedImage[7];
+			
+			laserMoving[0] = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/03_Player/Laser_01.gif"));
+			
+			for(int i = 0; i < laserHit.length; i++)
+			{
+				laserHit[i] = laserHitSheet.getSubimage(i * Laser.HITWIDTH, 0, Laser.HITWIDTH, Laser.HITHEIGHT);
+			}
+			
+			laserSprites.add(laserMoving);
+			laserSprites.add(laserHit);
+			
 			// SPACESHIP PLAYER
 			BufferedImage playerSheet = ImageIO.read(getClass().getResourceAsStream(
-					"/02_Textures/03_Player/Player_03.gif"));
+					"/02_Textures/03_Player/Player_01.gif"));
 			
 			// create subimages
 			playerSprites = new ArrayList<BufferedImage[]>();
@@ -281,6 +362,26 @@ public class PaintComponent {
 				
 				// add array to ArrayList holding all EnemyShip sprites
 				this.enemySprites.add(bi);
+			}
+			
+			// SPACETURRET
+			BufferedImage turretSheet = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/03_Player/Enemy_turret_01.gif"));
+			
+			// create subimages
+			turretSprites = new ArrayList<BufferedImage[]>();
+			
+			for(int i = 0; i < turretSpritesFrames.length; i++)
+			{
+				BufferedImage[] bi = new BufferedImage[turretSpritesFrames[i]];
+				
+				for(int j = 0; j < turretSpritesFrames[i]; j++)
+				{
+					bi[j] = turretSheet.getSubimage(j * EnemyTurret.WIDTH, i * EnemyTurret.HEIGHT, EnemyTurret.WIDTH, EnemyTurret.HEIGHT);
+				}
+				
+				// add array to ArrayList holding all turret sprites
+				this.turretSprites.add(bi);
 			}
 			
 			// HUD 
@@ -343,6 +444,82 @@ public class PaintComponent {
 	}
 	
 	/*
+	 * draws everything in the GameState StateScoreScreen
+	 */
+	public void drawScoreScreen(Graphics2D g, StateScoreScreen state)
+	{
+		this.scoreSingle = state;
+		
+		// draw Background
+		g.drawImage(menuBackground, 0, 0, null);
+		
+		// title string for Score Screen
+		String title = new String("Score Screen");
+		
+		// draw score
+		if(scoreSingle.getShipDestroyed())
+		{
+			drawScore(g, scoreDeath, "YOU DIED!", scoreSingle.getDeathColor());
+			
+//			drawScore(g, scoreDeath, "TIMELIMIT!", scoreSingle.getDeathColor());
+//			drawScore(g, scoreGold, "Score: " + scoreSingle.getTimeElapsed() + " / 400", scoreSingle.getGoldColor());
+//			drawScore(g, scoreSilver, "Score: " + scoreSingle.getTimeElapsed() + " / 400", scoreSingle.getSilverColor());
+//			drawScore(g, scoreBronze, "Score: " + scoreSingle.getTimeElapsed() + " / 400", scoreSingle.getBronzeColor());
+		}
+		
+		// gold, if time elapsed less than maximum time - 60s
+		else if(scoreSingle.getTimeElapsed() < scoreSingle.getTimeMax() - 60)
+		{
+			drawScore(g, scoreGold, "Score: " + scoreSingle.getTimeElapsed() + " / " + scoreSingle.getTimeMax(), scoreSingle.getGoldColor());
+		}
+		
+		// silver, if time elapsed less than maximum time - 30s
+		else if(scoreSingle.getTimeElapsed() < scoreSingle.getTimeMax() - 30)
+		{
+			drawScore(g, scoreSilver, "Score: " + scoreSingle.getTimeElapsed() + " / " + scoreSingle.getTimeMax(), scoreSingle.getSilverColor());
+		}
+
+		// bronze, if time elapsed less than maximum time
+		else if(scoreSingle.getTimeElapsed() < scoreSingle.getTimeMax() + 1)
+		{
+			drawScore(g, scoreBronze, "Score: " + scoreSingle.getTimeElapsed() + " / " + scoreSingle.getTimeMax(), scoreSingle.getBronzeColor());
+		}
+		
+		// if time run out
+		else
+		{
+			drawScore(g, scoreDeath, "TIMELIMIT!", scoreSingle.getDeathColor());
+		}
+		
+		// draw title string for Score Screen
+		g.setFont(scoreSingle.getTitleFont());
+		FontMetrics fm = g.getFontMetrics();
+		g.drawString(title, GamePanel.WIDTH / 2 - (fm.stringWidth(title) / 2), 200);
+		
+		// draw menu options
+		g.setFont(scoreSingle.getRegularFont());
+		
+		// loop through menu options
+		FontMetrics fm2 = g.getFontMetrics();
+		for(int i = 0; i < scoreSingle.getOptionsLength(); i++)
+		{
+			if(i == scoreSingle.getCurrentChoice())
+			{
+				g.setColor(new Color(0, 250, 250));
+				g.drawImage(menuOptionSelected, GamePanel.WIDTH / 2 - (menuOptionSelected.getWidth() / 2), 300 + i * 60, null);
+			}
+			else
+			{
+				g.setColor(new Color(0, 150, 150));
+				g.drawImage(menuOption, GamePanel.WIDTH / 2 - (menuOption.getWidth() / 2), 300 + i * 60, null);
+			}
+			
+			String[] options = scoreSingle.getOptions();
+			g.drawString(options[i], GamePanel.WIDTH / 2 - (fm2.stringWidth(options[i]) / 2), 325 + i * 60);
+		}
+	}
+	
+	/*
 	 * draws all objects in GameState StateSinglePlayer 
 	 */
 	public void drawSinglePlayer(Graphics2D g, StateSinglePlayer singlePlayer)
@@ -378,6 +555,20 @@ public class PaintComponent {
 			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
 		}
 		
+		// PHASER UPGRADE
+		for(int i = 0; i < singlePlayer.getListPhaserUpgrades().size(); i++)
+		{
+			PhaserUpgrade obj = (PhaserUpgrade) singlePlayer.getListPhaserUpgrades().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+		}
+		
+		// MISSILE UPGRADE
+		for(int i = 0; i < singlePlayer.getListMissileUpgrades().size(); i++)
+		{
+			MissileUpgrade obj = (MissileUpgrade) singlePlayer.getListMissileUpgrades().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+		}
+		
 		// PHASER PROJECTILES
 		for(int i = 0; i < singlePlayer.getListPhaser().size(); i++)
 		{
@@ -399,6 +590,13 @@ public class PaintComponent {
 			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
 		}
 		
+		// LASER PROJECTILES
+		for(int i = 0; i < singlePlayer.getListLaser().size(); i++)
+		{
+			Laser obj = (Laser) singlePlayer.getListLaser().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
+		}
+		
 		// ENEMY
 		for(int i = 0; i < singlePlayer.getListEnemy().size(); i++)
 		{
@@ -406,18 +604,54 @@ public class PaintComponent {
 			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
 			
 			// *** DEBUG ***
-			g.draw(obj.getUp());
-			g.draw(obj.getDown());
-			g.draw(obj.getLeft());
-			g.draw(obj.getRight());
+//			g.draw(obj.getUp());
+//			g.draw(obj.getDown());
+//			g.draw(obj.getLeft());
+//			g.draw(obj.getRight());
+//			
+//			g.setColor(Color.YELLOW);
+//			g.draw(obj.getPolyDR());
+//			g.draw(obj.getPolyDL());
+//			g.draw(obj.getPolyUR());
+//			g.draw(obj.getPolyUL());
+//
+//			g.setColor(Color.BLUE);
+		}
+		
+		// TURRET
+		for(int i = 0; i < singlePlayer.getListTurret().size(); i++)
+		{
+			EnemyTurret obj = (EnemyTurret) singlePlayer.getListTurret().get(i);
+			drawObject(g, obj, obj.WIDTH, obj.HEIGHT);
 			
+			// *** DEBUG ***
+//			g.draw(obj.getUp());
+//			g.draw(obj.getDown());
+//			g.draw(obj.getLeft());
+//			g.draw(obj.getRight());
+//			
 			g.setColor(Color.YELLOW);
-			g.draw(obj.getPolyDR());
-			g.draw(obj.getPolyDL());
-			g.draw(obj.getPolyUR());
-			g.draw(obj.getPolyUL());
-
-			g.setColor(Color.BLUE);
+//			g.draw(obj.getPolyDR());
+//			g.draw(obj.getPolyDL());
+//			g.draw(obj.getPolyUR());
+//			g.draw(obj.getPolyUL());
+			
+//			if(obj.getAI().getAllRecs().size() > 0)
+//			{
+//				g.draw(obj.getLine());
+//				for(int j = 0; j < obj.getAI().getAllRecs().size(); j++)
+//				{
+//					if(obj.getLine().intersects(obj.getAI().getAllRecs().get(j)))
+//					{
+//						g.setColor(Color.RED);
+//					}
+//					else
+//					{
+//						g.setColor(Color.YELLOW);
+//					}
+//					g.draw(obj.getAI().getAllRecs().get(j));
+//				}
+//			}
 		}
 		
 		// PLAYER
@@ -455,6 +689,10 @@ public class PaintComponent {
 			// ammo
 			g.setColor(new Color(0, 150, 150));
 			g.drawString("Missile Ammo  " + player.getMissileAmmo() + " / " + player.getMissileAmmoMax(), 45, 605);
+			
+			// timer
+			
+			g.drawString("timer: " + this.singlePlayer.getTimer() + " / " + singlePlayer.getTimeMax(), 45, 570);
 		}
 		
 	}
@@ -472,6 +710,23 @@ public class PaintComponent {
 				);
 		at.rotate(Math.toRadians(o.getAngle()), width / 2, height / 2);
 		g.drawImage(img, at, null);
+	}
+	
+	/*
+	 *  draws the Score screen with the given Strings and stuff
+	 */
+	private void drawScore(Graphics2D g, BufferedImage scorePic, String title, Color c)
+	{
+		// draw image
+		g.drawImage(scorePic, GamePanel.WIDTH / 2 - (scorePic.getWidth() / 2), 240, null);
+		
+		// draw string
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Century Gothic", Font.BOLD, 16));
+		FontMetrics fmDeath = g.getFontMetrics();
+		g.drawString(title, GamePanel.WIDTH / 2 - (fmDeath.stringWidth(title) / 2), 265);
+		
+		g.setColor(c);
 	}
 	
 	/*
@@ -502,6 +757,22 @@ public class PaintComponent {
 	}
 	
 	/*
+	 * returns a BufferedImage-Array for Phaser Upgrade
+	 */
+	public BufferedImage[] getPhaserUpgradeSprites()
+	{
+		return this.upgradePhaser;
+	}
+	
+	/*
+	 * returns a BufferedImage-Array for Missile Upgrade
+	 */
+	public BufferedImage[] getMissileUpgradeSprites()
+	{
+		return this.upgradeMissile;
+	}
+	
+	/*
 	 * returns an ArrayList holding 2 BufferedImage-arrays
 	 * for Phasers, moving = 0, hit = 1
 	 */
@@ -529,8 +800,17 @@ public class PaintComponent {
 	}
 	
 	/*
+	 * returns an ArrayList holding 2 BufferedImage-arrays
+	 * for Lasers, moving = 0; hit = 1
+	 */
+	public ArrayList<BufferedImage[]> getLaserSprites()
+	{
+		return this.laserSprites;
+	}
+	
+	/*
 	 * returns an ArrayList holding 4 different BufferedImage-arrays
-	 * for Player, idle = 0, moving = 1, dash = 2
+	 * for Player, idle = 0, moving = 1, dash = 2, explode = 3
 	 */
 	public ArrayList<BufferedImage[]> getPlayerSprites()
 	{
@@ -544,5 +824,14 @@ public class PaintComponent {
 	public ArrayList<BufferedImage[]> getEnemySprites()
 	{
 		return this.enemySprites;
+	}
+	
+	/*
+	 * returns an ArrayList holding 3 different BufferedImage-arrays
+	 * for EnemyTurret, idle = 0; firing = 1, explode = 2
+	 */
+	public ArrayList<BufferedImage[]> getTurretSprites()
+	{
+		return this.turretSprites;
 	}
 }

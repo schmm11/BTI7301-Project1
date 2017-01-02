@@ -10,11 +10,9 @@ public class SpaceObjectMoving extends SpaceObject {
 	protected double dx;
 	protected double dy;
 	
-	// boolean values for movement
-	protected boolean left;
-	protected boolean right;
-	protected boolean up;
-	protected boolean down;
+
+	
+	// boolean value for movement
 	protected boolean moving;
 	
 	// movement attributes
@@ -203,15 +201,6 @@ public class SpaceObjectMoving extends SpaceObject {
 			if(dy > maxSpeed){dy = maxSpeed;}
 		}
 	}
-	
-	// directions of SpaceObject
-	public void setLeft(boolean b){left = b;}
-	
-	public void setRight(boolean b){right = b;}
-	
-	public void setUp(boolean b){up = b;}
-	
-	public void setDown(boolean b){down = b;}
 	
 	// speed attribues
 	public void setMaxSpeed(double s){maxSpeed = s;}

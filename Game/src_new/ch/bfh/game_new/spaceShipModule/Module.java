@@ -1,5 +1,6 @@
 package ch.bfh.game_new.spaceShipModule;
 
+import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.entity.Team;
 import ch.bfh.game_new.gameState.GameState;
 import ch.bfh.game_new.spaceShip.SpaceShip;

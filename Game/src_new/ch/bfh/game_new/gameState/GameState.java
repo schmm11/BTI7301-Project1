@@ -4,9 +4,8 @@ import java.util.ArrayList;
 
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.spaceShip.SpaceShip;
-import ch.bfh.game_new.spaceShipModule.Phaser;
-import ch.bfh.game_new.spaceShipModule.PhaserBig;
 import ch.bfh.game_new.spaceShipModule.Projectile;
+import ch.bfh.game_new.spaceTurret.SpaceTurret;
 
 public abstract class GameState {
 	
@@ -15,12 +14,16 @@ public abstract class GameState {
 	// ArrayLists for all Space-Objects
 	protected ArrayList<SpaceShip> listPlayer;
 	protected ArrayList<SpaceShip> listEnemy;
+	protected ArrayList<SpaceTurret> listTurret;
 	protected ArrayList<Projectile> listPhaser;
 	protected ArrayList<Projectile> listPhaserBig;
 	protected ArrayList<Projectile> listMissile;
+	protected ArrayList<Projectile> listLaser;
 	protected ArrayList<SpaceObject> listHealthPickup;
 	protected ArrayList<SpaceObject> listEnergyPickup;
 	protected ArrayList<SpaceObject> listMissilePickup;
+	protected ArrayList<SpaceObject> listPhaserUpgrade;
+	protected ArrayList<SpaceObject> listMissileUpgrade;
 	
 	/*
 	 * sets up the GameState
@@ -69,6 +72,22 @@ public abstract class GameState {
 	 * returns an ArrayList holding all Enemies for this GameState
 	 */
 	public abstract ArrayList<SpaceShip> getListEnemy();
+		
+	// *************** TURRETS ***************
+	/*
+	 * adds an object of type SpaceTurret to the ArrayList holding all Turrets for this GameState
+	 */
+	public abstract void addTurret(SpaceTurret t);
+	
+	/*
+	 * removes an object of type SpaceTurret from the ArrayList holding all Turrets for this GameState
+	 */
+	public abstract void removeTurret(SpaceTurret t);
+	
+	/*
+	 * returns an ArrayList holding all Turrets for this GameState
+	 */
+	public abstract ArrayList<SpaceTurret> getListTurret();
 	
 	// *************** PHASER *************** 
 	/*
@@ -118,6 +137,22 @@ public abstract class GameState {
 	 */
 	public abstract ArrayList<Projectile> getListMissile();
 	
+	// *************** LASER *************** 
+	/*
+	 * adds an object of type Projectile to the ArrayList holding all Missile-objects for this GameState
+	 */
+	public abstract void addLaser(Projectile p);
+	
+	/*
+	 * removes an object of type Projectile from the ArrayList holding all Missile-objects for this GameState
+	 */
+	public abstract void removeLaser(Projectile p);
+	
+	/*
+	 * returns an ArrayList holding all Missile-objects for this GameState
+	 */
+	public abstract ArrayList<Projectile> getListLaser();
+	
 	// *************** HEALTHPICKUP *************** 
 	/*
 	 * adds an object of type SpaceObject to the ArrayList holding all HealthPickup-objects for this GameState
@@ -165,6 +200,39 @@ public abstract class GameState {
 	 * returns an ArrayList holding all MissilePickup-objects for this GameState
 	 */
 	public abstract ArrayList<SpaceObject> getListMissilePickup();
+	
+	// *************** PHASERUPGRADE *************** 
+	/*
+	 * adds an object of type SpaceObject to the ArrayList holding all Phaser-Upgrades for this GameState
+	 */
+	public abstract void addPhaserUpgrade(SpaceObject o);
+	
+	/*
+	 * removes an object of type SpaceObject from the ArrayList holding all Phaser-Upgrades for this GameState
+	 */
+	public abstract void removePhaserUpgrade(SpaceObject o);
+	
+	/*
+	 * returns an ArrayList holding all Phaser-Upgrades for this GameState
+	 */
+	public abstract ArrayList<SpaceObject> getListPhaserUpgrades();
+	
+	// *************** MISSILEUPGRADE *************** 
+	/*
+	 * adds an object of type SpaceObject to the ArrayList holding all Missile-Upgrades for this GameState
+	 */
+	public abstract void addMissileUpgrade(SpaceObject o);
+	
+	/*
+	 * removes an object of type SpaceObject from the ArrayList holding all Missile-Upgrades for this GameState
+	 */
+	public abstract void removeMissileUpgrade(SpaceObject o);
+	
+	/*
+	 * returns an ArrayList holding all Missile-Upgrades for this GameState
+	 */
+	public abstract ArrayList<SpaceObject> getListMissileUpgrades();
+	
 	
 	
 	// GameState type

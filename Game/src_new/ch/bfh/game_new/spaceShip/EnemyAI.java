@@ -34,6 +34,7 @@ public class EnemyAI {
 		enemy.setUp(up);
 		enemy.setDown(down);
 		
+		enemy.activateMissile();
 		enemy.activatePhaser();
 	}
 	

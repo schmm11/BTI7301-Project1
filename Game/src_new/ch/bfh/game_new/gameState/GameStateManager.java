@@ -15,6 +15,7 @@ public class GameStateManager {
 	// Actual GameStates
 	private StateMenu stateMenu;
 	private StateSinglePlayer singlePlayer;
+	private StateScoreScreen singleScore;
 	
 	// user-Input
 	private InputHandler handler;
@@ -25,6 +26,7 @@ public class GameStateManager {
 	// different States
 	public static final int MENU = 0;
 	public static final int SINGLEPLAYER_LV01 = 1;
+	public static final int SINGLEPLAYER_SCORE = 2;
 	
 	// constructor
 	public GameStateManager()
@@ -33,9 +35,12 @@ public class GameStateManager {
 		
 		this.stateMenu = new StateMenu(this);
 		this.singlePlayer = new StateSinglePlayer(this);
+		this.singleScore = new StateScoreScreen(this);
 		
 		this.gameStates.add(stateMenu);
 		this.gameStates.add(singlePlayer);
+		this.gameStates.add(singleScore);
+		
 	
 		this.currentState = MENU;
 		this.handler = new InputHandler();
@@ -63,12 +68,20 @@ public class GameStateManager {
 	}
 	
 	/*
+	 * returns the given State 
+	 */
+	public GameState getState(int state)
+	{
+		return gameStates.get(state);
+	}
+	
+	/*
 	 * returns the InputHandler from the GameStateManager
 	 */
 	public InputHandler getInputHandler(){return this.handler;}
 	
 	/*
-	 * returns the PaintComponent from the GameStateManger
+	 * returns the PaintComponent from the GameStateManager
 	 */
 	public PaintComponent getPainter(){return this.painter;}
 	
@@ -92,6 +105,10 @@ public class GameStateManager {
 		else if(currentState == SINGLEPLAYER_LV01)
 		{
 			painter.drawSinglePlayer(g, this.singlePlayer);
+		}
+		else if(currentState == SINGLEPLAYER_SCORE)
+		{
+			painter.drawScoreScreen(g, this.singleScore);
 		}
 	}
 	

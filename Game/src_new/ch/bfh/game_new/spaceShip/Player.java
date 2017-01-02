@@ -4,6 +4,8 @@ import ch.bfh.game_new.entity.Animation;
 import ch.bfh.game_new.entity.ObjectType;
 import ch.bfh.game_new.entity.Team;
 import ch.bfh.game_new.gameState.GameState;
+import ch.bfh.game_new.spaceShipModule.ModuleMissile;
+import ch.bfh.game_new.spaceShipModule.ModulePhaser;
 import ch.bfh.game_new.tileMap.TileMap;
 
 public class Player extends SpaceShip {
@@ -42,6 +44,37 @@ public class Player extends SpaceShip {
 		stateActual.addPlayer(this);
 	}
 	
+	// setter and getter
+	public ModulePhaser getModPhaser(){return this.modPhaser;}
+	
+	public ModuleMissile getModMissile(){return this.modMissile;}
+	
+	public boolean getDestroyed()
+	{
+		if(this.explode && animation.hasPlayedOnce())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see spaceShip.SpaceShip#setExplode()
+	 */
+	@Override
+	public void setExplode()
+	{
+		if(explode){return;}
+		
+		this.explode = true;
+		animation.setFrames(stateActual.getGSM().getPainter().getPlayerSprites().get(EXPLODE));
+		animation.setDelay(60);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see entity.SpaceObject#update()
@@ -53,7 +86,7 @@ public class Player extends SpaceShip {
 		setPosition(xtemp, ytemp);
 		
 		// check boost
-		if(this.boost)
+		if(this.boost && !explode)
 		{
 			if(currentAction != DASHING)
 			{
@@ -78,7 +111,7 @@ public class Player extends SpaceShip {
 		}
 		
 		// is ship is not boosting, check if ship is moving
-		else if(moving)
+		else if(moving && !explode)
 		{
 			if(currentAction != MOVING)
 			{
@@ -92,7 +125,7 @@ public class Player extends SpaceShip {
 		// if ship is not boosting and not moving, ship is idle
 		else
 		{
-			if(currentAction != IDLE)
+			if(currentAction != IDLE && !explode)
 			{
 				currentAction = IDLE;
 				animation.setFrames(stateActual.getGSM().getPainter().getPlayerSprites().get(IDLE));
