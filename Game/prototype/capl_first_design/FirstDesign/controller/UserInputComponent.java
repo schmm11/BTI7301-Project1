@@ -12,7 +12,7 @@ import capl_first_design.FirstDesign.modell.Ship;
 
 public final class UserInputComponent implements InputComponent
 {
-	public UserInputComponent(final JFrame xFrame)
+	public UserInputComponent()
 	{
 		k_xAdapter = new KeyAdapter()
 		{

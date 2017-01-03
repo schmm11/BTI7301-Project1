@@ -71,7 +71,8 @@ public final class Window
 		}
 
 		k_xFullscreenMode = displayModeForDimension(xDefaultDimension)
-				.orElseThrow(() -> new Error("No fullscreen DisplayMode found"));
+				.orElse(new DisplayMode(500, 500, 32, DisplayMode.REFRESH_RATE_UNKNOWN));
+//				.orElseThrow(() -> new Error("No fullscreen DisplayMode found"));
 		
 		m_xDimension = xPreferred;
 		m_bFullscreen = bFullscreen;
@@ -84,6 +85,7 @@ public final class Window
 			k_xFrame.setIgnoreRepaint(true);
 			k_xFrame.add(k_xCanvas);
 			k_xFrame.setResizable(false);
+			k_xFrame.setAlwaysOnTop(true);
 			k_xFrame.addWindowListener(new WindowAdapter()
 			{
 				@Override
@@ -98,13 +100,16 @@ public final class Window
 
 		k_xCanvas.createBufferStrategy(k_iNumBuffers);
 		m_xStrategy = k_xCanvas.getBufferStrategy();
-		m_xTransform = new AffineTransform();
-		m_xTransform.translate(m_xDimension.getWidth() / 2.0, m_xDimension.getHeight() / 2.0);
-		final double dMin = Math.min(m_xDimension.getWidth(), m_xDimension.getHeight());
-		m_xTransform.scale(dMin, dMin);
-		final double dHorizontal = m_xDimension.getWidth() / dMin;
-		final double dVertical = m_xDimension.getHeight() / dMin;
+		final double dWidth = m_xDimension.getWidth();
+		final double dHeight = m_xDimension.getHeight();
+		final double dMin = Math.min(dWidth, dHeight);
+		final double dHorizontal = dWidth / dMin;
+		final double dVertical = dHeight / dMin;
 		m_xBounds = new Rectangle2D.Double(-dHorizontal, -dVertical, 2.0 * dHorizontal, 2.0 * dVertical);
+		m_xTransform = new AffineTransform();
+		m_xTransform.scale(1.0 / m_xBounds.getWidth(), 1.0 / m_xBounds.getHeight());
+		m_xTransform.scale(dWidth, dHeight);
+		m_xTransform.translate(-m_xBounds.getX(), -m_xBounds.getY());
 	}
 
 	public Window()
@@ -185,7 +190,7 @@ public final class Window
 		}
 		finally
 		{
-			k_lstAvailableDisplayModes.clear();
+			k_lstKeyActions.clear();
 		}
 	}
 
@@ -218,13 +223,16 @@ public final class Window
 
 			k_xCanvas.createBufferStrategy(k_iNumBuffers);
 			m_xStrategy = k_xCanvas.getBufferStrategy();
+			final double dWidth = m_xDimension.getWidth();
+			final double dHeight = m_xDimension.getHeight();
+			final double dMin = Math.min(dWidth, dHeight);
+			final double dHorizontal = dWidth / dMin;
+			final double dVertical = dHeight / dMin;
+			m_xBounds = new Rectangle2D.Double(-dHorizontal, -dVertical, 2.0 * dHorizontal, 2.0 * dVertical);
 			m_xTransform = new AffineTransform();
-			m_xTransform.translate(m_xDimension.getWidth() / 2.0, m_xDimension.getHeight() / 2.0);
-			final double dMin = Math.min(m_xDimension.getWidth(), m_xDimension.getHeight());
-			m_xTransform.scale(dMin, dMin);
-			final double dHorizontal = m_xDimension.getWidth() / dMin;
-			final double dVertical = m_xDimension.getHeight() / dMin;
-			m_xBounds = new Rectangle2D.Double(-dHorizontal, -dVertical, dHorizontal, dVertical);
+			m_xTransform.scale(1.0 / m_xBounds.getWidth(), 1.0 / m_xBounds.getHeight());
+			m_xTransform.scale(dWidth, dHeight);
+			m_xTransform.translate(-m_xBounds.getX(), -m_xBounds.getY());
 		}
 	}
 
@@ -237,13 +245,16 @@ public final class Window
 
 			k_xCanvas.createBufferStrategy(k_iNumBuffers);
 			m_xStrategy = k_xCanvas.getBufferStrategy();
+			final double dWidth = m_xDimension.getWidth();
+			final double dHeight = m_xDimension.getHeight();
+			final double dMin = Math.min(dWidth, dHeight);
+			final double dHorizontal = dWidth / dMin;
+			final double dVertical = dHeight / dMin;
+			m_xBounds = new Rectangle2D.Double(-dHorizontal, -dVertical, 2.0 * dHorizontal, 2.0 * dVertical);
 			m_xTransform = new AffineTransform();
-			m_xTransform.translate(m_xDimension.getWidth() / 2.0, m_xDimension.getHeight() / 2.0);
-			final double dMin = Math.min(m_xDimension.getWidth(), m_xDimension.getHeight());
-			m_xTransform.scale(dMin, dMin);
-			final double dHorizontal = m_xDimension.getWidth() / dMin;
-			final double dVertical = m_xDimension.getHeight() / dMin;
-			m_xBounds = new Rectangle2D.Double(-dHorizontal, -dVertical, dHorizontal, dVertical);
+			m_xTransform.scale(1.0 / m_xBounds.getWidth(), 1.0 / m_xBounds.getHeight());
+			m_xTransform.scale(dWidth, dHeight);
+			m_xTransform.translate(-m_xBounds.getX(), -m_xBounds.getY());
 		}
 	}
 

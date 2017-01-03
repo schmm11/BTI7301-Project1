@@ -86,7 +86,7 @@ public final class Server
 
 			try
 			{
-				Thread.sleep(16);
+				Thread.sleep(32);
 			}
 			catch(final InterruptedException xException)
 			{

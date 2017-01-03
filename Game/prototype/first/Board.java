@@ -88,7 +88,7 @@ public class Board extends JPanel implements ActionListener{
 		
 		//Draw Enterprise
 		g.drawImage(enterprise.getImage(),  enterprise.getX(),  enterprise.getY(), this);	
-	
+		
 		//Draw Missiles from the enterprise
 		ArrayList<Missile> ms = enterprise.getMissiles();		
 		for (Missile m : ms) {
@@ -131,7 +131,7 @@ public class Board extends JPanel implements ActionListener{
     }
 	private void drawGameWon(Graphics g) {
 
-        String msg = "SIEG";
+        String msg = "SIEG HEIL!";
         Font small = new Font("Helvetica", Font.BOLD, 30);
         FontMetrics fm = getFontMetrics(small);
 

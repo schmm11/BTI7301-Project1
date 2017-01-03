@@ -2,61 +2,30 @@ package capl_first_design.FirstDesign.modell;
 
 
 import java.awt.Graphics2D;
-import java.util.Arrays;
-import java.util.List;
 
 import capl_first_design.FirstDesign.controller.InputComponent;
 import capl_first_design.FirstDesign.main.Galaxy;
 import capl_first_design.FirstDesign.view.Model;
 
 
-public final class Ship implements SpaceObject
+public final class Ship extends SpaceObject
 {
-	private double m_dX;
-	private double m_dY;
-	private double m_dAngle = 0.0;
-	private int m_iHealth;
+	private final Model k_xModel;
+	private final InputComponent k_xInput;
+
 	private int m_iShield;
 	private int m_iEnergy;
-	private Model m_xModel;
-	private InputComponent m_xInput;
-	private List<Item> m_lstItems;
 
 
-	public Ship(final double dX, final double dY, final int iHealth, final int iShield, final int iEnergy, final Model xModel, final InputComponent xInput, final Item xItem)
+	public Ship(final double dPosX, final double dPosY, final int iHealth, final int iShield, final int iEnergy, final Model xModel, final InputComponent xInput)
 	{
-		m_dX = dX;
-		m_dY = dY;
+		super(dPosX, dPosY, iHealth);
 
-		m_iHealth = iHealth;
+		k_xModel = xModel;
+		k_xInput = xInput;
+
 		m_iShield = iShield;
 		m_iEnergy = iEnergy;
-
-		m_xModel = xModel;
-		m_xInput = xInput;
-		m_lstItems = Arrays.asList(xItem);
-	}
-
-	@Override
-	public double x()
-	{
-		return m_dX;
-	}
-
-	@Override
-	public double y()
-	{
-		return m_dY;
-	}
-
-	public double angle()
-	{
-		return m_dAngle;
-	}
-
-	public int health()
-	{
-		return m_iHealth;
 	}
 
 	public int shield()
@@ -64,43 +33,29 @@ public final class Ship implements SpaceObject
 		return m_iShield;
 	}
 
+	public void shield(final int iShield)
+	{
+		m_iShield = iShield;
+	}
+
 	public int energy()
 	{
 		return m_iEnergy;
 	}
 
-	public void move(final double dX, final double dY)
+	public void energy(final int iEnergy)
 	{
-		m_dX += dX;
-		m_dY += dY;
-	}
-
-	public void move(final double dDistance)
-	{
-		m_dX += dDistance * Math.cos(m_dAngle);
-		m_dY += dDistance * Math.sin(m_dAngle);
-	}
-
-	public void turn(final double dAngle)
-	{
-		m_dAngle += dAngle;
-	}
-
-	@Override
-	public boolean alive()
-	{
-		return m_iHealth > 0;
+		m_iEnergy = iEnergy;
 	}
 
 	@Override
 	public void update(final Galaxy xGalaxy)
 	{
-		m_xInput.update(xGalaxy, this);
+		k_xInput.update(xGalaxy, this);
 	}
 
-	@Override
-	public void render(final Galaxy xGalaxy, final Graphics2D xGraphics)
+	public void render(final Graphics2D xGraphics)
 	{
-		m_xModel.render(this, xGraphics);
+		k_xModel.render(this, xGraphics);
 	}
 }
