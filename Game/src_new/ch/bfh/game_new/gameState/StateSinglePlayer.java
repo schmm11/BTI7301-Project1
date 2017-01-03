@@ -21,10 +21,10 @@ public class StateSinglePlayer extends GameState {
 
 	// GameState type
 	private final static GameStateType gameStateType = GameStateType.SINGLEPLAYER;
-	
+
 	// map
 	private TileMap tileMap;
-	
+
 	// SpaceObjects
 	private Player player;
 
@@ -32,11 +32,11 @@ public class StateSinglePlayer extends GameState {
 	private long timeStart;
 	private int timeElapsed;
 	private final static int TIMEMAX = 120;
-	
+
 	// boolean to check, if all objects have been destroyed
 	private boolean allShipsDestroyed;
 	private boolean allTurretsDestroyed;
-	
+
 	// constructor
 	public StateSinglePlayer(GameStateManager gsm)
 	{
@@ -54,111 +54,112 @@ public class StateSinglePlayer extends GameState {
 		this.listPhaserUpgrade = new ArrayList<SpaceObject>();
 		this.listMissileUpgrade = new ArrayList<SpaceObject>();
 	}
-	
+
 	/*
 	 * Inits the State
 	 * @see gameState.GameState#init()
 	 */
 	public void init()
-	{		
+	{
 		// clear all lists
-		this.listPlayer.clear();;
+		this.listPlayer.clear();
 		this.listEnemy.clear();
-		this.listTurret.clear(); 
+		this.listTurret.clear();
 		this.listPhaser.clear();
 		this.listPhaserBig.clear();
 		this.listMissile.clear();
 		this.listLaser.clear();
-		this.listHealthPickup.clear(); 
-		this.listEnergyPickup.clear(); 
-		this.listMissilePickup.clear(); 
-		this.listPhaserUpgrade.clear(); 
+		this.listHealthPickup.clear();
+		this.listEnergyPickup.clear();
+		this.listMissilePickup.clear();
+		this.listPhaserUpgrade.clear();
 		this.listMissileUpgrade.clear();
-		
+
 		// tileMap stuff
 		this.tileMap = new TileMap(32);
 		this.tileMap.loadTiles("/02_Textures/01_Map/Tileset_02.gif");
 		this.tileMap.loadMap("/03_Data/01_Map/map4.txt");
-		
+
 		// add Player
 		player = new Player(tileMap, this);
 		player.setPosition(544, 416);
 		System.out.println("player destroyed: " + player.getDestroyed());
-		
+
 		// add Health-pickups
 		new HealthPickup(this.tileMap, this, 416, 352, 25);
 		new HealthPickup(this.tileMap, this, 544, 352, 25);
 		new HealthPickup(this.tileMap, this, 672, 352, 25);
 		new HealthPickup(this.tileMap, this, 2400, 320, 25);
 		new HealthPickup(this.tileMap, this, 2528, 2464, 25);
-		
+
 		// add Energy-pickups
 		new EnergyPickup(this.tileMap, this, 416, 480, 40);
 		new EnergyPickup(this.tileMap, this, 544, 480, 40);
 		new EnergyPickup(this.tileMap, this, 2400, 448, 40);
-		
+
 		// add Missile-pickups
 		new MissilePickup(this.tileMap, this, 672, 480, 20);
 		new MissilePickup(this.tileMap, this, 2528, 2592, 20);
-		
+
 		// add upgrades
 		new PhaserUpgrade(this.tileMap, this, 3360, 704);
 		new MissileUpgrade(this.tileMap, this, 1920, 1600);
-		
+
 		// add enemy
 		EnemyShip s1 = new EnemyShip(tileMap, this);
 		s1.setPosition(2848, 1088);
-		
+
 		EnemyShip s2 = new EnemyShip(tileMap, this);
 		s2.setPosition(1024, 1088);
-		
+
 		EnemyShip s3 = new EnemyShip(tileMap, this);
 		s3.setPosition(1248, 2432);
-		
+
 		EnemyShip s4 = new EnemyShip(tileMap, this);
 		s4.setPosition(2272, 2112);
-		
+
 		EnemyShip s5 = new EnemyShip(tileMap, this);
 		s5.setPosition(3360, 2240);
-		
+
 		EnemyShip s6 = new EnemyShip(tileMap, this);
 		s6.setPosition(3360, 960);
-		
+
 		// add turrets
 		EnemyTurret t1 = new EnemyTurret(this.tileMap, this);
 		t1.setPosition(1600, 480);
-		
+
 		EnemyTurret t2 = new EnemyTurret(this.tileMap, this);
 		t2.setPosition(2016, 480);
-		
+
 		EnemyTurret t3 = new EnemyTurret(this.tileMap, this);
 		t3.setPosition(1600, 2656);
-		
+
 		EnemyTurret t4 = new EnemyTurret(this.tileMap, this);
 		t4.setPosition(2016, 2656);
-		
+
 		EnemyTurret t5 = new EnemyTurret(this.tileMap, this);
 		t5.setPosition(1088, 1408);
-		
+
 		EnemyTurret t6 = new EnemyTurret(this.tileMap, this);
 		t6.setPosition(1088, 1792);
-		
+
 		EnemyTurret t7 = new EnemyTurret(this.tileMap, this);
 		t7.setPosition(2144, 1600);
-		
+
+		System.out.println("Init: " + Thread.currentThread().getName());
 		// timer
 		this.timeStart = System.nanoTime();
 	}
-	
+
 	// getters and setters
 	public TileMap getTileMap(){return this.tileMap;}
 
 	public GameStateManager getGSM(){return this.gsm;}
-	
+
 	public Player getPlayer(){return this.player;}
 
 	public int getTimeMax(){return StateSinglePlayer.TIMEMAX;}
-	
+
 	/*
 	 * returns true, if all objects (ships and turrets) have been destroyed
 	 */
@@ -166,7 +167,7 @@ public class StateSinglePlayer extends GameState {
 	{
 		return (allShipsDestroyed && allTurretsDestroyed);
 	}
-	
+
 	/*
 	 * @see gameState.GameState#getType()
 	 */
@@ -175,14 +176,15 @@ public class StateSinglePlayer extends GameState {
 	{
 		return StateSinglePlayer.gameStateType;
 	}
-	
+
 	/*
 	 * @see gameState.GameState#update()
 	 */
 	@Override
-	public void update() 
+	public void update()
 	{
-		
+		System.out.println("Update: " + Thread.currentThread().getName());
+
 		// update all ArrayLists holding SpaceObjects
 		for(int i = 0; i < listPlayer.size(); i++){listPlayer.get(i).update();}
 		for(int i = 0; i < listEnemy.size(); i++){listEnemy.get(i).update();}
@@ -196,19 +198,19 @@ public class StateSinglePlayer extends GameState {
 		for(int i = 0; i < listMissilePickup.size(); i++){listMissilePickup.get(i).update();}
 		for(int i = 0; i < listPhaserUpgrade.size(); i++){listPhaserUpgrade.get(i).update();}
 		for(int i = 0; i < listMissileUpgrade.size(); i++){listMissileUpgrade.get(i).update();}
-		
+
 		// set tileMap position
 		if(this.player != null)
 		{
 			tileMap.setPosition(
-				GamePanel.WIDTH / 2 - player.getx(), 
+				GamePanel.WIDTH / 2 - player.getx(),
 				GamePanel.HEIGHT / 2 - player.gety()
 				);
 		}
-		
+
 		// update in-game-timer
 		this.timeElapsed = (int) ((System.nanoTime() - this.timeStart) / 1000000000);
-		
+
 		// check player got destroyed
 		if(this.player != null)
 		{
@@ -221,7 +223,7 @@ public class StateSinglePlayer extends GameState {
 				this.gsm.setState(GameStateManager.SINGLEPLAYER_SCORE);
 			}
 		}
-		
+
 		// check if all enemies have been destroyed
 		if(allDestroyed())
 		{
@@ -229,7 +231,7 @@ public class StateSinglePlayer extends GameState {
 		}
 
 	}
-	
+
 	/*
 	 * returns an integer for the time elapsed
 	 */
@@ -242,7 +244,7 @@ public class StateSinglePlayer extends GameState {
 	 * @see gameState.GameState#keyPressed(int)
 	 */
 	@Override
-	public void keyPressed(int k) 
+	public void keyPressed(int k)
 	{
 		gsm.getInputHandler().handlePressed(k, this);
 	}
@@ -251,7 +253,7 @@ public class StateSinglePlayer extends GameState {
 	 * @see gameState.GameState#keyReleased(int)
 	 */
 	@Override
-	public void keyReleased(int k) 
+	public void keyReleased(int k)
 	{
 		gsm.getInputHandler().handleReleased(k, this);
 	}
@@ -280,7 +282,7 @@ public class StateSinglePlayer extends GameState {
 	public ArrayList<SpaceShip> getListPlayer() {
 		return this.listPlayer;
 	}
-	
+
 	/*
 	 * @see gameState.GameState#addEnemy(spaceShip.SpaceShip)
 	 */
@@ -347,7 +349,7 @@ public class StateSinglePlayer extends GameState {
 	public ArrayList<SpaceTurret> getListTurret() {
 		return this.listTurret;
 	}
-	
+
 	/*
 	 * @see gameState.GameState#addPhaser(spaceShipModule.Projectile)
 	 */
@@ -419,7 +421,7 @@ public class StateSinglePlayer extends GameState {
 	public ArrayList<Projectile> getListMissile() {
 		return this.listMissile;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see gameState.GameState#addLaser(spaceShipModule.Projectile)

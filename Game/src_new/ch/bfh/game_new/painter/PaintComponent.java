@@ -1,19 +1,23 @@
 package ch.bfh.game_new.painter;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.gameState.StateMenu;
-import ch.bfh.game_new.gameState.StateScoreScreen;
 import ch.bfh.game_new.gameState.StateMultiPlayer;
+import ch.bfh.game_new.gameState.StateScoreScreen;
 import ch.bfh.game_new.gameState.StateSinglePlayer;
 import ch.bfh.game_new.main.GamePanel;
 import ch.bfh.game_new.pickups.EnergyPickup;

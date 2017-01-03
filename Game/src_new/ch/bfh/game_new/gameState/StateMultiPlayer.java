@@ -1,6 +1,9 @@
 package ch.bfh.game_new.gameState;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.main.GamePanel;
@@ -11,20 +14,21 @@ import ch.bfh.game_new.spaceShip.EnemyShip;
 import ch.bfh.game_new.spaceShip.Player;
 import ch.bfh.game_new.spaceShip.SpaceShip;
 import ch.bfh.game_new.spaceShipModule.Projectile;
+import ch.bfh.game_new.spaceTurret.SpaceTurret;
 import ch.bfh.game_new.tileMap.TileMap;
 
 public class StateMultiPlayer extends GameState{
-	
+
 	// GameState type
 	private final static GameStateType gameStateType = GameStateType.MULTIPLAYER;
-	
+
 	// map
 	private TileMap tileMap;
-	
+
 	// SpaceObjects
 	private Player player1;
 	private Player player2;
-	
+
 	// constructor
 	public StateMultiPlayer(GameStateManager gsm)
 	{
@@ -38,7 +42,7 @@ public class StateMultiPlayer extends GameState{
 		this.listEnergyPickup = new ArrayList<SpaceObject>();
 		this.listMissilePickup = new ArrayList<SpaceObject>();
 	}
-	
+
 	/*
 	 * Inits the State
 	 * @see gameState.GameState#init()
@@ -47,44 +51,44 @@ public class StateMultiPlayer extends GameState{
 	{
 		// tileMap stuff
 		this.tileMap = new TileMap(32);
-		this.tileMap.loadTiles("/02_Textures/01_Map/Tileset_01.gif");
+		this.tileMap.loadTiles("/02_Textures/01_Map/Tileset_02.gif");
 		this.tileMap.loadMap("/03_Data/01_Map/multiplayer_01.txt");
-		
+
 		// add Player
 		player1 = new Player(tileMap, this);
 		player1.setPosition(100, 200);
-		
+
 		player2 = new Player(tileMap, this);
 		player2.setPosition(1000, 200);
-		
-		
+
+
 		// add pickups
 		HealthPickup pickupHP = new HealthPickup(this.tileMap, this, 600, 600, 25);
 		EnergyPickup pickupEN = new EnergyPickup(this.tileMap, this, 300, 300, 40);
 		MissilePickup pickupMI = new MissilePickup(this.tileMap, this, 1000, 500, 20);
 	}
-	
+
 	// getters and setters
 	public TileMap getTileMap(){return this.tileMap;}
 
 	public GameStateManager getGSM(){return this.gsm;}
-		
+
 	public Player getPlayer1(){return this.player1;}
 	public Player getPlayer2(){return this.player2;}
-	
+
 	@Override
 	public GameStateType getType()
 	{
 		return StateMultiPlayer.gameStateType;
-	}	
-	
+	}
+
 	/*
 	 * @see gameState.GameState#update()
 	 */
 	@Override
-	public void update() 
+	public void update()
 	{
-		
+
 		// update all ArrayLists holding SpaceObjects
 		for(int i = 0; i < listPlayer.size(); i++){listPlayer.get(i).update();}
 		for(int i = 0; i < listPhaser.size(); i++){listPhaser.get(i).update();}
@@ -93,28 +97,28 @@ public class StateMultiPlayer extends GameState{
 		for(int i = 0; i < listHealthPickup.size(); i++){listHealthPickup.get(i).update();}
 		for(int i = 0; i < listEnergyPickup.size(); i++){listEnergyPickup.get(i).update();}
 		for(int i = 0; i < listMissilePickup.size(); i++){listMissilePickup.get(i).update();}
-		
+
 	}
-	
-	
+
+
 	/*
 	 * @see gameState.GameState#keyPressed(int)
 	 */
 	@Override
-	public void keyPressed(int k) 
+	public void keyPressed(int k)
 	{
 		gsm.getInputHandler().handlePressed(k, this);
-	}	
-	
+	}
+
 	/*
 	 * @see gameState.GameState#keyReleased(int)
 	 */
 	@Override
-	public void keyReleased(int k) 
+	public void keyReleased(int k)
 	{
 		gsm.getInputHandler().handleReleased(k, this);
 	}
-	
+
 	/*
 	 * @see gameState.GameState#addPlayer(spaceShip.SpaceShip)
 	 */
@@ -122,8 +126,8 @@ public class StateMultiPlayer extends GameState{
 	public void addPlayer(SpaceShip s) {
 		this.listPlayer.add(s);
 	}
-	
-	
+
+
 	/*
 	 * @see gameState.GameState#removePlayer(spaceShip.SpaceShip)
 	 */
@@ -131,8 +135,8 @@ public class StateMultiPlayer extends GameState{
 	public void removePlayer(SpaceShip s) {
 		this.listPlayer.remove(s);
 	}
-	
-	
+
+
 	/*
 	 * @see gameState.GameState#getListPlayer()
 	 */
@@ -181,7 +185,7 @@ public class StateMultiPlayer extends GameState{
 	public void removePhaser(Projectile p) {
 		this.listPhaser.remove(p);
 	}
-	
+
 
 	/*
 	 * @see gameState.GameState#getListPhaser()
@@ -309,5 +313,77 @@ public class StateMultiPlayer extends GameState{
 	@Override
 	public ArrayList<SpaceObject> getListMissilePickup() {
 		return this.listMissilePickup;
+	}
+
+	@Override
+	public void addTurret(SpaceTurret t) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeTurret(SpaceTurret t) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<SpaceTurret> getListTurret() {
+		// TODO Auto-generated method stub
+		return Collections.emptyList();
+	}
+
+	@Override
+	public void addLaser(Projectile p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeLaser(Projectile p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<Projectile> getListLaser() {
+		// TODO Auto-generated method stub
+		return Collections.emptyList();
+	}
+
+	@Override
+	public void addPhaserUpgrade(SpaceObject o) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removePhaserUpgrade(SpaceObject o) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<SpaceObject> getListPhaserUpgrades() {
+		// TODO Auto-generated method stub
+		return Collections.emptyList();
+	}
+
+	@Override
+	public void addMissileUpgrade(SpaceObject o) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeMissileUpgrade(SpaceObject o) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<SpaceObject> getListMissileUpgrades() {
+		// TODO Auto-generated method stub
+		return Collections.emptyList();
 	}
 }
