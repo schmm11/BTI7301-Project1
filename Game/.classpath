@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry including="*|01_Container/|01_Container/M484ExplosionSet1.png|01_Container/beams.png|01_Container/interface.jpg|01_Container/player.png|01_Container/player_small.png|01_Container/space.jpg|01_Container/tileset_01.png|01_Container/tileset_01_mirror.png|02_Textures/|02_Textures/01_Map/|02_Textures/02_Background/|02_Textures/03_Player/|02_Textures/04_Menu/|02_Textures/background_menu.jpg|03_Data/|03_Data/01_Map/|03_Data/02_Player/|background_menu.jpg" kind="src" path="SST_Media"/>
 	<classpathentry including="*|*/*|images/|images/background_menu.jpg|sound/" kind="src" path="assets"/>
+	<classpathentry kind="src" path="src_new"/>
+	<classpathentry kind="src" path="src_new_Resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,29 +7,29 @@ import java.util.List;
 
 public class SSTGame implements Game
 {
-	@Override
+//	@Override
 	public void init()
 	{
 		System.out.println("Game started");
 	}
 
-	@Override
+//	@Override
 	public void input(final List<KeyAction> lstActions)
 	{
 	}
 
-	@Override
+//	@Override
 	public void update()
 	{
 	}
 
-	@Override
+//	@Override
 	public void render(final Graphics2D xGraphics)
 	{
 		xGraphics.fillRect(0, 0, 100, 100);
 	}
 
-	@Override
+//	@Override
 	public void cleanup()
 	{
 	}
