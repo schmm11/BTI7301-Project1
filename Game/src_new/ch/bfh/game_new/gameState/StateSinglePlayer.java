@@ -56,8 +56,7 @@ public class StateSinglePlayer extends GameState {
 	}
 	
 	/*
-	 * 
-	 * (non-Javadoc)
+	 * Inits the State
 	 * @see gameState.GameState#init()
 	 */
 	public void init()
@@ -169,7 +168,6 @@ public class StateSinglePlayer extends GameState {
 	}
 	
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getType()
 	 */
 	@Override
@@ -179,7 +177,6 @@ public class StateSinglePlayer extends GameState {
 	}
 	
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#update()
 	 */
 	@Override
@@ -242,7 +239,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#keyPressed(int)
 	 */
 	@Override
@@ -252,7 +248,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#keyReleased(int)
 	 */
 	@Override
@@ -262,7 +257,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#addPlayer(spaceShip.SpaceShip)
 	 */
 	@Override
@@ -280,7 +274,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getListPlayer()
 	 */
 	@Override
@@ -289,7 +282,6 @@ public class StateSinglePlayer extends GameState {
 	}
 	
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#addEnemy(spaceShip.SpaceShip)
 	 */
 	@Override
@@ -299,7 +291,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#removeEnemy(spaceShip.SpaceShip)
 	 */
 	@Override
@@ -316,7 +307,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getListEnemy()
 	 */
 	@Override
@@ -325,7 +315,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#addTurret(spaceTurret.SpaceTurret)
 	 */
 	@Override
@@ -335,7 +324,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#removeTurret(spaceTurret.SpaceTurret)
 	 */
 	@Override
@@ -361,7 +349,6 @@ public class StateSinglePlayer extends GameState {
 	}
 	
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#addPhaser(spaceShipModule.Projectile)
 	 */
 	@Override
@@ -370,7 +357,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#removePhaser(spaceShipModule.Projectile)
 	 */
 	@Override
@@ -379,7 +365,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getListPhaser()
 	 */
 	@Override
@@ -388,7 +373,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#addPhaserBig(spaceShipModule.Projectile)
 	 */
 	@Override
@@ -397,7 +381,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#removePhaserBig(spaceShipModule.Projectile)
 	 */
 	@Override
@@ -406,7 +389,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getListPhaserBig()
 	 */
 	@Override
@@ -415,7 +397,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#addMissile(spaceShipModule.Projectile)
 	 */
 	@Override
@@ -424,7 +405,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#removeMissile(spaceShipModule.Projectile)
 	 */
 	@Override
@@ -433,7 +413,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getListMissile()
 	 */
 	@Override
@@ -451,7 +430,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#removeLaser(spaceShipModule.Projectile)
 	 */
 	@Override
@@ -460,7 +438,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getListLaser()
 	 */
 	@Override
@@ -469,7 +446,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#addHealthPickup(entity.SpaceObject)
 	 */
 	@Override
@@ -478,7 +454,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#removeHealthPickup(entity.SpaceObject)
 	 */
 	@Override
@@ -487,7 +462,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getListHealthPickup()
 	 */
 	@Override
@@ -496,7 +470,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#addEnergyPickup(entity.SpaceObject)
 	 */
 	@Override
@@ -505,7 +478,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#removeEnergyPickup(entity.SpaceObject)
 	 */
 	@Override
@@ -514,7 +486,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getListEnergyPickup()
 	 */
 	@Override
@@ -523,7 +494,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#addMissilePickup(entity.SpaceObject)
 	 */
 	@Override
@@ -532,7 +502,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#removeMissilePickup(entity.SpaceObject)
 	 */
 	@Override
@@ -541,7 +510,6 @@ public class StateSinglePlayer extends GameState {
 	}
 
 	/*
-	 * (non-Javadoc)
 	 * @see gameState.GameState#getListMissilePickup()
 	 */
 	@Override

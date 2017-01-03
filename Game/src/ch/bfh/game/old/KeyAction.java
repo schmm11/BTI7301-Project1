@@ -3,6 +3,8 @@ package ch.bfh.game.main;
 
 import java.util.Objects;
 
+import ch.bfh.game.main.ArgumentChecker;
+
 
 public final class KeyAction
 {

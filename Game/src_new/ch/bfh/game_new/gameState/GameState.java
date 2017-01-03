@@ -32,6 +32,7 @@ public abstract class GameState {
 	
 	/*
 	 * updates the GameState
+	 * Calls the Update Method of every SpaceObject in the State
 	 */
 	public abstract void update();
 	
@@ -41,6 +42,7 @@ public abstract class GameState {
 	
 	
 	// manage ArrayLists holding all SpaceObjects
+	
 	// *************** PLAYER ***************
 	/*
 	 * adds an object of type SpaceShip to the ArrayList holding all Players for this GameState

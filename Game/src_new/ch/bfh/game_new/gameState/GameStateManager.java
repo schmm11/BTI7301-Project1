@@ -11,44 +11,49 @@ public class GameStateManager {
 	// all states in ArrayList and currentState
 	private ArrayList<GameState> gameStates;
 	private int currentState;
-	
+
 	// Actual GameStates
 	private StateMenu stateMenu;
 	private StateSinglePlayer singlePlayer;
 	private StateScoreScreen singleScore;
-	
+	private StateMultiPlayer multiPlayer;
+
 	// user-Input
 	private InputHandler handler;
-	
+
 	// drawing
 	private PaintComponent painter;
-	
+
 	// different States
 	public static final int MENU = 0;
 	public static final int SINGLEPLAYER_LV01 = 1;
 	public static final int SINGLEPLAYER_SCORE = 2;
-	
+	public static final int MULTIPLAYER = 3;
+
 	// constructor
 	public GameStateManager()
 	{
 		gameStates = new ArrayList<GameState>();
-		
+
+		//create all the States
 		this.stateMenu = new StateMenu(this);
 		this.singlePlayer = new StateSinglePlayer(this);
 		this.singleScore = new StateScoreScreen(this);
-		
+		this.multiPlayer = new StateMultiPlayer(this);
+
 		this.gameStates.add(stateMenu);
 		this.gameStates.add(singlePlayer);
 		this.gameStates.add(singleScore);
-		
-	
+
+		this.gameStates.add(multiPlayer);
+
 		this.currentState = MENU;
 		this.handler = new InputHandler();
-		
+
 		this.painter = new PaintComponent();
 
 	}
-	
+
 	// getters and setters
 	/*
 	 * changes the current GameState of the GameStateManager
@@ -58,7 +63,7 @@ public class GameStateManager {
 		this.currentState = state;
 		gameStates.get(currentState).init();
 	}
-	
+
 	/*
 	 * return the current GameState
 	 */
@@ -66,25 +71,25 @@ public class GameStateManager {
 	{
 		return this.gameStates.get(currentState);
 	}
-	
+
 	/*
-	 * returns the given State 
+	 * returns the given State
 	 */
 	public GameState getState(int state)
 	{
 		return gameStates.get(state);
 	}
-	
+
 	/*
 	 * returns the InputHandler from the GameStateManager
 	 */
 	public InputHandler getInputHandler(){return this.handler;}
-	
+
 	/*
 	 * returns the PaintComponent from the GameStateManager
 	 */
 	public PaintComponent getPainter(){return this.painter;}
-	
+
 	/*
 	 * calls update-method of the current GameState
 	 */
@@ -92,7 +97,7 @@ public class GameStateManager {
 	{
 		gameStates.get(currentState).update();
 	}
-	
+
 	/*
 	 * calls draw-method for the current GameState
 	 */
@@ -110,8 +115,12 @@ public class GameStateManager {
 		{
 			painter.drawScoreScreen(g, this.singleScore);
 		}
+		else if(currentState == MULTIPLAYER)
+		{
+			painter.drawMultiPlayer(g, this.multiPlayer);
+		}
 	}
-	
+
 	// User-Input handling
 	/*
 	 * calls keyPressed-method of the current GameState
@@ -120,7 +129,7 @@ public class GameStateManager {
 	{
 		gameStates.get(currentState).keyPressed(k);
 	}
-	
+
 	/*
 	 * calls keyReleased-method of the current GameState
 	 */
