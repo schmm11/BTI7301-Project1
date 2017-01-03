@@ -125,11 +125,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	public void keyPressed(KeyEvent key)
 	{
-		gsm.keyPressed(key.getKeyCode());
+		if(gsm != null)
+		{
+			gsm.keyPressed(key.getKeyCode());
+		}
 	}
 
 	public void keyReleased(KeyEvent key)
 	{
-		gsm.keyReleased(key.getKeyCode());
+		if(gsm != null)
+		{
+			gsm.keyReleased(key.getKeyCode());
+		}
 	}
 }

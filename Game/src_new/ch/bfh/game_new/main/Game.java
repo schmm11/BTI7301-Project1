@@ -1,8 +1,8 @@
 package ch.bfh.game_new.main;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
 
 public class Game {
 

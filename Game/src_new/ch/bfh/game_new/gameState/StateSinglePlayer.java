@@ -59,7 +59,7 @@ public class StateSinglePlayer extends GameState {
 	 * Inits the State
 	 * @see gameState.GameState#init()
 	 */
-	public void init()
+	public synchronized void init()
 	{
 		// clear all lists
 		this.listPlayer.clear();
@@ -181,7 +181,7 @@ public class StateSinglePlayer extends GameState {
 	 * @see gameState.GameState#update()
 	 */
 	@Override
-	public void update()
+	public synchronized void update()
 	{
 		System.out.println("Update: " + Thread.currentThread().getName());
 
