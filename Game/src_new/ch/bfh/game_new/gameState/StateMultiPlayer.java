@@ -52,7 +52,7 @@ public class StateMultiPlayer extends GameState{
 		// tileMap stuff
 		this.tileMap = new TileMap(32);
 		this.tileMap.loadTiles("/02_Textures/01_Map/Tileset_02.gif");
-		this.tileMap.loadMap("/03_Data/01_Map/multiplayer_01.txt");
+		this.tileMap.loadMap("/03_Data/01_Map/map_multi_01.txt");
 
 		// add Player
 		player1 = new Player(tileMap, this);
