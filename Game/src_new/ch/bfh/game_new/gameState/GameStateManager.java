@@ -17,6 +17,7 @@ public class GameStateManager {
 	private StateSinglePlayer singlePlayer;
 	private StateScoreScreen singleScore;
 	private StateMultiPlayer multiPlayer;
+	private StateControlScreen controlScreen;
 
 	// user-Input
 	private InputHandler handler;
@@ -29,6 +30,7 @@ public class GameStateManager {
 	public static final int SINGLEPLAYER_LV01 = 1;
 	public static final int SINGLEPLAYER_SCORE = 2;
 	public static final int MULTIPLAYER = 3;
+	public static final int CONTROL = 4;
 
 	// constructor
 	public GameStateManager()
@@ -40,13 +42,15 @@ public class GameStateManager {
 		this.singlePlayer = new StateSinglePlayer(this);
 		this.singleScore = new StateScoreScreen(this);
 		this.multiPlayer = new StateMultiPlayer(this);
+		this.controlScreen = new StateControlScreen(this);
 
 		this.gameStates.add(stateMenu);
 		this.gameStates.add(singlePlayer);
 		this.gameStates.add(singleScore);
 
 		this.gameStates.add(multiPlayer);
-
+		this.gameStates.add(controlScreen);
+		
 		this.currentState = MENU;
 		this.handler = new InputHandler();
 
@@ -119,6 +123,10 @@ public class GameStateManager {
 		{
 			painter.drawMultiPlayer(g, this.multiPlayer);
 		}
+		else if(currentState == CONTROL)
+		{
+			painter.drawControlScreen(g);
+		}
 	}
 
 	// User-Input handling
@@ -136,5 +144,13 @@ public class GameStateManager {
 	public void keyReleased(int k)
 	{
 		gameStates.get(currentState).keyReleased(k);
+	}
+
+	/*
+	 * Sets the State to the MENU State
+	 */
+	public void goToMenu() {
+		this.setState(MENU);
+		
 	}
 }

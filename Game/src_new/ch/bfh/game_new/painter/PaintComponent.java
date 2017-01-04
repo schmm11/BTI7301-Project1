@@ -53,7 +53,10 @@ public class PaintComponent {
 	private BufferedImage scoreGold;
 	private StateMultiPlayer multiPlayer;
 	private BufferedImage multiPlayerBackground;
-
+	
+	// GameState ControlScreen
+	private BufferedImage controllScreenImage;
+	
 	// Pickup Health
 	private ArrayList<BufferedImage[]> pickupHealthSprites;
 	private BufferedImage[] pickupHealthActive;
@@ -129,6 +132,10 @@ public class PaintComponent {
 
 			menuOptionSelected = ImageIO.read(getClass().getResourceAsStream(
 					"/02_Textures/04_Menu/Position_02.png"));
+			
+			// GAMESTATA CONTROLSCREEN
+			controllScreenImage = ImageIO.read(getClass().getResourceAsStream(
+					"/02_Textures/02_Background/Background_controls.png"));
 
 			// GAMESTATE SINGLEPLAYER
 			singlePlayerBackground = ImageIO.read(getClass().getResourceAsStream(
@@ -832,6 +839,15 @@ public class PaintComponent {
 
 		g.setColor(c);
 	}
+	
+	/*
+	 *  Draws the Controll Screen
+	 */
+	public void drawControlScreen(Graphics2D g) {
+		g.drawImage(controllScreenImage, 0, 0, null);
+		
+	}
+	
 
 	/*
 	 * returns an ArrayList holding 2 BufferedImage-arrays
@@ -938,4 +954,5 @@ public class PaintComponent {
 	{
 		return this.turretSprites;
 	}
+
 }

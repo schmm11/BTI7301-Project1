@@ -22,6 +22,14 @@ public class InputHandler {
 	 */
 	public void handlePressed(int k, GameState state)
 	{
+		
+		// Every State ESC Key
+		if(k == KeyEvent.VK_ESCAPE){
+			state.getGSM().goToMenu();
+		}
+		
+		
+		
 		// stateActual "MENU"
 		if(state.getType() == GameStateType.MENU)
 		{

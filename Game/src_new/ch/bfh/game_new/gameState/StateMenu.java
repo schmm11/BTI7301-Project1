@@ -18,7 +18,7 @@ public class StateMenu extends GameState {
 	
 	// menu options
 	private int currentChoice;
-	private String[] options = {"Single Player", "Multiplayer", "Options", "Exit Game"};
+	private String[] options = {"Single Player", "Multi Player", "Controls", "Exit Game"};
 	
 	// Design stuff
 	private Color titleColor;
@@ -55,7 +55,7 @@ public class StateMenu extends GameState {
 		if(currentChoice == 2)
 		{
 			// TODO: Window with the Control Schema ?
-			JOptionPane.showMessageDialog(null, "Controlls:");
+			gsm.setState(GameStateManager.CONTROL);
 		}
 		
 		if(currentChoice == 3)
