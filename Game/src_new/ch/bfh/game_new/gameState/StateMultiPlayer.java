@@ -56,16 +56,21 @@ public class StateMultiPlayer extends GameState{
 
 		// add Player
 		player1 = new Player(tileMap, this);
-		player1.setPosition(100, 200);
+		player1.setPosition(96, 96);
 
 		player2 = new Player(tileMap, this);
-		player2.setPosition(1000, 200);
+		player2.setPosition(1152, 608);
 
 
 		// add pickups
-		HealthPickup pickupHP = new HealthPickup(this.tileMap, this, 600, 600, 25);
-		EnergyPickup pickupEN = new EnergyPickup(this.tileMap, this, 300, 300, 40);
-		MissilePickup pickupMI = new MissilePickup(this.tileMap, this, 1000, 500, 20);
+		new HealthPickup(this.tileMap, this, 832, 128, 25);
+		new HealthPickup(this.tileMap, this, 416, 576, 25);
+
+		new EnergyPickup(this.tileMap, this, 64, 320, 40);
+		new EnergyPickup(this.tileMap, this, 1184, 384, 40);
+
+		new MissilePickup(this.tileMap, this, 128, 320, 10);
+		new MissilePickup(this.tileMap, this, 1120, 384, 10);
 	}
 
 	// getters and setters
