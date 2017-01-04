@@ -1,5 +1,6 @@
 package ch.bfh.game_new.spaceTurret;
 
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.spaceShipModule.Missile;
 import ch.bfh.game_new.tileMap.TileMap;
 
@@ -13,8 +14,8 @@ public class TurretModMissile extends TurretModule {
 	// missile information
 	boolean doubleMissile;
 	
-	private static final double MISSILESPEED = 9.5;
-	private static final double MISSILEDAMAGE = 15.0;
+	private static final double MISSILESPEED = Config.T_MISSILESPEED;
+	private static final double MISSILEDAMAGE = Config.T_ATTACKDAMAGE;
 	
 	// constructor
 	public TurretModMissile(TileMap tm, SpaceTurret owner)

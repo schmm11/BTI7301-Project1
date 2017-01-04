@@ -4,6 +4,7 @@ import ch.bfh.game_new.entity.Animation;
 import ch.bfh.game_new.entity.ObjectType;
 import ch.bfh.game_new.entity.Team;
 import ch.bfh.game_new.gameState.GameState;
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.spaceShipModule.ModuleMissile;
 import ch.bfh.game_new.spaceShipModule.ModulePhaser;
 import ch.bfh.game_new.tileMap.TileMap;
@@ -18,11 +19,11 @@ public class Player extends SpaceShip {
 	public Player(TileMap tm, GameState state)
 	{
 		super(tm, state);
-		this.energyActual = 100;
-		this.energyMax = 100;
-		this.healthActual = 30;
-		this.healthMax = 100;
-		this.rechargeRate = 0.1;
+		this.energyActual = Config.P_STARTINGENERGY;
+		this.energyMax = Config.P_MAXENERGY;
+		this.healthActual = Config.P_STARTINGHEALTH;
+		this.healthMax = Config.P_MAXHEALTH;
+		this.rechargeRate = Config.P_ENERGYRESTORE;
 		
 		this.type = ObjectType.PLAYERSHIP;
 		this.team = Team.BLUE;
@@ -32,8 +33,8 @@ public class Player extends SpaceShip {
 		this.cwidth = WIDTH;
 		this.cheight = HEIGHT;
 		
-		this.moveSpeed = 0.5;
-		this.maxSpeed = 3.0;
+		this.moveSpeed = Config.P_ACCELERATION;
+		this.maxSpeed = Config.P_MAXSPEED;
 		
 		animation = new Animation();
 		currentAction = IDLE;
@@ -95,13 +96,13 @@ public class Player extends SpaceShip {
 				animation.setDelay(30);
 			}
 			
-			this.maxSpeed = 7.0;
+			this.maxSpeed = Config.B_MAXSPEED;
 			this.energyActual = this.energyActual - 0.5;
 			
 			if(this.energyActual <= 0)
 			{
 				this.boost = false;
-				this.maxSpeed = 3.0;
+				this.maxSpeed = Config.P_MAXSPEED;
 				
 				left = false;
 				right = false;

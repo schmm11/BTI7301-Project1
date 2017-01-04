@@ -7,6 +7,7 @@ import ch.bfh.game_new.entity.Animation;
 import ch.bfh.game_new.entity.ObjectType;
 import ch.bfh.game_new.entity.Team;
 import ch.bfh.game_new.gameState.GameState;
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.tileMap.TileMap;
 
 public class EnemyShip extends SpaceShip {
@@ -43,11 +44,11 @@ public class EnemyShip extends SpaceShip {
 	public EnemyShip(TileMap tm, GameState state)
 	{
 		super(tm, state);
-		this.energyActual = 200;
-		this.energyMax = 200;
-		this.healthActual = 100;
-		this.healthMax = 100;
-		this.rechargeRate = 0.5;
+		this.energyActual = Config.E_ENERGYACTUAL;
+		this.energyMax = Config.E_ENERGYMAX;
+		this.healthActual = Config.E_HEALTSTART;
+		this.healthMax = Config.E_HEALTMAX;
+		this.rechargeRate = Config.E_ENERGYRECHARGE;
 		
 		this.type = ObjectType.ENEMYSHIP;
 		this.team = Team.CPU;
@@ -59,8 +60,8 @@ public class EnemyShip extends SpaceShip {
 		this.cwidth = WIDTH;
 		this.cheight = HEIGHT;
 		
-		this.moveSpeed = 0.5;
-		this.maxSpeed = 1.8;
+		this.moveSpeed = Config.E_ACCELERATION;
+		this.maxSpeed = Config.E_MAXSPEED;
 		
 		// surroundings
 		this.recUp = new Rectangle(0, 0, 0, 0);

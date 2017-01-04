@@ -3,6 +3,7 @@ package ch.bfh.game_new.gameState;
 import java.util.ArrayList;
 
 import ch.bfh.game_new.entity.SpaceObject;
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.main.GamePanel;
 import ch.bfh.game_new.pickups.EnergyPickup;
 import ch.bfh.game_new.pickups.HealthPickup;
@@ -31,7 +32,7 @@ public class StateSinglePlayer extends GameState {
 	// timer
 	private long timeStart;
 	private int timeElapsed;
-	private final static int TIMEMAX = 120;
+	private final static int TIMEMAX = Config.L_TIMER;
 
 	// boolean to check, if all objects have been destroyed
 	private boolean allShipsDestroyed;

@@ -1,5 +1,6 @@
 package ch.bfh.game_new.spaceShipModule;
 
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.spaceShip.SpaceShip;
 import ch.bfh.game_new.tileMap.TileMap;
 
@@ -12,8 +13,8 @@ public class ModuleMissile extends Module {
 	// Missile information
 	boolean doubleMissile;
 	
-	private static final double MISSILESPEED = 9.5;
-	private static final double MISSILEDAMAGE = 15.0;
+	private static final double MISSILESPEED = Config.M_MISSILESPEED;
+	private static final double MISSILEDAMAGE = Config.M_MISSILEDAMAGE;
 	
 	// constructor
 	public ModuleMissile(TileMap tm, SpaceShip owner)
@@ -23,7 +24,7 @@ public class ModuleMissile extends Module {
 		this.doubleMissile = false;
 		
 		this.timer = 0;
-		this.timerMax = 50;
+		this.timerMax = Config.M_DELAY;
 	}
 	
 	/*

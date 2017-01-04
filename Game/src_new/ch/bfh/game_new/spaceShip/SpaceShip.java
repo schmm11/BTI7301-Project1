@@ -2,6 +2,7 @@ package ch.bfh.game_new.spaceShip;
 
 import ch.bfh.game_new.entity.SpaceObjectMoving;
 import ch.bfh.game_new.gameState.GameState;
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.spaceShipModule.ModuleBoost;
 import ch.bfh.game_new.spaceShipModule.ModuleMissile;
 import ch.bfh.game_new.spaceShipModule.ModulePhaser;
@@ -46,8 +47,8 @@ public abstract class SpaceShip extends SpaceObjectMoving {
 		modMissile = new ModuleMissile(this.tileMap, this);
 		modBooster = new ModuleBoost(this.tileMap, this);
 		
-		this.missileAmmo = 40;
-		this.missileAmmoMax = 40;
+		this.missileAmmo = Config.P_MISSILEAMMO;
+		this.missileAmmoMax = Config.P_MISSILEMAXAMMO;
 	}
 	
 	// getters and setters

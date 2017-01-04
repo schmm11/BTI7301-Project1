@@ -1,5 +1,6 @@
 package ch.bfh.game_new.spaceTurret;
 
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.spaceShipModule.Missile;
 import ch.bfh.game_new.tileMap.TileMap;
 
@@ -25,7 +26,7 @@ public class TurretModLaser extends TurretModule {
 		this.ready = true;
 		
 		this.timer = 0;
-		this.timerMax = 10;
+		this.timerMax = Config.T_ATTACKSPEED;
 	}
 	
 	/*

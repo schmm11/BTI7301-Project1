@@ -1,5 +1,6 @@
 package ch.bfh.game_new.spaceShipModule;
 
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.spaceShip.SpaceShip;
 import ch.bfh.game_new.tileMap.TileMap;
 
@@ -7,6 +8,9 @@ public class ModulePhaserBig extends Module {
 
 	// Phaser BIG information
 	private int energyCost;
+	
+	private double dmg;
+	private double speed;
 	
 	// cooldown-timer
 	private int timer;
@@ -17,10 +21,12 @@ public class ModulePhaserBig extends Module {
 	{
 		super(tm, owner);
 		
-		this.energyCost = 20;
+		this.energyCost = Config.PB_ENERGYCOST;
+		this.dmg = Config.PB_PHASERDAMAGE;
+		this.speed = Config.PB_PHASERSPEED;
 		
 		this.timer = 0;
-		this.timerMax = 100;
+		this.timerMax = Config.PB_DELAY;
 	}
 	
 	/*
@@ -30,7 +36,7 @@ public class ModulePhaserBig extends Module {
 	{
 		if(this.energyCost <= owner.getEnergyActual() && this.timer == 0)
 		{
-			PhaserBig big = new PhaserBig(this.tileMap, this.state, this.owner, 50, 5.0);
+			new PhaserBig(this.tileMap, this.state, this.owner, dmg, speed);
 			owner.consumeEnergy(energyCost);
 			this.timer = this.timerMax;
 		}

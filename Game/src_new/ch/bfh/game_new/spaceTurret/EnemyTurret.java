@@ -7,6 +7,7 @@ import java.awt.geom.Line2D;
 import ch.bfh.game_new.entity.Animation;
 import ch.bfh.game_new.entity.Team;
 import ch.bfh.game_new.gameState.GameState;
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.spaceShip.EnemyShip;
 import ch.bfh.game_new.spaceShip.Player;
 import ch.bfh.game_new.tileMap.TileMap;
@@ -18,7 +19,7 @@ public class EnemyTurret extends SpaceTurret {
 	public static final int HEIGHT = 64;
 	
 	// range
-	public static final int RANGE = 1200;
+	public static final int RANGE = Config.T_RANGE;
 	
 	// points for polygons
 	private int xLeft;
@@ -45,8 +46,8 @@ public class EnemyTurret extends SpaceTurret {
 	public EnemyTurret(TileMap tm, GameState state)
 	{
 		super(tm, state, Team.CPU);
-		this.healthActual = 200;
-		this.healthMax = 200;
+		this.healthActual = Config.T_HEALTH;
+		this.healthMax = Config.T_HEALTH;
 		
 		this.angle = 0;
 		

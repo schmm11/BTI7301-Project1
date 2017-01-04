@@ -1,5 +1,6 @@
 package ch.bfh.game_new.spaceShipModule;
 
+import ch.bfh.game_new.main.Config;
 import ch.bfh.game_new.spaceShip.SpaceShip;
 import ch.bfh.game_new.tileMap.TileMap;
 
@@ -9,8 +10,8 @@ public class ModulePhaser extends Module {
 	private int energyCost;
 	boolean doublePhaser;
 	
-	private static final double PHASERSPEED = 6.0;
-	private static final double PHASERDAMAGE = 5.0;
+	private static final double PHASERSPEED = Config.PH_PHASERSPEED;
+	private static final double PHASERDAMAGE = Config.PH_PHASERDAMAGE;
 	
 	// cooldown-timer
 	private int timer;
@@ -25,7 +26,7 @@ public class ModulePhaser extends Module {
 		this.doublePhaser = false;
 		
 		this.timer = 0;
-		this.timerMax = 18;
+		this.timerMax = Config.PH_DELAY;
 	}
 	
 	/*
