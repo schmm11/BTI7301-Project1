@@ -1,23 +1,20 @@
 package ch.bfh.game_new.painter;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.gameState.StateMenu;
 import ch.bfh.game_new.gameState.StateMultiPlayer;
 import ch.bfh.game_new.gameState.StateScoreScreen;
+import ch.bfh.game_new.gameState.StateScoreScreenMulti;
 import ch.bfh.game_new.gameState.StateSinglePlayer;
 import ch.bfh.game_new.main.GamePanel;
 import ch.bfh.game_new.pickups.EnergyPickup;
@@ -53,10 +50,13 @@ public class PaintComponent {
 	private BufferedImage scoreGold;
 	private StateMultiPlayer multiPlayer;
 	private BufferedImage multiPlayerBackground;
-	
+
+	// GameState ScoreScreenMulti
+	private StateScoreScreenMulti scoreMulti;
+
 	// GameState ControlScreen
 	private BufferedImage controllScreenImage;
-	
+
 	// Pickup Health
 	private ArrayList<BufferedImage[]> pickupHealthSprites;
 	private BufferedImage[] pickupHealthActive;
@@ -132,7 +132,7 @@ public class PaintComponent {
 
 			menuOptionSelected = ImageIO.read(getClass().getResourceAsStream(
 					"/02_Textures/04_Menu/Position_02.png"));
-			
+
 			// GAMESTATA CONTROLSCREEN
 			controllScreenImage = ImageIO.read(getClass().getResourceAsStream(
 					"/02_Textures/02_Background/Background_controls.png"));
@@ -538,6 +538,78 @@ public class PaintComponent {
 	}
 
 	/*
+	 * draws everything in Multiplayer-Scorescreen
+	 */
+	public void drawScoreScreenMulti(Graphics2D g, StateScoreScreenMulti multi)
+	{
+		this.scoreMulti = multi;
+
+		// draw Background
+		g.drawImage(menuBackground, 0, 0, null);
+
+		// title string for Score Screen
+		String title = new String("Score Screen Multiplayer");
+
+		//draw winner
+		String winnerString = "";
+		if(scoreMulti.getPlayer1Winner())
+		{
+			winnerString = "WINNER : PLAYER 1";
+		}
+		else
+		{
+			winnerString = "WINNER : PLAYER 2";
+		}
+
+		drawScore(g, scoreGold, winnerString, scoreMulti.getWinnerColor());
+
+		// draw title string for Score Screen
+		g.setFont(scoreMulti.getTitleFont());
+		FontMetrics fm = g.getFontMetrics();
+		g.drawString(title, GamePanel.WIDTH / 2 - (fm.stringWidth(title) / 2), 200);
+
+		// draw menu options
+		g.setFont(scoreMulti.getRegularFont());
+
+		// loop through menu options
+		FontMetrics fm2 = g.getFontMetrics();
+		for(int i = 0; i < scoreMulti.getOptionsLength(); i++)
+		{
+			if(i == scoreMulti.getCurrentChoice())
+			{
+				g.setColor(new Color(0, 250, 250));
+				g.drawImage(menuOptionSelected, GamePanel.WIDTH / 2 - (menuOptionSelected.getWidth() / 2), 300 + i * 60, null);
+			}
+			else
+			{
+				g.setColor(new Color(0, 150, 150));
+				g.drawImage(menuOption, GamePanel.WIDTH / 2 - (menuOption.getWidth() / 2), 300 + i * 60, null);
+			}
+
+			String[] options = scoreMulti.getOptions();
+			g.drawString(options[i], GamePanel.WIDTH / 2 - (fm2.stringWidth(options[i]) / 2), 325 + i * 60);
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
+
+
+	/*
 	 * draws all objects in GameState StateSinglePlayer
 	 */
 	public void drawSinglePlayer(Graphics2D g, StateSinglePlayer singlePlayer)
@@ -839,15 +911,15 @@ public class PaintComponent {
 
 		g.setColor(c);
 	}
-	
+
 	/*
 	 *  Draws the Controll Screen
 	 */
 	public void drawControlScreen(Graphics2D g) {
 		g.drawImage(controllScreenImage, 0, 0, null);
-		
+
 	}
-	
+
 
 	/*
 	 * returns an ArrayList holding 2 BufferedImage-arrays

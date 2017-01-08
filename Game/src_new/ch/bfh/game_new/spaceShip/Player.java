@@ -14,7 +14,7 @@ public class Player extends SpaceShip {
 	// dimensions
 	public static final int WIDTH = 60;
 	public static final int HEIGHT = 60;
-	
+
 	// constructor
 	public Player(TileMap tm, GameState state)
 	{
@@ -24,32 +24,34 @@ public class Player extends SpaceShip {
 		this.healthActual = Config.P_STARTINGHEALTH;
 		this.healthMax = Config.P_MAXHEALTH;
 		this.rechargeRate = Config.P_ENERGYRESTORE;
-		
+
 		this.type = ObjectType.PLAYERSHIP;
 		this.team = Team.BLUE;
-		
+
 		this.width = WIDTH;
 		this.height = HEIGHT;
 		this.cwidth = WIDTH;
 		this.cheight = HEIGHT;
-		
+
 		this.moveSpeed = Config.P_ACCELERATION;
 		this.maxSpeed = Config.P_MAXSPEED;
-		
+
 		animation = new Animation();
 		currentAction = IDLE;
 		animation.setFrames(stateActual.getGSM().getPainter().getPlayerSprites().get(IDLE));
 		animation.setDelay(400);
-		
+
 		// add object to ArrayList with all objects in GameState
 		stateActual.addPlayer(this);
 	}
-	
+
 	// setter and getter
 	public ModulePhaser getModPhaser(){return this.modPhaser;}
-	
+
 	public ModuleMissile getModMissile(){return this.modMissile;}
-	
+
+	public void setTeam(Team team){this.team = team;}
+
 	public boolean getDestroyed()
 	{
 		if(this.explode && animation.hasPlayedOnce())
@@ -61,7 +63,7 @@ public class Player extends SpaceShip {
 			return false;
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see spaceShip.SpaceShip#setExplode()
@@ -70,12 +72,12 @@ public class Player extends SpaceShip {
 	public void setExplode()
 	{
 		if(explode){return;}
-		
+
 		this.explode = true;
 		animation.setFrames(stateActual.getGSM().getPainter().getPlayerSprites().get(EXPLODE));
 		animation.setDelay(60);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see entity.SpaceObject#update()
@@ -85,7 +87,7 @@ public class Player extends SpaceShip {
 		getNextPosition();
 		checkTileMapCollision();
 		setPosition(xtemp, ytemp);
-		
+
 		// check boost
 		if(this.boost && !explode)
 		{
@@ -95,22 +97,22 @@ public class Player extends SpaceShip {
 				animation.setFrames(stateActual.getGSM().getPainter().getPlayerSprites().get(DASHING));
 				animation.setDelay(30);
 			}
-			
+
 			this.maxSpeed = Config.B_MAXSPEED;
 			this.energyActual = this.energyActual - 0.5;
-			
+
 			if(this.energyActual <= 0)
 			{
 				this.boost = false;
 				this.maxSpeed = Config.P_MAXSPEED;
-				
+
 				left = false;
 				right = false;
 				up = false;
 				down = false;
 			}
 		}
-		
+
 		// is ship is not boosting, check if ship is moving
 		else if(moving && !explode)
 		{
@@ -122,7 +124,7 @@ public class Player extends SpaceShip {
 			}
 
 		}
-		
+
 		// if ship is not boosting and not moving, ship is idle
 		else
 		{
@@ -133,7 +135,7 @@ public class Player extends SpaceShip {
 				animation.setDelay(400);
 			}
 		}
-		
+
 		// recharge energy
 		if(this.energyActual < this.energyMax)
 		{
@@ -143,12 +145,12 @@ public class Player extends SpaceShip {
 				this.energyActual = this.energyMax;
 			}
 		}
-		
+
 		// update Timers on modules
 		this.modMissile.updateTimer();
 		this.modPhaser.updateTimer();
 		this.modPhaserBig.updateTimer();
-		
+
 		animation.update();
 	}
 }

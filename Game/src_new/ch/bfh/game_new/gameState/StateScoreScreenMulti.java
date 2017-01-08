@@ -3,6 +3,7 @@ package ch.bfh.game_new.gameState;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.bfh.game_new.entity.SpaceObject;
 import ch.bfh.game_new.spaceShip.Player;
@@ -10,10 +11,10 @@ import ch.bfh.game_new.spaceShip.SpaceShip;
 import ch.bfh.game_new.spaceShipModule.Projectile;
 import ch.bfh.game_new.spaceTurret.SpaceTurret;
 
-public class StateScoreScreen extends GameState {
+public class StateScoreScreenMulti extends GameState {
 
-	// GameState type
-	private final static GameStateType gameStateType = GameStateType.SCORESCREEN;
+	// GameStateType
+	private final static GameStateType gameStateType = GameStateType.SCORESCREENMULTI;
 
 	// menu options
 	private int currentChoice;
@@ -21,47 +22,47 @@ public class StateScoreScreen extends GameState {
 
 	// Design stuff
 	private Color titleColor;
-	private Color colorDeath;
-	private Color colorBronze;
-	private Color colorSilver;
-	private Color colorGold;
+	private Color winnerColor;
 	private Font titleFont;
 	private Font regularFont;
 
 	// score info
-	private boolean shipDestroyed;
-	private int timeElapsed;
-	private int timeMax;
+	private boolean player1Winner;
+	private boolean player2Winner;
 
 	// constructor
-	public StateScoreScreen(GameStateManager gsm)
+	public StateScoreScreenMulti(GameStateManager gsm)
 	{
 		this.gsm = gsm;
 
-		// design
+		// design stuff
 		this.titleColor = new Color(0, 150, 150);
-		this.colorDeath = new Color(56, 56, 56);
-		this.colorBronze = new Color(80, 50, 20);
-		this.colorSilver = new Color(204, 204, 204);
-		this.colorGold = new Color(255, 215, 0);
-
+		this.winnerColor = new Color(255, 215, 0);
 		this.titleFont = new Font("Century Gothic", Font.BOLD, 36);
 		this.regularFont = new Font("Arial", Font.BOLD, 16);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see gameState.GameState#init()
+	 * @see ch.bfh.game_new.gameState.GameState#init()
 	 */
 	public void init()
 	{
-		this.shipDestroyed = false;
-		StateSinglePlayer single = (StateSinglePlayer) this.gsm.getState(GameStateManager.SINGLEPLAYER_LV01);
-		this.timeElapsed = single.getTimer();
-		this.timeMax = single.getTimeMax();
+		this.player1Winner = false;
+		this.player2Winner = false;
+		StateMultiPlayer multi = (StateMultiPlayer) this.gsm.getState(GameStateManager.MULTIPLAYER);
 
-		Player player = single.getPlayer();
-		if(player.getDestroyed()){this.shipDestroyed = true;}
+		Player player1 = multi.getPlayer1();
+		Player player2 = multi.getPlayer2();
+
+		if(player1.getDestroyed())
+		{
+			this.player2Winner = true;
+		}
+		else if(player2.getDestroyed())
+		{
+			this.player1Winner = true;
+		}
 	}
 
 	/*
@@ -77,7 +78,7 @@ public class StateScoreScreen extends GameState {
 		if(currentChoice == 1)
 		{
 			// Play Again
-			gsm.setState(GameStateManager.SINGLEPLAYER_LV01);
+			gsm.setState(GameStateManager.MULTIPLAYER);
 		}
 
 		if(currentChoice == 2)
@@ -88,20 +89,13 @@ public class StateScoreScreen extends GameState {
 	}
 
 	// getters and setters
-
 	public Color getTitleColor(){return this.titleColor;}
 
 	public Font getTitleFont(){return this.titleFont;}
 
 	public Font getRegularFont(){return this.regularFont;}
 
-	public Color getDeathColor(){return this.colorDeath;}
-
-	public Color getBronzeColor(){return this.colorBronze;}
-
-	public Color getSilverColor(){return this.colorSilver;}
-
-	public Color getGoldColor(){return this.colorGold;}
+	public Color getWinnerColor(){return this.winnerColor;}
 
 	public void setCurrentChoice(int choice){this.currentChoice = choice;}
 
@@ -111,19 +105,17 @@ public class StateScoreScreen extends GameState {
 
 	public int getOptionsLength(){return options.length;}
 
-	public int getTimeElapsed(){return this.timeElapsed;}
+	public boolean getPlayer1Winner(){return this.player1Winner;}
 
-	public int getTimeMax(){return this.timeMax;}
-
-	public boolean getShipDestroyed(){return this.shipDestroyed;}
+	public boolean getPlayer2Winner(){return this.player2Winner;}
 
 	@Override
-	public GameStateType getType(){return StateScoreScreen.gameStateType;}
+	public GameStateType getType(){return StateScoreScreenMulti.gameStateType;}
 
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
+	public void update()
+	{
+		// nothing
 	}
 
 	@Override
@@ -187,7 +179,7 @@ public class StateScoreScreen extends GameState {
 	}
 
 	@Override
-	public ArrayList<SpaceTurret> getListTurret() {
+	public List<SpaceTurret> getListTurret() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -259,7 +251,7 @@ public class StateScoreScreen extends GameState {
 	}
 
 	@Override
-	public ArrayList<Projectile> getListLaser() {
+	public List<Projectile> getListLaser() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -331,7 +323,7 @@ public class StateScoreScreen extends GameState {
 	}
 
 	@Override
-	public ArrayList<SpaceObject> getListPhaserUpgrades() {
+	public List<SpaceObject> getListPhaserUpgrades() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -349,8 +341,28 @@ public class StateScoreScreen extends GameState {
 	}
 
 	@Override
-	public ArrayList<SpaceObject> getListMissileUpgrades() {
+	public List<SpaceObject> getListMissileUpgrades() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

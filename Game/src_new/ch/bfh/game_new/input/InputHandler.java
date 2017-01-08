@@ -5,8 +5,9 @@ import java.awt.event.KeyEvent;
 import ch.bfh.game_new.gameState.GameState;
 import ch.bfh.game_new.gameState.GameStateType;
 import ch.bfh.game_new.gameState.StateMenu;
-import ch.bfh.game_new.gameState.StateScoreScreen;
 import ch.bfh.game_new.gameState.StateMultiPlayer;
+import ch.bfh.game_new.gameState.StateScoreScreen;
+import ch.bfh.game_new.gameState.StateScoreScreenMulti;
 import ch.bfh.game_new.gameState.StateSinglePlayer;
 import ch.bfh.game_new.spaceShip.Player;
 
@@ -22,14 +23,14 @@ public class InputHandler {
 	 */
 	public void handlePressed(int k, GameState state)
 	{
-		
+
 		// Every State ESC Key
 		if(k == KeyEvent.VK_ESCAPE){
 			state.getGSM().goToMenu();
 		}
-		
-		
-		
+
+
+
 		// stateActual "MENU"
 		if(state.getType() == GameStateType.MENU)
 		{
@@ -63,6 +64,35 @@ public class InputHandler {
 		if(state.getType() == GameStateType.SCORESCREEN)
 		{
 			StateScoreScreen score = (StateScoreScreen) state;
+
+			if(k == KeyEvent.VK_UP)
+			{
+				score.setCurrentChoice(score.getCurrentChoice() - 1);
+				if(score.getCurrentChoice() == -1)
+				{
+					score.setCurrentChoice(score.getOptionsLength() - 1);
+				}
+			}
+
+			if(k == KeyEvent.VK_DOWN)
+			{
+				score.setCurrentChoice(score.getCurrentChoice() + 1);
+				if(score.getCurrentChoice() == score.getOptionsLength())
+				{
+					score.setCurrentChoice(0);
+				}
+			}
+
+			if(k == KeyEvent.VK_ENTER)
+			{
+				score.select();
+			}
+		}
+
+		// stateActual "SCORESCREENMULTI"
+		if(state.getType() == GameStateType.SCORESCREENMULTI)
+		{
+			StateScoreScreenMulti score = (StateScoreScreenMulti) state;
 
 			if(k == KeyEvent.VK_UP)
 			{

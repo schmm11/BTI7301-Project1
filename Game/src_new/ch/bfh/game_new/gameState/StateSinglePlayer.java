@@ -107,45 +107,45 @@ public class StateSinglePlayer extends GameState {
 		new MissileUpgrade(this.tileMap, this, 1920, 1600);
 
 		// add enemy
-		EnemyShip s1 = new EnemyShip(tileMap, this);
-		s1.setPosition(2848, 1088);
-
-		EnemyShip s2 = new EnemyShip(tileMap, this);
-		s2.setPosition(1024, 1088);
-
-		EnemyShip s3 = new EnemyShip(tileMap, this);
-		s3.setPosition(1248, 2432);
-
-		EnemyShip s4 = new EnemyShip(tileMap, this);
-		s4.setPosition(2272, 2112);
-
-		EnemyShip s5 = new EnemyShip(tileMap, this);
-		s5.setPosition(3360, 2240);
-
-		EnemyShip s6 = new EnemyShip(tileMap, this);
-		s6.setPosition(3360, 960);
+//		EnemyShip s1 = new EnemyShip(tileMap, this);
+//		s1.setPosition(2848, 1088);
+//
+//		EnemyShip s2 = new EnemyShip(tileMap, this);
+//		s2.setPosition(1024, 1088);
+//
+//		EnemyShip s3 = new EnemyShip(tileMap, this);
+//		s3.setPosition(1248, 2432);
+//
+//		EnemyShip s4 = new EnemyShip(tileMap, this);
+//		s4.setPosition(2272, 2112);
+//
+//		EnemyShip s5 = new EnemyShip(tileMap, this);
+//		s5.setPosition(3360, 2240);
+//
+//		EnemyShip s6 = new EnemyShip(tileMap, this);
+//		s6.setPosition(3360, 960);
 
 		// add turrets
 		EnemyTurret t1 = new EnemyTurret(this.tileMap, this);
 		t1.setPosition(1600, 480);
 
-		EnemyTurret t2 = new EnemyTurret(this.tileMap, this);
-		t2.setPosition(2016, 480);
-
-		EnemyTurret t3 = new EnemyTurret(this.tileMap, this);
-		t3.setPosition(1600, 2656);
-
-		EnemyTurret t4 = new EnemyTurret(this.tileMap, this);
-		t4.setPosition(2016, 2656);
-
-		EnemyTurret t5 = new EnemyTurret(this.tileMap, this);
-		t5.setPosition(1088, 1408);
-
-		EnemyTurret t6 = new EnemyTurret(this.tileMap, this);
-		t6.setPosition(1088, 1792);
-
-		EnemyTurret t7 = new EnemyTurret(this.tileMap, this);
-		t7.setPosition(2144, 1600);
+//		EnemyTurret t2 = new EnemyTurret(this.tileMap, this);
+//		t2.setPosition(2016, 480);
+//
+//		EnemyTurret t3 = new EnemyTurret(this.tileMap, this);
+//		t3.setPosition(1600, 2656);
+//
+//		EnemyTurret t4 = new EnemyTurret(this.tileMap, this);
+//		t4.setPosition(2016, 2656);
+//
+//		EnemyTurret t5 = new EnemyTurret(this.tileMap, this);
+//		t5.setPosition(1088, 1408);
+//
+//		EnemyTurret t6 = new EnemyTurret(this.tileMap, this);
+//		t6.setPosition(1088, 1792);
+//
+//		EnemyTurret t7 = new EnemyTurret(this.tileMap, this);
+//		t7.setPosition(2144, 1600);
 
 		System.out.println("Init: " + Thread.currentThread().getName());
 		// timer

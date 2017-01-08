@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ch.bfh.game_new.entity.SpaceObject;
+import ch.bfh.game_new.entity.Team;
 import ch.bfh.game_new.main.GamePanel;
 import ch.bfh.game_new.pickups.EnergyPickup;
 import ch.bfh.game_new.pickups.HealthPickup;
@@ -49,6 +50,16 @@ public class StateMultiPlayer extends GameState{
 	 */
 	public void init()
 	{
+		// clear lists
+		this.listPlayer.clear();
+		this.listEnemy.clear();
+		this.listPhaser.clear();
+		this.listPhaserBig.clear();
+		this.listMissile.clear();
+		this.listHealthPickup.clear();
+		this.listEnergyPickup.clear();
+		this.listMissilePickup.clear();
+
 		// tileMap stuff
 		this.tileMap = new TileMap(32);
 		this.tileMap.loadTiles("/02_Textures/01_Map/Tileset_02.gif");
@@ -56,9 +67,11 @@ public class StateMultiPlayer extends GameState{
 
 		// add Player
 		player1 = new Player(tileMap, this);
+		player1.setTeam(Team.BLUE);
 		player1.setPosition(96, 96);
 
 		player2 = new Player(tileMap, this);
+		player2.setTeam(Team.RED);
 		player2.setPosition(1152, 608);
 
 
@@ -103,6 +116,14 @@ public class StateMultiPlayer extends GameState{
 		for(int i = 0; i < listEnergyPickup.size(); i++){listEnergyPickup.get(i).update();}
 		for(int i = 0; i < listMissilePickup.size(); i++){listMissilePickup.get(i).update();}
 
+		// check if player 1 or player 2 is destroyed
+		if(this.player1 != null && this.player2 != null)
+		{
+			if(this.player1.getDestroyed() == true || this.player2.getDestroyed() == true)
+			{
+				this.gsm.setState(GameStateManager.MULTIPLAYER_SCORE);
+			}
+		}
 	}
 
 
