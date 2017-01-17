@@ -26,8 +26,7 @@ public abstract class Config {
 
 
 	//Enemy Ship E_
-	public final static int E_HEALTSTART = 1;			//Anfangsgesundheit
-	public final static int E_HEALTMAX = 1;				//Maximale Gesundheit
+	public final static int E_HEALTMAX = 30;				//Maximale Gesundheit
 	public final static double E_ENERGYACTUAL = 200;	//Anfangsenergie
 	public final static double E_ENERGYMAX = 200;		//Maximale Energie
 	public final static double E_ENERGYRECHARGE = 0.5;	//Enegie Aufladerate
@@ -36,9 +35,9 @@ public abstract class Config {
 	public final static double E_MAXSPEED = 1.8;		// Max Speed 1.8
 
 	//Enemy Turret T_
-	public final static int T_RANGE = 1200;				// AggroRange 1200
-	public final static int T_HEALTH = 50;				// Gesundheit
-	public final static int T_ATTACKSPEED = 10;			// Attackspeed
+	public final static int T_RANGE = 1000;				// AggroRange 1200
+	public final static int T_HEALTH = 35;				// Gesundheit
+	public final static int T_ATTACKSPEED = 20;			// Attackspeed
 	public final static double T_ATTACKDAMAGE = 15.0;	// Schaden der Turrets
 	public final static double T_MISSILESPEED = 9.5;	// Geschwindigkeit der Turretwaffe
 
@@ -50,18 +49,17 @@ public abstract class Config {
 	// Modul Phaser PH_
 	public static final int PH_DELAY = 18;				// Attackspeed  18
 	public static final double PH_PHASERSPEED = 6.0;	// Geschwindigkeit Phaser
-	public static final double PH_PHASERDAMAGE = 5.0;	// Schaden Phaser 15
+	public static final double PH_PHASERDAMAGE = 9.0;	// Schaden Phaser 15
 
 	//Modul PhaserBIG PB_
 	public static final int PB_DELAY = 100;				// AttackSpeed
 	public static final double PB_PHASERSPEED = 6.0;	// Geschwindigkeit Phaser
-	public static final double PB_PHASERDAMAGE = 15.0;	// Schaden Phaser
 	public static final int PB_ENERGYCOST = 20;			// Energie Kosten
 
 
 	// Waffe Missile M_
 	public static final int M_DELAY = 50;				// Attackspeed
 	public final static double M_MISSILESPEED = 9.5;	// Geschwindigkeit der Rakete
-	public final static double M_MISSILEDAMAGE = 15.0;	// Schaden Rakete
+	public final static double M_MISSILEDAMAGE = 18.0;	// Schaden Rakete
 
 }

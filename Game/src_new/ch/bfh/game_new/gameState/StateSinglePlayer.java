@@ -84,7 +84,6 @@ public class StateSinglePlayer extends GameState {
 		// add Player
 		player = new Player(tileMap, this);
 		player.setPosition(544, 416);
-		System.out.println("player destroyed: " + player.getDestroyed());
 
 		// add Health-pickups
 		new HealthPickup(this.tileMap, this, 416, 352, 25);
@@ -147,7 +146,6 @@ public class StateSinglePlayer extends GameState {
 		EnemyTurret t7 = new EnemyTurret(this.tileMap, this);
 		t7.setPosition(2144, 1600);
 
-		System.out.println("Init: " + Thread.currentThread().getName());
 		// timer
 		this.timeStart = System.nanoTime();
 	}
@@ -184,8 +182,6 @@ public class StateSinglePlayer extends GameState {
 	@Override
 	public synchronized void update()
 	{
-		System.out.println("Update: " + Thread.currentThread().getName());
-
 		// update all ArrayLists holding SpaceObjects
 		for(int i = 0; i < listPlayer.size(); i++){listPlayer.get(i).update();}
 		for(int i = 0; i < listEnemy.size(); i++){listEnemy.get(i).update();}

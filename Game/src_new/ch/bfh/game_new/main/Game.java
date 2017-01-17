@@ -10,7 +10,7 @@ public class Game {
 	{
 		SwingUtilities.invokeLater(() ->
 		{
-			JFrame window = new JFrame("Super Star Trek");
+			JFrame window = new JFrame("Star Blaster");
 			window.setContentPane(new GamePanel());
 			window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			window.setResizable(false);
