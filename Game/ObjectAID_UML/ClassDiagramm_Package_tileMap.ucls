@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.13" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.1.13" icons="true" automaticImage="JPEG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true" 
+  router="FAN">  
   <class id="1" language="java" name="ch.bfh.game_new.tileMap.TileMap" project="Game" 
     file="/Game/src_new/ch/bfh/game_new/tileMap/TileMap.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="779" y="455"/>    
@@ -21,8 +22,12 @@
   </class>  
   <association id="3">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="4" name="tiles"/>      
-      <multiplicity id="5" minimum="0" maximum="2147483647"/>    
+      <attribute id="4" name="tiles">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="5" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
